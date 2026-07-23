@@ -494,9 +494,9 @@ textarea{min-height:110px;resize:vertical;line-height:1.85}
 "use strict";
 var PUB="https://pub.hyperagent.com/api/published/";
 var IMGS={
-bg:PUB+"pbf01KXZHXDYP_R9CPXNRR0H6ZJ53Y/a7ab7375-5ac7-419e-905d-9fab84289576.png",
-logo:PUB+"pbf01KXZHXE95_JW849KE2XRACFRV0/e79016dc-1908-459f-9e37-1b34cc054888.png",
-c1scene:PUB+"pbf01KXZHXEKF_E3Q0NSPP56RHDY6K/7a34b606-793b-4df2-b69d-08a3f9fed8c5.png",
+bg:PUB+"pbf01KY7TTM5A_ESPNZ730ARVNMMPZ/bg.jpg",
+logo:PUB+"pbf01KY7TTMKQ_36WWHC6GY9RSAD03/logo.jpg",
+c1scene:PUB+"pbf01KY7TTNM5_RVYZ8VAZ5GB6C9KK/c1scene.jpg",
 c1bed:PUB+"pbf01KXZHXEZA_2P57RP266DJE1307/3581476c-2353-4747-ab71-e3d7b56a466f.png",
 c1cctv:PUB+"pbf01KXZHXF8P_XPK9NKB6WYYMF7K8/0136b0db-2f63-4841-a85c-efbf0fb928e2.png",
 c1knife:PUB+"pbf01KXZHXZ0E_10X1DD5930RV1Z72/5e6bc261-d9b3-4d0a-b31a-11143ac26e2f.png",
@@ -507,20 +507,20 @@ c1s1:PUB+"pbf01KXZHY17Z_BV5D8AMANVAC7JMA/65aa8126-cbeb-47ac-bc5a-bf75ecdc6562.pn
 c1s2:PUB+"pbf01KXZHY1N4_EX0GMQPJENC9CG8K/3e1320c7-1a55-467b-857c-6dd0d2862bb7.png",
 c1s3:PUB+"pbf01KXZHY24W_X35HA94VZ8ECPJFB/ef8c82cc-2b62-40f2-bd73-56fcece3c0b5.png",
 c1s4:PUB+"pbf01KXZHY2JN_SFKPVE4KH23E4TQS/08ae0e01-6fcb-49ad-96b4-5dd8d8416ab0.png",
-c2cover:PUB+"pbf01KXZHXFJN_31SXKBSN2WHT33PD/665c0234-9071-4984-ad44-56e9aaede250.png",
+c2cover:PUB+"pbf01KY7TTPHR_TC1V5FFEQNTMB5VA/c2cover.jpg",
 c2roof:PUB+"pbf01KXZHY0DB_9WQGJWSGADGQN7N6/331caf73-b295-476d-8d3a-cdd303a977e3.png",
 c2note:PUB+"pbf01KXZHY0S8_4Q12ZJ4N270Z803P/5b2374f6-6e87-43dc-8d3a-fc355c0f3399.png",
 c2watch:PUB+"pbf01KXZHY31B_RC6PVNP5TRWV28HH/87feef62-b006-4598-b0f8-eca01328c2de.png",
 c2s1:PUB+"pbf01KXZHY401_384KBX9ZPNMR87K8/70b3417c-7871-4a6e-ab62-553022381bea.png",
 c2s2:PUB+"pbf01KXZHYBZ4_223210VF6W5T4X8R/41c9579e-dc55-4b74-b290-5f18ba342668.png",
 c2s3:PUB+"pbf01KXZHYC91_X542TEGEMV1T5QTT/99adf730-2f37-4d9f-a2ab-797bbc080308.png",
-c3scene:PUB+"pbf01KXZHY3HN_R1F7YYV0XEHT6BS8/ebe16459-6128-4e14-882d-b1326c5a6d18.png",
+c3scene:PUB+"pbf01KY7TTPYD_TPQ4FFA15AKNWMFN/c3scene.jpg",
 c3glass:PUB+"pbf01KXZHYCNN_6K61CMTB2EXC3ME1/99a8e56c-106f-45af-a586-a3b4ccce5212.png",
 c3card:PUB+"pbf01KXZHYD0J_74HSMNCA08FHX5M3/d3e4377d-9477-4fcd-bdbd-4463cf17cde3.png",
 c3s1:PUB+"pbf01KXZHYDMX_GR44NAC6SVQ5C4DY/78874646-f5a2-4902-a58b-a4e36451f3ba.png",
 c3s2:PUB+"pbf01KXZHYDZE_PXFPZH4X9HPR8M74/a1b36495-dcda-4965-a199-4eaf9328e508.png",
 c3s3:PUB+"pbf01KXZHYE96_EQ7S0WZTTMXNRFEB/58173044-5f6a-4ed0-b5b2-51f1d9aa8042.png",
-c4scene:PUB+"pbf01KXZHYD9Z_RXQEY78X67XCB6NJ/aa113858-f887-4712-8fe6-075f2f83a807.png",
+c4scene:PUB+"pbf01KY7TTQ98_1Y9TGH2JMJZH23N3/c4scene.jpg",
 c4cup:PUB+"pbf01KXZHYEMQ_EGFS1PJWVEH9J0Y5/531b0065-73d5-4742-99a3-c3178dd72c9a.png",
 c4tape:PUB+"pbf01KXZHYF2T_314RB88RDQK998QR/07ebd9db-5579-410b-8b1b-1206b2b262bd.png",
 c4s1:PUB+"pbf01KXZHYFR4_KBCFJ0YR8XGQFHNN/45095afb-2eeb-4008-b14a-4efb9f385c92.png",
@@ -536,7 +536,8 @@ settings:{
  about:"لعبة تحقيق تفاعلية بأسلوب ملفات الجرائم الكلاسيكية: افتحوا ملف القضية، قلّبوا المستندات والأدلة، استمعوا للشهود، واربطوا الخيوط على اللوحة حتى تصلوا إلى الجاني ثم وجّهوا الاتهام.\n\nالأدوار: المستخدم العادي يتصفح ويحقق ويتهم — الأدمن يضيف ويعدل ويحذف كل مكونات القضايا — السوبر أدمن يدير كلمات المرور والنسخ الاحتياطي وإعادة الضبط.",
  logo:"",bg:"",
  passwords:{super:"super2026",admin:"admin2026"},
- unlockAll:false
+ unlockAll:false,
+ audio:{musicUrl:"",musicVol:22,sfxVol:60,sfx:{click:"",paper:"",stamp:"",solve:"",wrong:"",suspense:""}}
 },
 cases:[
 /* ============ القضية 1 ============ */
@@ -1074,7 +1075,8 @@ info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.8v.4"/>',
 note:'<path d="M5 4h14v12l-4 4H5z"/><path d="M15 20v-4h4"/><path d="M8.5 9h7M8.5 12.5h5"/>',
 audio:'<path d="M4 10v4h3l5 4V6l-5 4z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>',
 video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',
-unlock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.8-1.2"/>'
+unlock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.8-1.2"/>',
+mute:'<path d="M4 10v4h3l5 4V6l-5 4z"/><path d="m17 9.5 5 5M22 9.5l-5 5"/>'
 };
 function ic(n,s){return '<svg class="ic" width="'+(s||19)+'" height="'+(s||19)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(ICO[n]||ICO.file)+'</svg>'}
 /* ---------- storage ---------- */
@@ -1085,7 +1087,8 @@ function sset(k,v){MEM[k]=v;if(canStore){try{localStorage.setItem(k,JSON.stringi
 function sdel(k){delete MEM[k];if(canStore){try{localStorage.removeItem(k)}catch(e){}}}
 var K={data:"ct_data_v1",prog:"ct_prog_v1",role:"ct_role_v1"};
 var DATA=sget(K.data);if(!DATA||!DATA.cases){DATA=clone(DEFAULT_DATA)}
-var PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};
+var PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:true,sfx:true};
+if(!DATA.settings.audio)DATA.settings.audio={musicUrl:"",musicVol:22,sfxVol:60,sfx:{}};
 var ROLE=sget(K.role)||"user";
 var S={view:"home",caseId:null,sec:"summary",tab:"ev",folderId:null,edit:false,pick:null,connect:false,connectFrom:null,drawer:false};
 var CUR_FORM=null,ITEMS_CTX=null;
@@ -1134,7 +1137,7 @@ if(un){body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)
 else{body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+'</h3><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="lockbox">'+ic("lock",42)+'<span class="locktxt">مقفلة</span><span class="locksub">أكمل القضية السابقة لفتحها</span></div>'+adminBtns+"</div>"}
 return '<div class="case-card paper pstack'+(un?"":" locked")+(i===firstOpen?" featured":"")+'" style="animation-delay:'+(i*0.14)+'s"><span class="cc-tab"></span><span class="cc-tab t2"></span>'+(solved?'<span class="solved-stamp stamp sm">أُغلقت</span>':"")+body+'<div class="cc-photo">'+clipMini()+(c.badge&&un&&!solved?'<span class="ribbon">'+esc(c.badge)+"</span>":"")+imgTag(c.cover,"","غلاف القضية")+"</div></div>"}).join("");
 var addC=canEdit()?'<button class="add-dashed addcase" data-act="add-case">'+ic("plus",17)+" إضافة قضية جديدة</button>":"";
-return '<div class="rolebar">'+(ROLE==="user"?'<button class="rolechip" data-act="login-open">'+ic("key",14)+" دخول المشرفين</button>":'<span class="rolechip"><span class="rdot"></span>'+roleName()+'</span><button class="rolechip" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",13)+" "+(S.edit?"التحرير: مفعّل":"التحرير: متوقف")+'</button><button class="rolechip" data-act="logout">'+ic("x",12)+" خروج</button>")+"</div>"+
+return '<div class="rolebar">'+(ROLE==="user"?'<button class="rolechip" data-act="login-open">'+ic("key",14)+" دخول المشرفين</button>":'<span class="rolechip"><span class="rdot"></span>'+roleName()+'</span><button class="rolechip" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",13)+" "+(S.edit?"التحرير: مفعّل":"التحرير: متوقف")+'</button><button class="rolechip" data-act="logout">'+ic("x",12)+" خروج</button>")+sndChipHTML()+"</div>"+
 '<div class="cornergear"><button class="iconbtn" data-act="settings-open" title="الإعدادات">'+ic("gear",19)+"</button></div>"+
 '<div class="deco" aria-hidden="true"><div class="dp d1">'+imgTag(IMGS.c1cctv,"","")+'</div><div class="dp d2">'+imgTag(IMGS.c2cover,"","")+'</div><div class="dp d3">'+imgTag(IMGS.c3scene,"","")+'</div><div class="conf"><div class="cstamp">سري للغاية</div><div class="cen">CONFIDENTIAL</div></div></div>'+
 '<div class="home-wrap">'+
@@ -1158,7 +1161,7 @@ function clipMini(){return '<svg class="cc-clip" width="20" height="38" viewBox=
 function topbarHTML(c){return '<div class="topbar-row"><div class="topbar"><span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span><button class="iconbtn" data-act="go-home" title="الرئيسية">'+ic("home",17)+'</button>'+
 (isAdmin()?'<button class="iconbtn'+(S.edit?" on":"")+'" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",16)+'</button>':"")+
 (canEdit()?'<button class="iconbtn" data-act="edit-case" title="تعديل بيانات القضية">'+ic("gear",16)+'</button>':"")+
-'<div class="tb-title"><span class="sm">القضية الحالية</span><h1>'+esc(c.title)+'</h1></div><div class="tb-num">'+esc(c.num)+" "+ic("folder",26)+'</div></div><button class="iconbtn gear-corner" data-act="settings-open" title="الإعدادات">'+ic("gear",20)+"</button></div>"}
+'<div class="tb-title"><span class="sm">القضية الحالية</span><h1>'+esc(c.title)+'</h1></div><div class="tb-num">'+esc(c.num)+" "+ic("folder",26)+'</div></div><button class="iconbtn gear-corner" data-act="toggle-music" title="تشغيل/كتم الموسيقى">'+ic(musicOn()?"audio":"mute",19)+'</button><button class="iconbtn gear-corner" data-act="settings-open" title="الإعدادات">'+ic("gear",20)+"</button></div>"}
 function sidebarHTML(c){var menu=visibleSecs(c).map(function(s){var badge="";if(s.id==="map"&&c.map.links.length)badge='<span class="badge-red">'+c.map.links.length+"</span>";
 return '<button class="side-btn'+(S.sec===s.id?" active":"")+'" data-act="go-sec" data-sec="'+s.id+'">'+ic(s.i,18)+'<span class="lbl">'+esc(s.n)+"</span>"+badge+(S.sec===s.id?'<span class="dot"></span>':"")+"</button>"}).join("");
 menu+=(c.custom||[]).map(function(cs){return '<button class="side-btn'+(S.sec==="cs_"+cs.id?" active":"")+'" data-act="go-sec" data-sec="cs_'+cs.id+'">'+ic("folder",18)+'<span class="lbl">'+esc(cs.name)+"</span>"+(S.sec==="cs_"+cs.id?'<span class="dot"></span>':"")+"</button>"}).join("");
@@ -1287,12 +1290,51 @@ function openItemDoc(it){openModal('<div class="docpage"><div class="dp-head"><d
 function accuseHTML(c){return '<div class="m-title">من هو الجاني؟</div><p style="text-align:center;color:var(--ink2);font-family:Cairo;font-size:13px;font-weight:700">اختر المتهم ثم أكد قرارك — القرار الخاطئ يُسجل ضدك</p><div class="accuse-grid">'+c.suspects.map(function(s){return '<div class="acc-item'+(S.pick===s.id?" sel":"")+'" data-act="accuse-pick" data-id="'+s.id+'">'+imgTag(s.photo,"",s.name)+'<div class="n">'+esc(s.name)+"</div></div>"}).join("")+'</div><div class="m-actions"><button class="btn" data-act="accuse-confirm">'+ic("cuffs",16)+' تأكيد الاتهام</button><button class="btn dark" data-act="close-modal">تراجع</button></div>'+(PROG.attempts[c.id]>=3&&c.hint?'<div class="m-sec"><h4>'+ic("info",15)+' تلميح المحقق الخبير</h4><p style="line-height:1.9">'+esc(c.hint)+"</p></div>":"")}
 function doAccuse(){var c=curCase();if(!S.pick){toast("اختر مشتبهاً به أولاً",true);return}
 var s=null;c.suspects.forEach(function(x){if(x.id===S.pick)s=x});
-if(S.pick===c.culprit){PROG.solved[c.id]=true;saveProg();S.pick=null;closeModal();showSolution(true);render()}
-else{PROG.attempts[c.id]=(PROG.attempts[c.id]||0)+1;saveProg();S.pick=null;
+if(S.pick===c.culprit){PROG.solved[c.id]=true;saveProg();S.pick=null;closeModal();playSfx("solve");showSolution(true);render()}
+else{PROG.attempts[c.id]=(PROG.attempts[c.id]||0)+1;saveProg();S.pick=null;playSfx("wrong");
 openModal('<div class="sol-stamp"><span class="stamp big dark-on slam" style="mix-blend-mode:normal">اتهام خاطئ</span></div><p style="text-align:center;font-size:18px;line-height:2">'+esc(s?s.name:"")+' ليس الجاني…<br>المحاولات الخاطئة حتى الآن: <b>'+PROG.attempts[c.id]+"</b>"+(PROG.attempts[c.id]>=3&&c.hint?"<br><br>💡 "+esc(c.hint):"<br>راجع الأدلة والمستندات ثم حاول مجدداً")+'</p><div class="m-actions"><button class="btn" data-act="accuse-open">محاولة أخرى</button><button class="btn dark" data-act="close-modal">عودة للتحقيق</button></div>')}}
 function showSolution(first){var c=curCase();var s=null;c.suspects.forEach(function(x){if(x.id===c.culprit)s=x});
 var next="";var idx=DATA.cases.indexOf(c);if(first&&idx>=0&&idx<DATA.cases.length-1)next='<p style="text-align:center;font-family:Cairo;font-weight:800;color:#2e6b3a;font-size:14px">🔓 تم فتح القضية التالية: '+esc(DATA.cases[idx+1].title)+"</p>";
 openModal('<div class="sol-stamp"><span class="stamp big slam">تم حل القضية</span></div>'+(s?'<div style="text-align:center">'+imgTag(s.photo,"sus-photo",s.name)+"</div>":"")+'<div class="dp-body" style="margin-top:10px">'+esc(c.solvedText||("الجاني: "+(s?s.name:"غير محدد")))+"</div>"+next+'<div class="m-actions"><button class="btn" data-act="close-modal">'+ic("check",15)+' إغلاق الملف</button></div>',"wide")}
+/* ================= AUDIO ENGINE ================= */
+var AC=null,SFXG=null,NOISEBUF=null,CH_I=0;
+var MUSIC={playing:false,timer:null,el:null,gain:null,filter:null,crk:null,pop:null};
+function audioCfg(){var a=DATA.settings.audio;if(!a){a={musicUrl:"",musicVol:22,sfxVol:60,sfx:{}};DATA.settings.audio=a}if(!a.sfx)a.sfx={};return a}
+function actx(){if(AC)return AC;var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();
+SFXG=AC.createGain();SFXG.connect(AC.destination);
+MUSIC.gain=AC.createGain();MUSIC.filter=AC.createBiquadFilter();MUSIC.filter.type="lowpass";MUSIC.filter.frequency.value=520;MUSIC.filter.connect(MUSIC.gain);MUSIC.gain.connect(AC.destination);
+applyVols();return AC}
+function applyVols(){var a=audioCfg();if(SFXG)SFXG.gain.value=(a.sfxVol==null?60:+a.sfxVol)/100;if(MUSIC.gain)MUSIC.gain.value=((a.musicVol==null?22:+a.musicVol)/100)*0.9;if(MUSIC.el)MUSIC.el.volume=Math.min(1,(a.musicVol==null?22:+a.musicVol)/100)}
+function noiseBuf(){if(!NOISEBUF){NOISEBUF=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);var d=NOISEBUF.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1}return NOISEBUF}
+function _noise(t,dur,type,freq,peak,dest){var s=AC.createBufferSource();s.buffer=noiseBuf();var f=AC.createBiquadFilter();f.type=type;f.frequency.value=freq;var g=AC.createGain();g.gain.setValueAtTime(peak,t);g.gain.exponentialRampToValueAtTime(0.001,t+dur);s.connect(f);f.connect(g);g.connect(dest||SFXG);s.start(t);s.stop(t+dur+0.05);return{s:s,f:f,g:g}}
+function _tone(t,dur,type,f0,f1,peak,dest){var o=AC.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+dur);var g=AC.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+0.012);g.gain.exponentialRampToValueAtTime(0.001,t+dur);o.connect(g);g.connect(dest||SFXG);o.start(t);o.stop(t+dur+0.05)}
+function sfxClick(){var t=AC.currentTime;_tone(t,0.07,"triangle",190,150,0.2);_noise(t,0.04,"bandpass",2600,0.09)}
+function sfxPaper(){var t=AC.currentTime;var n=_noise(t,0.22,"bandpass",900,0.2);n.f.frequency.setValueAtTime(500,t);n.f.frequency.exponentialRampToValueAtTime(3200,t+0.2)}
+function sfxStamp(){var t=AC.currentTime;_tone(t,0.32,"sine",95,42,0.8);_noise(t,0.1,"lowpass",900,0.45);_noise(t+0.02,0.05,"bandpass",1800,0.13)}
+function sfxSolve(){var t=AC.currentTime;_tone(t,0.7,"sine",70,46,0.65);[440,523.3,659.3].forEach(function(f,i){_tone(t+0.15+i*0.13,0.5,"triangle",f,f,0.11)})}
+function sfxWrong(){var t=AC.currentTime;_tone(t,0.5,"sine",100,48,0.65);_tone(t+0.05,0.45,"sawtooth",112,110,0.07);_tone(t+0.05,0.45,"sawtooth",118,116,0.07)}
+function sfxSuspense(){var t=AC.currentTime;[55,58.2,82.4].forEach(function(f){var o=AC.createOscillator();o.type="sawtooth";o.frequency.value=f;var fl=AC.createBiquadFilter();fl.type="lowpass";fl.frequency.value=280;var g=AC.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.085,t+0.9);g.gain.exponentialRampToValueAtTime(0.001,t+2);o.connect(fl);fl.connect(g);g.connect(SFXG);o.start(t);o.stop(t+2.1)})}
+var SFX_FN={click:sfxClick,paper:sfxPaper,stamp:sfxStamp,solve:sfxSolve,wrong:sfxWrong,suspense:sfxSuspense};
+function sfxOn(){return !PROG.audio||PROG.audio.sfx!==false}
+function playSfx(name){try{if(!sfxOn())return;var a=audioCfg();var u=a.sfx&&a.sfx[name];
+if(u){var el=new Audio(u);el.volume=Math.min(1,(a.sfxVol==null?60:+a.sfxVol)/100);el.play().catch(function(){});return}
+if(!actx())return;if(AC.state==="suspended")AC.resume();(SFX_FN[name]||sfxClick)()}catch(e){}}
+/* ---- الموسيقى: حلقة نوار محيطية مُصنّعة ---- */
+var CHORDS=[[110,130.81,164.81,220],[87.31,110,130.81,164.81],[73.42,110,146.83,174.61],[82.41,103.83,123.47,164.81]];
+function chordStep(){if(!AC)return;var t=AC.currentTime;var notes=CHORDS[CH_I%CHORDS.length];CH_I++;
+notes.forEach(function(f,i){[0,1].forEach(function(d){var o=AC.createOscillator();o.type=d?"triangle":"sine";o.frequency.value=f*(d?1.0035:1);var g=AC.createGain();var pk=Math.max(0.012,0.05-i*0.008);g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(pk,t+2.6);g.gain.setValueAtTime(pk,t+4.5);g.gain.linearRampToValueAtTime(0.0001,t+7.6);o.connect(g);g.connect(MUSIC.filter);o.start(t);o.stop(t+7.8)})})}
+function startCrackle(){if(MUSIC.crk)return;var s=AC.createBufferSource();s.buffer=noiseBuf();s.loop=true;var f=AC.createBiquadFilter();f.type="highpass";f.frequency.value=4200;var g=AC.createGain();g.gain.value=0.011;s.connect(f);f.connect(g);g.connect(MUSIC.gain);s.start();MUSIC.crk={s:s,g:g};
+MUSIC.pop=setInterval(function(){try{if(Math.random()<0.55&&AC&&MUSIC.playing)_noise(AC.currentTime,0.03,"bandpass",3000+Math.random()*3000,0.045,MUSIC.gain)}catch(e){}},900)}
+function stopCrackle(){if(MUSIC.crk){try{MUSIC.crk.s.stop()}catch(e){}MUSIC.crk=null}if(MUSIC.pop){clearInterval(MUSIC.pop);MUSIC.pop=null}}
+function musicOn(){return !PROG.audio||PROG.audio.music!==false}
+function startMusic(){try{if(MUSIC.playing||!musicOn())return;var a=audioCfg();
+if(a.musicUrl){if(!MUSIC.el){MUSIC.el=new Audio(a.musicUrl);MUSIC.el.loop=true}applyVols();MUSIC.el.play().catch(function(){});MUSIC.playing=true;return}
+if(!actx())return;if(AC.state==="suspended")AC.resume();applyVols();startCrackle();chordStep();MUSIC.timer=setInterval(chordStep,7000);MUSIC.playing=true}catch(e){}}
+function stopMusic(){if(MUSIC.timer){clearInterval(MUSIC.timer);MUSIC.timer=null}stopCrackle();if(MUSIC.el){try{MUSIC.el.pause()}catch(e){}}MUSIC.playing=false}
+function restartMusic(){stopMusic();MUSIC.el=null;if(musicOn())startMusic()}
+function audioKick(){try{if(actx()&&AC.state==="suspended")AC.resume();if(musicOn())startMusic()}catch(e){}}
+function sndChipHTML(){return '<button class="rolechip" data-act="toggle-music" title="تشغيل/كتم الموسيقى">'+ic(musicOn()?"audio":"mute",14)+" "+(musicOn()?"الموسيقى: تعمل":"الموسيقى: صامتة")+"</button>"}
+var SND_MAP={"open-case":null,"cine-skip":null,"accuse-open":"suspense","accuse-confirm":null,"go-sec":"paper","set-tab":"paper","open-folder":"paper","back-folders":"paper","open-doc":"paper","open-report":"paper","open-sus":"paper","lb-img":"paper","lb-ev":"paper","show-solution":"stamp","toggle-music":null,"form-save":"click","close-modal":"click"};
 /* ---------- items manager ---------- */
 var TYPES=[{v:"text",l:"نص"},{v:"image",l:"صورة"},{v:"audio",l:"تسجيل صوتي"},{v:"video",l:"فيديو"},{v:"link",l:"رابط خارجي"},{v:"doc",l:"مستند"}];
 function typeName(t){for(var i=0;i<TYPES.length;i++)if(TYPES[i].v===t)return TYPES[i].l;return t}
@@ -1314,6 +1356,7 @@ h+='<div class="m-sec"><h4>'+ic("user",15)+" الدور الحالي: "+roleName
 if(ROLE==="user"){h+='<div class="form-row"><label>كلمة مرور المشرف (أدمن أو سوبر أدمن)</label><input type="password" id="pw-in" data-enter="login-submit" placeholder="أدخل كلمة المرور…"></div><div class="m-actions" style="margin-top:6px"><button class="btn sm" data-act="login-submit">'+ic("key",14)+" دخول</button></div>"}
 else{h+='<div class="m-actions" style="justify-content:flex-start"><button class="btn sm '+(S.edit?"":"dark")+'" data-act="edit-toggle">'+ic("pencil",13)+" وضع التحرير: "+(S.edit?"مفعّل":"متوقف")+'</button><button class="btn dark sm" data-act="logout">تسجيل الخروج</button></div>'}
 h+="</div>";
+h+='<div class="m-sec"><h4>'+ic("audio",15)+' الصوت والموسيقى</h4><label class="chk"><input type="checkbox" id="aud-m"'+(musicOn()?" checked":"")+'> تشغيل الموسيقى الخلفية</label><label class="chk"><input type="checkbox" id="aud-s"'+(sfxOn()?" checked":"")+'> تشغيل المؤثرات الصوتية</label>'+(isAdmin()?'<div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-audio">'+ic("gear",13)+" تخصيص الموسيقى والمؤثرات (أدمن)</button></div>":"")+"</div>";
 h+='<div class="m-sec"><h4>'+ic("clock",15)+' تقدمي في اللعب</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn dark sm" data-act="reset-prog">مسح تقدمي المحلي (الحلول والملاحظات الخاصة)</button></div></div>';
 if(isAdmin()){h+='<div class="m-sec"><h4>'+ic("gear",15)+' إعدادات اللعبة (أدمن)</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-game">تعديل هوية اللعبة والنصوص</button><button class="btn '+(st.unlockAll?"":"dark ")+'sm" data-act="toggle-unlock">'+(st.unlockAll?"إقفال القضايا بالتسلسل":"فتح جميع القضايا للجميع")+"</button></div></div>"}
 if(ROLE==="super"){h+='<div class="m-sec"><h4>'+ic("key",15)+' السوبر أدمن</h4><div class="form-row"><label>كلمة مرور السوبر أدمن</label><input id="pw-super" value="'+esc(st.passwords.super)+'"></div><div class="form-row"><label>كلمة مرور الأدمن</label><input id="pw-admin" value="'+esc(st.passwords.admin)+'"></div><div class="m-actions" style="justify-content:flex-start"><button class="btn sm" data-act="save-pws">حفظ كلمات المرور</button></div>'+
@@ -1330,8 +1373,8 @@ ACT["close-modal"]=function(){closeModal()};
 ACT["go-home"]=function(){S.view="home";S.caseId=null;S.drawer=false;render()};
 ACT["open-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;playIntro(c,function(){S.view="case";S.caseId=d.id;S.sec="summary";S.tab="ev";S.folderId=null;S.drawer=false;LAST_SEC="";markVisit();render()})};
 var CINE_T=null,CINE_CB=null;
-function playIntro(c,cb){var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(rm){cb();return}
-CINE_CB=cb;
+function playIntro(c,cb){var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(rm){playSfx("paper");cb();return}
+CINE_CB=cb;playSfx("paper");setTimeout(function(){if(CINE_CB)playSfx("stamp")},700);
 $("#modals").innerHTML='<div class="cine" data-act="cine-skip"><div class="cine-code">ملف القضية — '+esc(c.code)+'</div><div class="cine-title">'+esc(c.title)+'</div><div class="cine-stamp"><span class="stamp big slam" style="animation-delay:.7s">سري للغاية</span></div><div class="cine-load"><i></i></div><div class="cine-hint">اضغط في أي مكان للتخطي</div></div>';
 CINE_T=setTimeout(finishIntro,2100)}
 function finishIntro(){if(CINE_T){clearTimeout(CINE_T);CINE_T=null}var cb=CINE_CB;CINE_CB=null;$("#modals").innerHTML="";if(cb)cb()}
@@ -1371,6 +1414,21 @@ $("#dl-exp").onclick=function(){try{var b=new Blob([json],{type:"application/jso
 ACT["import-data"]=function(){openModal('<div class="m-title">استيراد بيانات اللعبة</div><div class="form-row"><label>الصق ملف JSON هنا</label><textarea id="imp-ta" style="min-height:200px;direction:ltr;font-family:monospace;font-size:11px" placeholder=\'{"version":1,"settings":…}\'></textarea></div><div class="form-row"><label>أو اختر ملفاً من جهازك</label><input type="file" id="impFile" accept=".json,application/json"></div><div class="m-actions"><button class="btn" id="do-imp">استيراد وتطبيق</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>');
 $("#do-imp").onclick=function(){try{var obj=JSON.parse($("#imp-ta").value);if(!obj||!obj.cases||!obj.settings)throw new Error("bad");DATA=obj;saveData();closeModal();toast("تم استيراد البيانات بنجاح")}catch(e){toast("ملف غير صالح — تأكد من لصق JSON الصحيح",true)}}};
 ACT["reset-data"]=function(){confirmM("ستعود اللعبة بالكامل للنسخة الأصلية وتُحذف كل تعديلات المشرفين على هذا الجهاز. هل أنت متأكد؟",function(){sdel(K.data);DATA=clone(DEFAULT_DATA);render();toast("تمت إعادة الضبط للنسخة الأصلية")})};
+ACT["toggle-music"]=function(){PROG.audio.music=!musicOn();saveProg();if(musicOn()){startMusic();toast("🎵 الموسيقى تعمل")}else{stopMusic();toast("🔇 الموسيقى صامتة")}render()};
+ACT["edit-audio"]=function(){var a=audioCfg();formModal("تخصيص الموسيقى والمؤثرات",[
+{k:"musicUrl",l:"رابط الموسيقى الخلفية (mp3/ogg)",ph:"https://…",help:"اتركه فارغاً لاستخدام موسيقى النوار المدمجة — الرابط يجب أن يكون ملفاً صوتياً مباشراً"},
+{k:"musicVol",l:"مستوى الموسيقى (0 - 100)",ph:"22"},
+{k:"sfxVol",l:"مستوى المؤثرات (0 - 100)",ph:"60"},
+{k:"s_click",l:"مؤثر النقر (رابط اختياري)",ph:"https://…"},
+{k:"s_paper",l:"مؤثر تقليب الورق (رابط اختياري)",ph:"https://…"},
+{k:"s_stamp",l:"مؤثر انطباع الختم (رابط اختياري)",ph:"https://…"},
+{k:"s_solve",l:"مؤثر حل القضية (رابط اختياري)",ph:"https://…"},
+{k:"s_wrong",l:"مؤثر الاتهام الخاطئ (رابط اختياري)",ph:"https://…"},
+{k:"s_suspense",l:"مؤثر التوتر عند الاتهام (رابط اختياري)",ph:"https://…"}
+],{musicUrl:a.musicUrl,musicVol:a.musicVol,sfxVol:a.sfxVol,s_click:a.sfx.click||"",s_paper:a.sfx.paper||"",s_stamp:a.sfx.stamp||"",s_solve:a.sfx.solve||"",s_wrong:a.sfx.wrong||"",s_suspense:a.sfx.suspense||""},function(o){
+a.musicUrl=o.musicUrl;a.musicVol=Math.max(0,Math.min(100,parseInt(o.musicVol)||0));a.sfxVol=Math.max(0,Math.min(100,parseInt(o.sfxVol)||0));
+a.sfx={click:o.s_click,paper:o.s_paper,stamp:o.s_stamp,solve:o.s_solve,wrong:o.s_wrong,suspense:o.s_suspense};
+saveData(false);applyVols();restartMusic();toast("تم حفظ إعدادات الصوت");playSfx("stamp")})};
 ACT["edit-game"]=function(){var st=DATA.settings;formModal("هوية اللعبة",[
 {k:"gameTitle",l:"اسم اللعبة (لاتيني للشعار الجانبي)"},{k:"gameSub",l:"العنوان الفرعي"},{k:"tagline",l:"الشعار / السطر التعريفي"},{k:"about",l:"نص (حول اللعبة)",type:"area"},{k:"logo",l:"رابط صورة الشعار (اختياري)",ph:"https://…"},{k:"bg",l:"رابط صورة الخلفية (اختياري)",ph:"https://…"}
 ],st,function(o){st.gameTitle=o.gameTitle||st.gameTitle;st.gameSub=o.gameSub;st.tagline=o.tagline;st.about=o.about;st.logo=o.logo;st.bg=o.bg;saveData();toast("تم حفظ هوية اللعبة")})};
@@ -1469,14 +1527,17 @@ ACT["it-del"]=function(d){if(!ITEMS_CTX)return;var a=ITEMS_CTX.get();a.splice(+d
 document.addEventListener("click",function(e){
 var ov=e.target.classList&&e.target.classList.contains("overlay");if(ov){closeModal();return}
 var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act;
-if(ACT[a]){e.preventDefault();ACT[a](t.dataset,t,e)}});
+if(ACT[a]){e.preventDefault();var snd=SND_MAP.hasOwnProperty(a)?SND_MAP[a]:"click";if(snd)playSfx(snd);ACT[a](t.dataset,t,e)}});
 document.addEventListener("keydown",function(e){
 if(e.key==="Escape"){closeModal();return}
 if(e.key==="Enter"){var t=e.target.closest?e.target.closest("[data-enter]"):null;if(t&&ACT[t.dataset.enter]){e.preventDefault();ACT[t.dataset.enter](t.dataset,t,e)}}});
 document.addEventListener("change",function(e){
-if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var ta=$("#imp-ta");if(ta)ta.value=rd.result};rd.readAsText(f)}});
+if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var ta=$("#imp-ta");if(ta)ta.value=rd.result};rd.readAsText(f)}
+if(e.target&&e.target.id==="aud-m"){PROG.audio.music=e.target.checked;saveProg();if(e.target.checked)startMusic();else stopMusic()}
+if(e.target&&e.target.id==="aud-s"){PROG.audio.sfx=e.target.checked;saveProg();if(e.target.checked)playSfx("click")}});
 window.addEventListener("resize",function(){if(S.view==="case"&&S.sec==="map")drawLines()});
 render();
+document.addEventListener("pointerdown",audioKick,{once:true});
 if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900);
 
 </script>
