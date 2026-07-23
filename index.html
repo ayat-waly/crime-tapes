@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRIME TAPES — ملف التحقيق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@400;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--wood:#0c0906;--panel:#1a140b;--panel2:#241b0f;--line:#3d301b;--line2:#57431f;
+--paper:#eadcba;--paper2:#f2e7cc;--paper3:#d9c89e;--paperD:#cdb98b;
+--ink:#3a2b16;--ink2:#63512f;--red:#9d2121;--redD:#701313;--gold:#c9a227;--goldL:#ecd28a;--cream:#f0e5c8;
+--noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Amiri',serif;color:var(--ink);background:#0a0703;min-height:100vh;overflow-x:hidden}
+#bgimg{position:fixed;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;z-index:-3}
+#bgvig{position:fixed;inset:0;z-index:-2;background:
+ radial-gradient(1100px 750px at 10% -4%, rgba(255,190,90,.16), transparent 55%),
+ radial-gradient(120% 120% at 50% 50%, transparent 35%, rgba(0,0,0,.62) 100%),
+ linear-gradient(rgba(8,5,2,.30), rgba(8,5,2,.55));}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#171008}
+::-webkit-scrollbar-thumb{background:#4a3a1f;border-radius:6px;border:2px solid #171008}
+img{max-width:100%}
+button{font-family:'Cairo',sans-serif;cursor:pointer;border:none;background:none;color:inherit}
+a{color:#7c5e14}
+.ic{vertical-align:middle;flex:none}
+/* ---------- paper ---------- */
+.paper{background-color:var(--paper);background-image:var(--noise),linear-gradient(160deg,rgba(255,250,230,.55),rgba(180,148,92,.30));box-shadow:0 18px 45px rgba(0,0,0,.55),inset 0 0 70px rgba(120,90,40,.28);border-radius:5px;position:relative}
+.pstack{position:relative;z-index:1}
+.pstack::before,.pstack::after{content:"";position:absolute;inset:0;background:var(--paper3);border-radius:5px;z-index:-1;box-shadow:0 10px 25px rgba(0,0,0,.4)}
+.pstack::before{transform:rotate(1.1deg) translate(5px,4px)}
+.pstack::after{transform:rotate(-.8deg) translate(-4px,2px)}
+.clip{position:absolute;top:-15px;width:26px;height:52px;z-index:5;pointer-events:none}
+.stamp{display:inline-block;font-weight:700;color:#a32424;border:3px solid #a32424;padding:1px 16px 3px;border-radius:6px;transform:rotate(-7deg);letter-spacing:.5px;font-size:19px;opacity:.9;mix-blend-mode:multiply;background:rgba(163,36,36,.04)}
+.stamp.sm{font-size:13px;border-width:2px;padding:0 9px 1px}
+.stamp.big{font-size:30px;border-width:4px;padding:4px 26px 7px}
+.stamp.dark-on{mix-blend-mode:normal;color:#d94848;border-color:#d94848}
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(180deg,#a83030 0%,#8a1d1d 55%,#701313 100%);color:#f6e9cd;border:1px solid #4f0d0d;border-radius:9px;padding:10px 22px;font-family:'Cairo';font-weight:700;font-size:15px;box-shadow:0 6px 14px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,235,200,.25);position:relative;transition:filter .15s,transform .1s}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(1px)}
+.btn.sm{padding:6px 14px;font-size:13px;border-radius:7px}
+.btn.dark{background:linear-gradient(180deg,#33291a,#1e160c);border-color:#0e0a05;color:#e3d3a8}
+.btn.gold{background:linear-gradient(180deg,#96762a,#6b5115);border-color:#3f2f0a;color:#f7ecd0}
+.btn.block{width:100%}
+.badge-red{background:#c22525;color:#fff;border-radius:50%;min-width:21px;height:21px;padding:0 4px;font-size:11.5px;font-weight:800;display:inline-grid;place-items:center;font-family:'Cairo';box-shadow:0 2px 5px rgba(0,0,0,.4);line-height:1}
+.iconbtn{width:38px;height:38px;border-radius:9px;background:#241b0f;border:1px solid var(--line2);color:#d9c592;display:inline-grid;place-items:center;transition:border-color .15s,color .15s}
+.iconbtn:hover{border-color:var(--gold);color:var(--goldL)}
+.iconbtn.on{border-color:var(--gold);color:var(--goldL);box-shadow:0 0 10px rgba(201,162,39,.35)}
+.mini{width:27px;height:27px;border-radius:7px;border:1px solid #a3842a;background:rgba(201,162,39,.15);color:#7c611a;display:inline-grid;place-items:center;transition:filter .15s}
+.mini:hover{filter:brightness(1.2)}
+.mini.danger{border-color:#9d2121;background:rgba(157,33,33,.12);color:#9d2121}
+.editbar{display:flex;gap:8px;justify-content:center;align-items:center;margin:4px 0 10px;flex-wrap:wrap}
+.add-dashed{display:flex;align-items:center;justify-content:center;gap:8px;border:2px dashed #a3842a;border-radius:9px;padding:12px;color:#8a6d1d;font-family:'Cairo';font-weight:700;font-size:14px;cursor:pointer;background:rgba(201,162,39,.06);width:100%}
+.add-dashed:hover{background:rgba(201,162,39,.13)}
+/* ---------- home ---------- */
+.home-wrap{max-width:790px;margin:0 auto;padding:26px 18px 130px;text-align:center;position:relative}
+.logo-img{width:min(430px,82%);mix-blend-mode:screen;filter:drop-shadow(0 8px 26px rgba(0,0,0,.65));margin:0 auto;display:block}
+.tagline{color:#cdb98b;font-size:17.5px;margin-top:-4px}
+.choose{display:flex;align-items:center;gap:16px;color:var(--cream);font-size:31px;font-weight:700;margin:30px 0 24px}
+.choose::before,.choose::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#8a6d3a 40%,#8a6d3a 60%,transparent)}
+.choose .dm{color:#c9a227;font-size:14px}
+.case-card{display:flex;gap:6px;margin:0 6px 34px;padding:16px;text-align:right;align-items:stretch}
+.cc-photo{width:45%;align-self:center;background:#f6efdc;padding:9px;box-shadow:0 10px 22px rgba(0,0,0,.35);transform:rotate(-1.3deg);position:relative;flex:none}
+.cc-photo img{display:block;width:100%;height:215px;object-fit:cover}
+.cc-body{flex:1;padding:8px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;min-width:0}
+.cc-num{color:#a32424;font-family:'Cairo';font-weight:800;font-size:15.5px;letter-spacing:.3px}
+.cc-title{font-size:27px;font-weight:700;line-height:1.45;color:#31240f}
+.cc-meta{display:flex;gap:26px;justify-content:center;align-items:flex-start;margin-top:2px;flex-wrap:wrap}
+.cc-mcol{display:flex;flex-direction:column;gap:5px;align-items:center}
+.cc-mlab{font-family:'Cairo';font-size:12.5px;font-weight:700;color:#6b5836}
+.stars{direction:ltr;letter-spacing:2px;font-size:18px;color:#b9a678}
+.stars b{color:#c9861f;font-weight:400}
+.stars.hard b{color:#a32424}
+.cc-time{display:flex;align-items:center;gap:6px;font-family:'Cairo';font-weight:800;font-size:15px;color:#4a3a22;direction:ltr}
+.cc-open{margin-top:8px}
+.ribbon{position:absolute;top:16px;right:-9px;background:linear-gradient(180deg,#b32626,#8a1919);color:#f7ead0;font-family:'Cairo';font-weight:700;font-size:13.5px;padding:4px 20px;box-shadow:0 4px 9px rgba(0,0,0,.4);z-index:4}
+.ribbon::after{content:"";position:absolute;top:100%;right:0;border:5px solid transparent;border-top-color:#5c0e0e;border-right-color:#5c0e0e}
+.lockbox{display:flex;flex-direction:column;align-items:center;gap:7px;color:#4a3b22}
+.locktxt{color:#a32424;font-weight:700;font-size:22px}
+.locksub{font-family:'Cairo';font-size:12.5px;color:#6b5836}
+.locked .cc-photo img{filter:grayscale(.9) brightness(.55)}
+.solved-stamp{position:absolute;top:14px;left:16px;z-index:4;transform:rotate(-12deg)}
+.cc-prog{font-family:'Cairo';font-size:12px;color:#6b5836;font-weight:700}
+.addcase{margin:0 6px 40px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(22,15,8,.94),rgba(9,6,3,.97));border-top:1px solid var(--line);display:flex;justify-content:center;gap:64px;padding:9px 0 11px;z-index:40;backdrop-filter:blur(5px)}
+.bn-item{color:#bda878;font-family:'Cairo';font-weight:700;font-size:13.5px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:2px 6px;border-radius:8px}
+.bn-item.active{color:#ecd28a}
+.bn-item.active::after{content:"";width:26px;height:2.5px;background:#c9a227;border-radius:2px;margin-top:2px}
+.rolebar{position:fixed;top:13px;left:13px;z-index:50;display:flex;gap:8px;align-items:center;direction:ltr}
+.cornergear{position:fixed;top:13px;right:13px;z-index:50}
+.rolechip{background:rgba(30,21,11,.92);border:1px solid var(--line2);color:#e3cf9d;border-radius:20px;font-family:'Cairo';font-weight:700;font-size:12.5px;padding:7px 14px;display:flex;align-items:center;gap:7px}
+.rolechip .rdot{width:8px;height:8px;border-radius:50%;background:#3fae5a;box-shadow:0 0 6px #3fae5a}
+.storage-warn{position:fixed;bottom:64px;right:12px;z-index:60;background:rgba(60,20,15,.95);border:1px solid #8a3a2a;color:#f0cdb0;font-family:'Cairo';font-size:12px;font-weight:600;border-radius:9px;padding:8px 13px;max-width:290px}
+</style>
+<style>
+/* ---------- case layout ---------- */
+.case-wrap{max-width:1520px;margin:0 auto;padding:14px 16px 70px}
+.topbar{display:flex;direction:ltr;align-items:center;gap:12px;background:linear-gradient(180deg,#2b2113,#171008);border:1px solid var(--line);border-radius:11px;padding:9px 14px;box-shadow:0 10px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);margin-bottom:16px}
+.tb-title{flex:1;text-align:center;min-width:0}
+.tb-title .sm{display:block;color:#a8946a;font-family:'Cairo';font-size:11.5px;font-weight:700}
+.tb-title h1{color:#f0e2c0;font-size:21px;font-weight:700;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-num{font-family:'Cinzel',serif;font-size:24px;color:#efe2c2;display:flex;align-items:center;gap:9px;color:#e8d5a3}
+.tb-num .ic{color:#c9a227}
+.case-grid{display:grid;grid-template-columns:256px minmax(0,1fr) 312px;gap:18px;direction:ltr;align-items:start}
+.case-grid>*{direction:rtl}
+/* sidebar */
+.sidebar{background:linear-gradient(180deg,#1d160d,#120d06);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 30px rgba(0,0,0,.5),inset 0 0 40px rgba(0,0,0,.45);padding:0 0 16px;position:sticky;top:14px}
+.side-head{text-align:center;padding:16px 10px 12px;border-bottom:1px dashed var(--line2)}
+.side-head .en{font-family:'Cinzel',serif;color:#efe2c2;font-size:19px;letter-spacing:2.5px}
+.side-head .ar{color:#b49d6e;font-size:14px;margin-top:2px}
+.case-tag{background:var(--paper);width:84%;margin:14px auto 6px;padding:9px 8px 10px;border-radius:4px;text-align:center;transform:rotate(-1.2deg);box-shadow:0 8px 16px rgba(0,0,0,.45);position:relative}
+.case-tag::before{content:"";position:absolute;top:7px;right:9px;width:9px;height:9px;background:#241b0f;border-radius:50%;box-shadow:inset 0 0 3px #000}
+.case-tag .lb{font-family:'Cairo';font-size:11px;font-weight:700;color:#6b5836}
+.case-tag .num{font-family:'Cairo';font-weight:800;font-size:16px;letter-spacing:1px;direction:ltr;color:#31240f}
+.case-tag .stamp{margin-top:5px}
+.side-menu{display:flex;flex-direction:column;gap:8px;padding:12px 12px 4px}
+.side-btn{direction:ltr;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#251c10,#181109);border:1px solid #3b2f1c;border-radius:9px;padding:9px 12px;color:#e6d9b8;cursor:pointer;transition:border-color .15s;width:100%}
+.side-btn .ic{color:#cdb476}
+.side-btn .lbl{flex:1;text-align:right;font-family:'Cairo';font-weight:700;font-size:14px;direction:rtl}
+.side-btn:hover{border-color:#6b5628}
+.side-btn.active{border-color:#c9a227;box-shadow:0 0 12px rgba(201,162,39,.32),inset 0 0 14px rgba(201,162,39,.09)}
+.side-btn.active .dot{width:8px;height:8px;border-radius:50%;background:#d02a2a;box-shadow:0 0 7px #d02a2a;flex:none}
+.side-note{background:#e8d382;width:84%;margin:14px auto 0;padding:13px 13px 15px;font-size:14.5px;line-height:1.75;color:#4a3a10;transform:rotate(-1.8deg);box-shadow:0 9px 16px rgba(0,0,0,.4);position:relative}
+.side-note::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e05252,#7c1010);box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.side-actions{padding:14px 12px 0;display:flex;flex-direction:column;gap:9px}
+/* right panel */
+.rpanel{position:sticky;top:14px}
+.rtabs{display:flex;gap:4px;padding:0 12px;position:relative;z-index:2}
+.rtab{background:#cfbc92;border-radius:9px 9px 0 0;padding:8px 13px 7px;font-family:'Cairo';font-size:12px;font-weight:800;color:#5f4c28;cursor:pointer;border:1px solid #b6a172;border-bottom:none;opacity:.82;flex:1;text-align:center;white-space:nowrap}
+.rtab.active{background:var(--paper);opacity:1;transform:translateY(1px)}
+.rbody{padding:15px 14px 16px}
+.rp-title{text-align:center;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:4px}
+.rp-title .ar{color:#8a744a;font-size:15px}
+.rlist{max-height:56vh;overflow-y:auto;padding:2px 2px 2px 6px;margin-top:6px}
+.rev-card{background:var(--paper2);border:1px solid #c3b085;border-radius:7px;padding:9px;margin:0 0 13px;position:relative}
+.rev-head{display:flex;direction:ltr;justify-content:space-between;align-items:center;margin-bottom:7px;gap:6px}
+.rev-num{font-family:'Cairo';font-weight:800;color:#6b5836;font-size:14.5px}
+.rev-label{font-weight:700;font-size:15.5px;text-align:right;line-height:1.5}
+.rev-img{width:100%;height:108px;object-fit:cover;border:4px solid #f7f1df;box-shadow:0 5px 12px rgba(0,0,0,.25);display:block}
+.rev-foot{display:flex;direction:ltr;margin-top:7px;justify-content:space-between;align-items:center}
+.mag{width:30px;height:30px;border:1.5px solid #6b5836;border-radius:7px;display:inline-grid;place-items:center;color:#5f4c28;background:#efe4c5;cursor:pointer}
+.mag:hover{background:#e6d7ac}
+.rp-btn{margin-top:10px}
+.rdoc-row{display:flex;direction:ltr;align-items:center;gap:9px;background:var(--paper2);border:1px solid #c3b085;border-radius:7px;padding:8px 10px;margin:0 0 9px}
+.rdoc-meta{flex:1;text-align:right;direction:rtl;min-width:0}
+.rdoc-meta .t{color:#9d2121;font-weight:700;font-size:15px;line-height:1.4}
+.rdoc-meta .d{font-family:'Cairo';font-size:11px;color:#6b5836;direction:ltr;text-align:right}
+.rdoc-row .ic{color:#6b5836}
+.rwit-row{display:flex;align-items:center;gap:10px;background:var(--paper2);border:1px solid #c3b085;border-radius:7px;padding:9px 11px;margin:0 0 9px}
+.rwit-row .nm{font-weight:700;font-size:15.5px;flex:1}
+.rwit-row .rl{font-family:'Cairo';font-size:11px;color:#6b5836}
+/* main sheet */
+.main-sheet{padding:30px 36px 44px;min-height:72vh}
+.sec-h{font-size:31px;font-weight:700;text-align:center;margin-bottom:6px}
+.sec-h::after{content:"";display:block;width:160px;height:3px;margin:9px auto 0;background:linear-gradient(90deg,transparent,#3a2b16 28%,#3a2b16 72%,transparent);border-radius:2px}
+.sec-sub{text-align:center;color:var(--ink2);font-size:14.5px;margin:8px 0 16px}
+.sum-top{display:flex;gap:26px;margin-top:14px;align-items:flex-start}
+.sum-text{flex:1.15;font-size:18.5px;line-height:2.05;text-align:justify}
+.pol{background:#f7f1df;padding:10px 10px 13px;box-shadow:0 12px 26px rgba(0,0,0,.35);transform:rotate(1.4deg);position:relative}
+.pol img{display:block;width:100%;object-fit:cover}
+.pol .tape{position:absolute;width:92px;height:26px;background:rgba(233,222,180,.6);top:-12px;left:50%;transform:translateX(-50%) rotate(-3deg);box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.pol.tilt-l{transform:rotate(-1.6deg)}
+.pcap{text-align:center;font-size:13.5px;color:#5f4c28;margin-top:9px;font-family:'Cairo';font-weight:600}
+.sum-photo{max-width:44%;flex:none;cursor:zoom-in}
+.sum-stamp{margin:20px 0 2px}
+.vic-h{color:#9d2121;font-size:23px;font-weight:700;text-align:center;margin:30px 0 16px}
+.vic-h::after{content:"";display:block;width:110px;height:2px;margin:7px auto 0;background:linear-gradient(90deg,transparent,#9d2121,transparent)}
+.vic-box{display:flex;gap:28px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
+.vic-photo{width:168px;background:#efe8d3;padding:8px 8px 10px;box-shadow:0 10px 20px rgba(0,0,0,.3);transform:rotate(-1.5deg);flex:none}
+.vic-photo img{width:100%;height:190px;object-fit:cover;filter:grayscale(1) contrast(1.05);display:block}
+.vic-table{min-width:min(340px,100%);border-top:1.5px solid #b8a678}
+.vic-row{display:flex;justify-content:space-between;gap:34px;padding:9px 4px;border-bottom:1.5px solid #b8a678;font-size:17px}
+.vic-row b{font-size:17px}
+.vic-row span{color:var(--ink2)}
+.vic-note{color:#9d2121;text-align:center;margin-top:12px;font-weight:700;font-size:16px}
+.timeline{direction:ltr;display:flex;margin-top:26px;position:relative;padding-top:2px}
+.timeline::before{content:"";position:absolute;top:8px;left:7%;right:7%;height:2px;background:#3a2b16;opacity:.75}
+.tl{flex:1;text-align:center;position:relative;padding:0 6px}
+.tl i{display:block;width:13px;height:13px;background:#efe3c6;border:2.5px solid #3a2b16;border-radius:50%;margin:0 auto 10px;position:relative;z-index:1}
+.tl .t{font-family:'Cairo';font-weight:800;font-size:15px}
+.tl .l{font-size:13.5px;color:var(--ink2);line-height:1.65;max-width:135px;margin:5px auto 0;direction:rtl}
+.addr{display:flex;align-items:center;gap:9px;justify-content:center;background:rgba(157,33,33,.07);border:1.5px dashed #9d2121;border-radius:9px;padding:8px 18px;color:#7c1616;font-weight:700;width:fit-content;margin:4px auto 18px;font-size:16px}
+.scene-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px 26px;margin:22px 6px}
+.scene-grid .pol{cursor:zoom-in}
+.scene-grid .pol img{height:230px}
+.obs{background:var(--paper2);border:1px solid #c3b085;border-radius:9px;padding:16px 22px;margin-top:14px}
+.obs h4{color:#9d2121;font-size:18px;margin-bottom:9px}
+.obs li{list-style:none;padding:5px 0;font-size:16.5px;display:flex;gap:9px;align-items:flex-start;line-height:1.7}
+.obs li::before{content:"◈";color:#9d2121;font-size:13px;margin-top:5px}
+.intro-p{font-size:18px;line-height:2;text-align:justify;margin:4px 4px 8px}
+</style>
+<style>
+/* ============ CINEMATIC LAYER ============ */
+#lamp{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(950px 640px at 7% -3%,rgba(255,190,90,.20),transparent 62%);animation:flick 8s ease-in-out infinite}
+#grain{position:fixed;inset:-120px;z-index:120;pointer-events:none;opacity:.055;background-image:var(--noise);background-size:130px;animation:grain 6s steps(8) infinite}
+@keyframes flick{0%,88%,100%{opacity:1}90%{opacity:.72}92%{opacity:.95}94%{opacity:.8}96%{opacity:.98}}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-32px,18px)}40%{transform:translate(24px,-38px)}60%{transform:translate(-28px,-14px)}80%{transform:translate(34px,26px)}100%{transform:translate(-6px,8px)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blurIn{from{opacity:0;filter:blur(10px);transform:scale(1.07)}to{opacity:1;filter:blur(0);transform:scale(1)}}
+@keyframes stampIn{0%{opacity:0;transform:scale(2.7) rotate(calc(var(--rot,-7deg) - 9deg))}65%{opacity:1}100%{opacity:1;transform:scale(1) rotate(var(--rot,-7deg))}}
+@keyframes lnDash{to{stroke-dashoffset:0}}
+@keyframes pinPop{from{opacity:0;transform:translate(-50%,-50%) scale(.35)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes sheenA{to{transform:translateX(135%) skewX(-12deg)}}
+@keyframes loadF{to{width:100%}}
+@keyframes barIn{from{height:0}to{height:10vh}}
+@keyframes logoIn{from{opacity:0;filter:blur(8px) drop-shadow(0 8px 26px rgba(0,0,0,.65));transform:scale(1.08) translateY(-8px)}to{opacity:1;filter:blur(0) drop-shadow(0 8px 26px rgba(0,0,0,.65));transform:scale(1) translateY(0)}}
+/* entrances */
+.logo-img{animation:logoIn 1.1s cubic-bezier(.2,.7,.25,1) both}
+.tagline{animation:fadeUp .7s .35s both}
+.home-folder{color:#c9a227;margin:12px 0 -8px;animation:fadeUp .6s .5s both}
+.choose{animation:fadeUp .6s .55s both}
+.case-card,.ev-card,.sus-card,.wit-card,.folder,.rep-card,.sticky,.rev-card,.addcase{animation:cardIn .6s cubic-bezier(.2,.7,.25,1) both}
+.tl{animation:fadeUp .55s cubic-bezier(.2,.7,.25,1) both}
+.sec-anim{animation:fadeUp .45s cubic-bezier(.2,.7,.25,1) both}
+.node{animation:pinPop .5s cubic-bezier(.3,1.5,.4,1) both}
+#strings line.lnA{stroke-dasharray:1;stroke-dashoffset:1;animation:lnDash .7s ease forwards}
+.stamp{transform:rotate(var(--rot,-7deg))}
+.wm{--rot:-16deg}
+.solved-stamp{--rot:-12deg}
+.slam{animation:stampIn .55s cubic-bezier(.25,1.4,.35,1) both}
+.btn{overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;bottom:0;width:55%;left:0;background:linear-gradient(105deg,transparent 30%,rgba(255,242,205,.28) 50%,transparent 70%);transform:translateX(-160%) skewX(-12deg);pointer-events:none}
+.btn:hover::after{animation:sheenA .65s ease}
+.pol{transition:transform .3s ease}
+.pol:hover{transform:rotate(0deg) scale(1.02)!important;z-index:2}
+.ev-card .ev-img,.sus-photo{transition:filter .35s ease}
+.ev-card:hover .ev-img{filter:brightness(1.1)}
+.sus-photo:hover{filter:grayscale(0) sepia(0) contrast(1)}
+/* case-open intro */
+.cine{position:fixed;inset:0;z-index:150;background:radial-gradient(95% 95% at 50% 44%,rgba(22,13,5,.90),rgba(3,2,1,.98));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;cursor:pointer;animation:fadein .25s}
+.cine::before,.cine::after{content:"";position:absolute;left:0;right:0;background:#000;animation:barIn .55s ease both}
+.cine::before{top:0}.cine::after{bottom:0}
+.cine-code{color:#c9a227;font-family:'Cairo';font-weight:800;font-size:14px;letter-spacing:1px;animation:fadeUp .5s .15s both;z-index:2}
+.cine-title{color:#f0e5c8;font-size:clamp(27px,4.6vw,46px);font-weight:700;font-family:'Amiri';text-align:center;padding:0 22px;line-height:1.6;animation:blurIn .85s .3s both;z-index:2;text-shadow:0 4px 24px rgba(0,0,0,.6)}
+.cine-stamp{z-index:2}
+.cine-load{width:240px;height:3px;background:rgba(201,162,39,.18);border-radius:3px;overflow:hidden;z-index:2}
+.cine-load i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a32424,#e3c05c);animation:loadF 1.15s .75s ease both}
+.cine-hint{position:absolute;bottom:12.5vh;color:#8a744a;font-family:'Cairo';font-size:11px;font-weight:700;animation:fadein 1s 1.3s both;z-index:2}
+/* ============ REFERENCE-FIDELITY LAYER ============ */
+/* topbar row + corner gear + screws */
+.topbar-row{display:flex;direction:ltr;gap:12px;align-items:stretch;margin-bottom:16px}
+.topbar-row .topbar{flex:1;margin-bottom:0;position:relative;border-top:2px solid rgba(201,162,39,.35)}
+.gear-corner{width:52px;height:auto;min-height:52px;border-radius:11px;background:linear-gradient(180deg,#2b2113,#171008);box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.screw{position:absolute;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6c493,#584a26);box-shadow:inset 0 -1px 2px rgba(0,0,0,.8),0 1px 2px rgba(0,0,0,.5);pointer-events:none}
+.screw.s1{top:6px;left:9px}.screw.s2{top:6px;right:9px}.screw.s3{bottom:6px;left:9px}.screw.s4{bottom:6px;right:9px}
+/* sidebar stitching */
+.sidebar::before{content:"";position:absolute;inset:7px;border:1px dashed rgba(201,162,39,.24);border-radius:9px;pointer-events:none;z-index:0}
+.sidebar>*{position:relative;z-index:1}
+/* main sheet double paperclips */
+.clip.c-l{left:64px}
+.clip.c-r{right:64px}
+.clip{filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+/* case cards: photo left, ribbon on photo, folder tabs, featured glow */
+.case-card{position:relative}
+.cc-photo{position:relative}
+.cc-photo .ribbon{top:14px;left:-9px;right:auto}
+.cc-photo .ribbon::after{right:auto;left:0;border:5px solid transparent;border-top-color:#5c0e0e;border-left-color:#5c0e0e}
+.cc-clip{position:absolute;top:-15px;left:16px;z-index:4;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.cc-tab{position:absolute;top:44px;right:-11px;width:12px;height:88px;background:linear-gradient(90deg,#d6c59b,#bfa97b);border-radius:0 7px 7px 0;box-shadow:3px 3px 8px rgba(0,0,0,.35);border:1px solid #a8946b;border-left:none}
+.cc-tab.t2{top:150px;height:70px;background:linear-gradient(90deg,#cbb98d,#b39d70)}
+.case-card.featured{box-shadow:0 0 0 2px rgba(236,210,138,.30),0 0 75px 8px rgba(201,162,39,.28),0 26px 55px rgba(0,0,0,.6)}
+.case-card.featured .cc-title{color:#241a09}
+.case-card.locked{filter:saturate(.82) brightness(.88)}
+.case-card .cc-photo img{transition:transform .5s ease,filter .5s ease}
+.case-card:hover .cc-photo img{filter:brightness(1.07)}
+/* bottom nav dividers */
+.bottom-nav{gap:0}
+.bn-item{padding:2px 46px}
+.bn-item:not(:first-child){border-inline-start:1px solid rgba(201,162,39,.16)}
+/* home deco props */
+.deco{position:fixed;inset:0;z-index:0;pointer-events:none}
+.deco .dp{position:absolute;width:150px;background:#e9dfc6;padding:6px 6px 18px;box-shadow:0 16px 32px rgba(0,0,0,.55)}
+.deco .dp img{display:block;width:100%;height:100px;object-fit:cover;filter:sepia(.45) brightness(.72) contrast(1.05)}
+.deco .d1{top:150px;left:26px;transform:rotate(-11deg)}
+.deco .d2{top:288px;left:64px;transform:rotate(6deg)}
+.deco .d3{top:52px;left:130px;transform:rotate(2deg)}
+.deco .conf{position:absolute;top:46px;right:24px;width:200px;background:#e3d7b6;padding:16px 14px 14px;transform:rotate(6deg);box-shadow:0 14px 28px rgba(0,0,0,.55)}
+.deco .cstamp{border:3px solid #a32424;color:#a32424;font-weight:700;font-size:20px;text-align:center;padding:2px 8px 4px;transform:rotate(-4deg);font-family:'Amiri';border-radius:5px;opacity:.9}
+.deco .cen{color:#a32424;font-family:'Cairo';letter-spacing:3px;font-weight:800;text-align:center;font-size:11px;margin-top:9px;opacity:.85}
+@media(max-width:1250px){.deco{display:none}}
+/* richer paper aging */
+.paper{background-image:var(--noise),radial-gradient(420px 300px at 85% 8%,rgba(140,100,45,.14),transparent 70%),radial-gradient(360px 260px at 10% 92%,rgba(120,85,35,.16),transparent 70%),radial-gradient(200px 150px at 25% 20%,rgba(180,150,90,.10),transparent 70%),linear-gradient(160deg,rgba(255,250,230,.55),rgba(180,148,92,.30))}
+.main-sheet{box-shadow:0 22px 55px rgba(0,0,0,.6),inset 0 0 90px rgba(120,90,40,.30)}
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* ---------- evidence ---------- */
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:20px;margin-top:18px}
+.ev-card{background:var(--paper2);border:1px solid #c3b085;border-radius:9px;padding:11px;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.ev-card:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.25)}
+.ev-num{position:absolute;top:-11px;right:-9px;background:linear-gradient(180deg,#b32626,#8a1919);color:#f7ead0;font-family:'Cairo';font-weight:800;width:35px;height:35px;border-radius:50%;display:grid;place-items:center;font-size:13px;box-shadow:0 4px 9px rgba(0,0,0,.4);z-index:2}
+.ev-img{width:100%;height:132px;object-fit:cover;border:5px solid #f7f1df;box-shadow:0 6px 14px rgba(0,0,0,.22);display:block}
+.ev-noimg{height:132px;display:grid;place-items:center;background:repeating-linear-gradient(45deg,#e7dbb9,#e7dbb9 12px,#e0d2ab 12px,#e0d2ab 24px);border:5px solid #f7f1df;color:#8a744a}
+.ev-t{font-weight:700;font-size:17px;text-align:center;margin-top:9px;line-height:1.5}
+.ev-f{font-size:12px;color:var(--ink2);text-align:center;font-family:'Cairo';margin-top:2px}
+.ev-main-tag{position:absolute;top:-9px;left:10px;background:#3a2b16;color:#ecd28a;font-family:'Cairo';font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:5px;z-index:2}
+/* ---------- suspects ---------- */
+.sus-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:22px;margin-top:18px}
+.sus-card{background:var(--paper2);border:1px solid #c3b085;border-radius:9px;padding:14px 12px;text-align:center;position:relative}
+.sus-photo{width:150px;height:188px;object-fit:cover;border:6px solid #f7f1df;box-shadow:0 8px 16px rgba(0,0,0,.28);filter:grayscale(.25) sepia(.12) contrast(1.03);margin:6px auto 2px;display:block;cursor:zoom-in}
+.sus-status{position:absolute;top:10px;left:-7px;transform:rotate(-9deg);font-size:11.5px;padding:1px 10px 2px;border:2px solid #9d2121;color:#9d2121;border-radius:6px;font-family:'Cairo';font-weight:700;background:rgba(157,33,33,.05);z-index:2}
+.sus-status.gray{border-color:#6d6552;color:#6d6552}
+.sus-status.hard{background:#9d2121;color:#f6e9cd}
+.sus-name{font-size:19px;font-weight:700;margin-top:8px}
+.sus-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:7px 0 8px}
+.chip{background:#e5d7b2;border:1px solid #c3b085;border-radius:20px;font-family:'Cairo';font-size:11px;font-weight:700;padding:2px 11px;color:#5f4c28;white-space:nowrap}
+.sus-alibi{font-size:14.5px;color:var(--ink2);line-height:1.75;min-height:52px;font-style:italic}
+.sus-btns{display:flex;gap:8px;justify-content:center;margin-top:10px;align-items:center}
+/* ---------- witnesses & items ---------- */
+.wit-card{background:var(--paper2);border:1px solid #c3b085;border-radius:9px;padding:17px 20px;margin:0 0 17px;position:relative}
+.wit-head{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.wit-ic{width:40px;height:40px;border-radius:50%;background:#e0d0a5;border:1.5px solid #b6a172;display:grid;place-items:center;color:#5f4c28;flex:none}
+.wit-name{font-size:18.5px;font-weight:700}
+.wit-role{font-family:'Cairo';font-size:11.5px;font-weight:700;color:#5f4c28;background:#e5d7b2;border:1px solid #c3b085;border-radius:14px;padding:2px 11px}
+.wit-st{margin:11px 2px 2px;font-size:16.5px;line-height:1.95;text-align:justify}
+.items-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;align-items:flex-start}
+.it-img{width:170px;cursor:zoom-in}
+.it-img img{height:110px}
+.it-audio{width:min(360px,100%);background:#e9dcba;border:1px solid #c3b085;border-radius:9px;padding:9px 12px}
+.it-audio audio{width:100%;margin-top:6px}
+.it-lab{font-family:'Cairo';font-size:12px;font-weight:700;color:#5f4c28;display:flex;align-items:center;gap:6px}
+.it-video{width:min(430px,100%);background:#e9dcba;border:1px solid #c3b085;border-radius:9px;padding:9px 12px}
+.it-video video,.it-video iframe{width:100%;aspect-ratio:16/9;border:none;background:#000;margin-top:6px;border-radius:4px}
+.it-text{background:#f6efdd;border-inline-start:4px solid #b8963b;padding:10px 15px;border-radius:6px;max-width:520px;font-size:15.5px;line-height:1.85}
+.it-link{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#96762a,#6b5115);color:#f7ecd0;border:1px solid #3f2f0a;border-radius:8px;padding:8px 16px;font-family:'Cairo';font-weight:700;font-size:13px;text-decoration:none}
+.it-doc{display:inline-flex;align-items:center;gap:8px;background:#efe4c5;border:1px solid #b6a172;border-radius:8px;padding:8px 16px;font-family:'Cairo';font-weight:700;font-size:13px;color:#5f4c28;cursor:pointer}
+/* ---------- folders / docs ---------- */
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:30px 24px;margin:26px 4px 8px}
+.folder{background:linear-gradient(180deg,#e3d3aa,#cdbb8f);border-radius:9px;padding:30px 12px 15px;text-align:center;position:relative;cursor:pointer;box-shadow:0 10px 20px rgba(0,0,0,.28);border:1px solid #b6a172;transition:transform .15s}
+.folder:hover{transform:translateY(-3px)}
+.folder::before{content:"";position:absolute;top:-12px;right:14px;width:44%;height:19px;background:linear-gradient(#d8c79c,#ccba8e);border-radius:9px 9px 0 0;border:1px solid #b6a172;border-bottom:none}
+.folder .fic{color:#4c3d22;margin-bottom:9px}
+.folder .fname{font-weight:700;font-size:18.5px;line-height:1.45}
+.folder .fcount{font-family:'Cairo';font-size:12px;font-weight:700;color:#6b5836;margin-top:5px;display:flex;align-items:center;justify-content:center;gap:6px}
+.folder.lockf{background:linear-gradient(180deg,#93835f,#6e6146);border-color:#5c5138}
+.folder.lockf::before{background:linear-gradient(#88794f,#6e6146);border-color:#5c5138}
+.folder.lockf .fname{color:#2c2413}
+.folder.lockf .fic{color:#3a2f1a}
+.fstamp{margin-top:8px}
+.inv-note{margin:30px auto 6px;background:#efe4c5;border:1px solid #c3b085;padding:17px 22px;border-radius:4px;max-width:560px;box-shadow:0 10px 20px rgba(0,0,0,.28);transform:rotate(-.7deg);position:relative}
+.inv-note::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8fa2c9,#2d4373);box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.inv-note h4{text-align:center;font-size:17px;margin-bottom:7px}
+.inv-note p{font-size:15.5px;line-height:1.85;text-align:center;color:var(--ink2)}
+.crumb{display:flex;align-items:center;gap:9px;justify-content:flex-start;margin:2px 0 14px;font-family:'Cairo';font-weight:700;font-size:13px;color:#6b5836}
+.crumb button{color:#8a6d1d;font-weight:800;display:inline-flex;align-items:center;gap:5px}
+.doc-row{display:flex;direction:ltr;align-items:center;gap:11px;background:var(--paper2);border:1px solid #c3b085;border-radius:8px;padding:11px 14px;margin:0 0 11px;cursor:pointer;transition:transform .12s}
+.doc-row:hover{transform:translateX(-3px)}
+.doc-meta{flex:1;text-align:right;direction:rtl;min-width:0}
+.doc-meta .t{color:#9d2121;font-weight:700;font-size:16.5px}
+.doc-meta .d{font-family:'Cairo';font-size:11.5px;color:#6b5836;margin-top:2px}
+.doc-row .ic{color:#6b5836}
+/* reader */
+.docpage{background:#f6efdd;border:1px solid #cbb98f;border-radius:5px;padding:26px 30px;position:relative;overflow:hidden}
+.dp-head{text-align:center;border-bottom:2px solid #3a2b16;padding-bottom:12px;margin-bottom:14px}
+.dp-head .t{font-size:23px;font-weight:700}
+.dp-meta{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-family:'Cairo';font-size:12px;font-weight:700;color:#6b5836;margin-top:8px}
+.dp-body{font-size:17.5px;line-height:2.15;white-space:pre-line;text-align:justify}
+.wm{position:absolute;top:38%;left:12%;transform:rotate(-16deg);font-size:56px;color:rgba(157,33,33,.12);font-weight:700;pointer-events:none;white-space:nowrap}
+/* reports */
+.rep-card{background:var(--paper2);border:1px solid #c3b085;border-radius:9px;padding:16px 20px;margin:0 0 15px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rep-ic{width:44px;height:44px;border-radius:9px;background:#e0d0a5;border:1.5px solid #b6a172;display:grid;place-items:center;color:#5f4c28;flex:none}
+.rep-meta{flex:1;min-width:200px}
+.rep-meta .t{font-size:18px;font-weight:700}
+.rep-meta .a{font-family:'Cairo';font-size:12px;font-weight:700;color:#6b5836;margin-top:3px}
+/* notes */
+.notes-board{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;justify-content:center}
+.sticky{width:215px;min-height:150px;padding:20px 16px 16px;font-size:16.5px;line-height:1.85;box-shadow:0 10px 18px rgba(0,0,0,.3);transform:rotate(-2deg);position:relative}
+.sticky:nth-child(even){transform:rotate(1.7deg)}
+.sticky::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e05252,#7c1010);box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.sticky.sy{background:#e8d382}.sticky.so{background:#e3bf7f}.sticky.sr{background:#dfaba1}
+.sticky .sdel{position:absolute;bottom:8px;left:8px}
+.notes-divider{display:flex;align-items:center;gap:14px;color:#8a744a;font-family:'Cairo';font-weight:800;font-size:14px;margin:34px 0 6px}
+.notes-divider::before,.notes-divider::after{content:"";flex:1;height:1px;background:#b8a678}
+/* ---------- board (خريطة الربط) ---------- */
+.board-tools{display:flex;gap:10px;margin:12px 0 14px;flex-wrap:wrap;justify-content:center;align-items:center}
+.connect-hint{background:rgba(157,33,33,.09);border:1.5px dashed #9d2121;color:#7c1616;font-family:'Cairo';font-weight:700;font-size:13px;border-radius:8px;padding:7px 14px}
+.board{position:relative;height:640px;border-radius:8px;border:12px solid #35220f;box-shadow:inset 0 0 70px rgba(0,0,0,.55),0 16px 34px rgba(0,0,0,.45);overflow:hidden;direction:ltr;background-color:#7a5230;background-image:var(--noise),radial-gradient(120% 120% at 50% 40%,rgba(255,220,160,.14),rgba(40,20,5,.5)),linear-gradient(#7d5532,#6a4526);touch-action:none}
+#strings{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+#strings line{stroke:#a91f1f;stroke-width:2.6;opacity:.88;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.node{position:absolute;width:102px;transform:translate(-50%,-50%);cursor:grab;z-index:3;user-select:none}
+.node:active{cursor:grabbing}
+.node .np{background:#f7f1df;padding:5px 5px 4px;box-shadow:0 8px 16px rgba(0,0,0,.45)}
+.node img{width:100%;height:82px;object-fit:cover;display:block;pointer-events:none}
+.node .nl{font-family:'Cairo';font-size:10.5px;font-weight:800;text-align:center;background:#f2e7c9;margin-top:3px;padding:2px 3px;color:#3a2b16;direction:rtl;line-height:1.5}
+.node::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e05252,#7c1010);box-shadow:0 2px 5px rgba(0,0,0,.55);z-index:4}
+.node.csrc .np{outline:3px solid #ecd28a;outline-offset:2px}
+.node .ndel{position:absolute;top:-10px;right:-10px;z-index:5}
+.link-lbl{position:absolute;z-index:3;background:#f2e7c9;border:1px solid #b6a172;font-family:'Cairo';font-size:10px;font-weight:700;padding:1px 8px 2px;border-radius:5px;transform:translate(-50%,-50%);color:#5f4c28;direction:rtl;white-space:nowrap;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+.link-lbl.del{cursor:pointer}
+.link-lbl.del:hover{background:#dfaba1;color:#7c1616}
+/* ---------- modals ---------- */
+.overlay{position:fixed;inset:0;background:rgba(6,4,1,.76);display:flex;align-items:center;justify-content:center;z-index:80;padding:22px;backdrop-filter:blur(3px);animation:fadein .18s}
+.modal{width:min(720px,100%);max-height:92vh;overflow-y:auto;padding:28px 32px 30px;animation:pop .18s}
+.modal.narrow{width:min(470px,100%)}
+.modal.wide{width:min(920px,100%)}
+.m-title{font-size:24px;font-weight:700;text-align:center;margin-bottom:16px}
+.m-x{position:absolute;top:12px;left:12px;z-index:5}
+.form-row{margin-bottom:13px}
+.form-row>label{display:block;font-family:'Cairo';font-weight:700;font-size:13px;color:#5f4c28;margin-bottom:5px}
+input,textarea,select{width:100%;background:#f6efdd;border:1px solid #b9a679;border-radius:7px;padding:9px 13px;font-family:'Amiri',serif;font-size:16.5px;color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:2px solid rgba(201,162,39,.55)}
+textarea{min-height:110px;resize:vertical;line-height:1.85}
+.chk{display:flex;align-items:center;gap:10px;font-family:'Cairo';font-weight:700;font-size:14px;color:#5f4c28;margin-bottom:13px;cursor:pointer}
+.chk input{width:19px;height:19px;accent-color:#9d2121}
+.m-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.help{font-size:11.5px;color:#8a744a;font-family:'Cairo';margin-top:4px;line-height:1.7}
+.stars-pick{display:flex;gap:7px;direction:ltr;justify-content:center;font-size:29px}
+.stars-pick span{cursor:pointer;color:#b9a679}
+.stars-pick span.on{color:#c9861f}
+.m-sec{border-top:1.5px dashed #b8a678;margin-top:18px;padding-top:14px}
+.m-sec>h4{font-size:17px;color:#7c611a;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+/* lightbox */
+.lb-img{max-height:56vh;width:auto;max-width:100%;margin:0 auto;display:block}
+.lb-cap{text-align:center;margin-top:12px;font-size:17px;line-height:1.9}
+.lb-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+/* accuse */
+.accuse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin:14px 0 4px}
+.acc-item{background:var(--paper2);border:2px solid #c3b085;border-radius:9px;padding:10px;text-align:center;cursor:pointer;transition:border-color .15s,transform .12s}
+.acc-item:hover{transform:translateY(-2px)}
+.acc-item img{width:100%;height:130px;object-fit:cover;border:4px solid #f7f1df;filter:grayscale(.3)}
+.acc-item .n{font-weight:700;font-size:15px;margin-top:7px}
+.acc-item.sel{border-color:#9d2121;box-shadow:0 0 0 3px rgba(157,33,33,.25)}
+.sol-stamp{text-align:center;margin:6px 0 14px}
+.item-row{display:flex;align-items:center;gap:10px;background:var(--paper2);border:1px solid #c3b085;border-radius:8px;padding:9px 13px;margin-bottom:9px}
+.item-row .t{flex:1;font-family:'Cairo';font-weight:700;font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-row .ty{font-family:'Cairo';font-size:11px;font-weight:800;background:#e0d0a5;border-radius:12px;padding:2px 10px;color:#5f4c28;flex:none}
+/* toasts */
+#toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:130;display:flex;flex-direction:column;gap:9px;align-items:center;pointer-events:none}
+.toast{background:rgba(26,18,9,.96);color:#eddcb2;border:1px solid #57431f;border-radius:10px;padding:11px 22px;font-family:'Cairo';font-weight:700;font-size:14px;box-shadow:0 10px 24px rgba(0,0,0,.5);animation:fadein .2s;max-width:86vw;text-align:center}
+.toast.err{border-color:#8a3a2a;color:#f0c5b0}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.shake{animation:shake .3s}
+/* fab / drawer */
+.fab-r{position:fixed;bottom:20px;left:16px;width:54px;height:54px;border-radius:50%;z-index:46;display:none;place-items:center;background:linear-gradient(180deg,#a83030,#701313);color:#f7ead0;box-shadow:0 10px 22px rgba(0,0,0,.5);border:1px solid #4f0d0d}
+.rdrawer{position:fixed;top:0;left:0;bottom:0;width:min(370px,94vw);z-index:75;overflow-y:auto;padding:16px 14px;background:var(--paper);box-shadow:10px 0 34px rgba(0,0,0,.55);animation:fadein .18s}
+/* responsive */
+@media(max-width:1230px){
+.case-grid{grid-template-columns:236px minmax(0,1fr)}
+.rpanel{display:none}
+.fab-r{display:grid}
+}
+@media(max-width:920px){
+.case-grid{grid-template-columns:1fr}
+.sidebar{position:static}
+.side-menu{flex-direction:row;overflow-x:auto;padding-bottom:14px}
+.side-btn{width:auto;white-space:nowrap}
+.side-btn .lbl{flex:none}
+.side-note{display:none}
+.side-actions{flex-direction:row;flex-wrap:wrap}
+.sum-top{flex-direction:column}
+.sum-photo{max-width:100%}
+.vic-box{align-items:center}
+.scene-grid{grid-template-columns:1fr}
+.case-card{flex-direction:column}
+.cc-photo{width:100%}
+.timeline{flex-wrap:wrap;gap:14px 0}
+.timeline::before{display:none}
+.tl{flex:1 1 44%}
+.main-sheet{padding:24px 18px 36px}
+.board{height:540px}
+.tb-title h1{font-size:17px}
+}
+@media(max-width:560px){
+.sec-h{font-size:25px}
+.cc-title{font-size:23px}
+.choose{font-size:25px}
+.modal{padding:20px 16px 24px}
+.board{height:480px}
+.node{width:88px}
+.node img{height:68px}
+}
+</style>
+</head>
+<body>
+<div id="bgimg"></div>
+<div id="bgvig"></div>
+<div id="lamp" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<noscript><div style="color:#eddcb2;text-align:center;padding:40px;font-family:sans-serif">هذه اللعبة تحتاج تفعيل JavaScript في المتصفح.</div></noscript>
+<div id="app"></div>
+<div id="modals"></div>
+<div id="toasts"></div>
+<script>
+"use strict";
+var PUB="https://pub.hyperagent.com/api/published/";
+var IMGS={
+bg:PUB+"pbf01KXZHXDYP_R9CPXNRR0H6ZJ53Y/a7ab7375-5ac7-419e-905d-9fab84289576.png",
+logo:PUB+"pbf01KXZHXE95_JW849KE2XRACFRV0/e79016dc-1908-459f-9e37-1b34cc054888.png",
+c1scene:PUB+"pbf01KXZHXEKF_E3Q0NSPP56RHDY6K/7a34b606-793b-4df2-b69d-08a3f9fed8c5.png",
+c1bed:PUB+"pbf01KXZHXEZA_2P57RP266DJE1307/3581476c-2353-4747-ab71-e3d7b56a466f.png",
+c1cctv:PUB+"pbf01KXZHXF8P_XPK9NKB6WYYMF7K8/0136b0db-2f63-4841-a85c-efbf0fb928e2.png",
+c1knife:PUB+"pbf01KXZHXZ0E_10X1DD5930RV1Z72/5e6bc261-d9b3-4d0a-b31a-11143ac26e2f.png",
+c1vase:PUB+"pbf01KXZHXZCE_W1RKSFBA9STR5D1B/783dceae-a4ed-4559-928b-2ce29aed736e.png",
+c1phone:PUB+"pbf01KXZHXZQ4_TEAY8X96S72T7F2W/098f0b3d-09e2-41f9-a894-7ce8df1bf831.png",
+c1pillow:PUB+"pbf01KXZHY01Z_JW1XZ1DX4GNSTRZN/5713c832-1f1e-4d3e-ae38-d15af5b7951c.png",
+c1s1:PUB+"pbf01KXZHY17Z_BV5D8AMANVAC7JMA/65aa8126-cbeb-47ac-bc5a-bf75ecdc6562.png",
+c1s2:PUB+"pbf01KXZHY1N4_EX0GMQPJENC9CG8K/3e1320c7-1a55-467b-857c-6dd0d2862bb7.png",
+c1s3:PUB+"pbf01KXZHY24W_X35HA94VZ8ECPJFB/ef8c82cc-2b62-40f2-bd73-56fcece3c0b5.png",
+c1s4:PUB+"pbf01KXZHY2JN_SFKPVE4KH23E4TQS/08ae0e01-6fcb-49ad-96b4-5dd8d8416ab0.png",
+c2cover:PUB+"pbf01KXZHXFJN_31SXKBSN2WHT33PD/665c0234-9071-4984-ad44-56e9aaede250.png",
+c2roof:PUB+"pbf01KXZHY0DB_9WQGJWSGADGQN7N6/331caf73-b295-476d-8d3a-cdd303a977e3.png",
+c2note:PUB+"pbf01KXZHY0S8_4Q12ZJ4N270Z803P/5b2374f6-6e87-43dc-8d3a-fc355c0f3399.png",
+c2watch:PUB+"pbf01KXZHY31B_RC6PVNP5TRWV28HH/87feef62-b006-4598-b0f8-eca01328c2de.png",
+c2s1:PUB+"pbf01KXZHY401_384KBX9ZPNMR87K8/70b3417c-7871-4a6e-ab62-553022381bea.png",
+c2s2:PUB+"pbf01KXZHYBZ4_223210VF6W5T4X8R/41c9579e-dc55-4b74-b290-5f18ba342668.png",
+c2s3:PUB+"pbf01KXZHYC91_X542TEGEMV1T5QTT/99adf730-2f37-4d9f-a2ab-797bbc080308.png",
+c3scene:PUB+"pbf01KXZHY3HN_R1F7YYV0XEHT6BS8/ebe16459-6128-4e14-882d-b1326c5a6d18.png",
+c3glass:PUB+"pbf01KXZHYCNN_6K61CMTB2EXC3ME1/99a8e56c-106f-45af-a586-a3b4ccce5212.png",
+c3card:PUB+"pbf01KXZHYD0J_74HSMNCA08FHX5M3/d3e4377d-9477-4fcd-bdbd-4463cf17cde3.png",
+c3s1:PUB+"pbf01KXZHYDMX_GR44NAC6SVQ5C4DY/78874646-f5a2-4902-a58b-a4e36451f3ba.png",
+c3s2:PUB+"pbf01KXZHYDZE_PXFPZH4X9HPR8M74/a1b36495-dcda-4965-a199-4eaf9328e508.png",
+c3s3:PUB+"pbf01KXZHYE96_EQ7S0WZTTMXNRFEB/58173044-5f6a-4ed0-b5b2-51f1d9aa8042.png",
+c4scene:PUB+"pbf01KXZHYD9Z_RXQEY78X67XCB6NJ/aa113858-f887-4712-8fe6-075f2f83a807.png",
+c4cup:PUB+"pbf01KXZHYEMQ_EGFS1PJWVEH9J0Y5/531b0065-73d5-4742-99a3-c3178dd72c9a.png",
+c4tape:PUB+"pbf01KXZHYF2T_314RB88RDQK998QR/07ebd9db-5579-410b-8b1b-1206b2b262bd.png",
+c4s1:PUB+"pbf01KXZHYFR4_KBCFJ0YR8XGQFHNN/45095afb-2eeb-4008-b14a-4efb9f385c92.png",
+c4s2:PUB+"pbf01KXZHYG5B_Y307AY15G16302XZ/abaf2360-4b3c-443e-8444-0bcccace00a0.png",
+c4s3:PUB+"pbf01KXZHYGK0_A0NNEB14DHE0K34J/a0115fc5-1dd3-4944-ad4a-752bd574fdfa.png"
+};
+var SIL="data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 260'><rect width='200' height='260' fill='#b3ab9b'/><path d='M100 38c-33 0-55 25-55 58 0 21 7 35 6 54-1 13-6 24-10 30h118c-4-6-9-17-10-30-1-19 6-33 6-54 0-33-22-58-55-58z' fill='#221c14'/><path d='M14 260c6-58 44-88 86-88s80 30 86 88z' fill='#221c14'/></svg>");
+var DEFAULT_DATA={
+version:1,
+settings:{
+ gameTitle:"CRIME TAPES",gameSub:"ملف التحقيق",
+ tagline:"كل جريمة تترك أثراً .. ونحن نكشف الحقيقة",
+ about:"لعبة تحقيق تفاعلية بأسلوب ملفات الجرائم الكلاسيكية: افتحوا ملف القضية، قلّبوا المستندات والأدلة، استمعوا للشهود، واربطوا الخيوط على اللوحة حتى تصلوا إلى الجاني ثم وجّهوا الاتهام.\n\nالأدوار: المستخدم العادي يتصفح ويحقق ويتهم — الأدمن يضيف ويعدل ويحذف كل مكونات القضايا — السوبر أدمن يدير كلمات المرور والنسخ الاحتياطي وإعادة الضبط.",
+ logo:"",bg:"",
+ passwords:{super:"super2026",admin:"admin2026"},
+ unlockAll:false
+},
+cases:[
+/* ============ القضية 1 ============ */
+{
+id:"c1",num:"01",code:"CT-24-0715",title:"ليفهم المسيء شعور الضحية",
+cover:IMGS.c1scene,badge:"جديدة",difficulty:4,duration:"45 - 60 دقيقة",
+culprit:"c1s2",
+hint:"قارن سجل خروج الشركة بالإفادة الأولى، وانتبه: من ذكر نصّ الملاحظة حرفياً دون أن يُتلى عليه؟",
+solvedText:"الجاني: فهد سلطان العنزي — الخطيب السابق.\n\nلم يتقبل فهد فسخ الخطوبة واعتبر نفسه «الضحية المُهانة». راقب ريم أسبوعين بسيارة داكنة ورقم مؤقت، ثم دخل الشقة بالمفتاح الاحتياطي الذي احتفظ به من أيام الخطوبة. وقعت مواجهة قصيرة تحطمت فيها المزهرية وتوقفت ساعة يدها عند 20:26، ثم ترك ملاحظته «ليفهم المسيء شعور الضحية» ليقلب الأدوار ويصوّر نفسه مظلوماً.\n\nأدانته: البصمة الجزئية على المزهرية، خلايا ما تحت الأظافر، سجل خروج الشركة 19:20 المخالف لإفادته، لقطة المدخل 20:32، ومعرفته بنص الملاحظة قبل أن يُعرض عليه.",
+hiddenSections:[],
+summary:{
+ text:"تلقت الشرطة صباح 16 يوليو 2024 بلاغاً عن مقتل امرأة في شقتها، بعد أن انقطع التواصل معها منذ مساء اليوم السابق. عُثر على الضحية مقتولة في غرفة المعيشة وتوجد آثار عنف واضحة. لا يوجد كسر في الأبواب أو النوافذ، مما يشير إلى أن المجرم كان شخصاً تعرفه الضحية وسمحت له بالدخول — أو يملك مفتاحاً لشقتها.",
+ photo:IMGS.c1scene,photoCap:"مسرح الجريمة — غرفة المعيشة",
+ victim:{name:"ريم خالد العتيبي",age:"28 سنة",job:"مصممة جرافيك",marital:"عزباء",photo:"",note:""},
+ timeline:[
+  {t:"15:30",l:"آخر ظهور معروف للضحية"},
+  {t:"20:15",l:"انقطاع التواصل مع الضحية"},
+  {t:"09:10",l:"العثور على الجثة من قبل الجارة"},
+  {t:"09:30",l:"الشرطة تصل لمسرح الجريمة"}
+ ]
+},
+scene:{
+ address:"حي الياسمين — عمارة 12، الشقة 34 (الدور الثالث)",
+ intro:"شقة مرتبة توحي بحياة هادئة قطعتها مواجهة قصيرة في الصالة: مزهرية محطمة قرب الكنبة، وسادة ملطخة في غرفة النوم، وباب بلا أي أثر كسر. الضيف كان معروفاً للضحية… أو يملك مفتاحاً.",
+ photos:[
+  {src:IMGS.c1scene,cap:"الصالة — نقاط الأدلة 1 إلى 3"},
+  {src:IMGS.c1bed,cap:"غرفة النوم — العلامة 4 على الوسادة"}
+ ],
+ notes:["لا كسر في الأبواب أو النوافذ","أثاث الصالة مُزاح وعلامات مقاومة قرب الكنبة","كوبا شاي في المغسلة، أحدهما بأثر شفاه","علبة المفتاح الاحتياطي خلف الباب فارغة","ملاحظة ورقية بعبارة غريبة على طاولة الصالة"]
+},
+evidence:[
+{id:"c1e1",num:"01",title:"سكين المطبخ",img:IMGS.c1knife,main:true,found:"المطبخ — قرب المغسلة",desc:"أداة الجريمة المرجحة؛ من طقم مطبخ الضحية نفسه. على النصل آثار دم جافة، والمقبض مُسح جزئياً بقطعة قماش."},
+{id:"c1e2",num:"02",title:"مزهرية مكسورة",img:IMGS.c1vase,main:true,found:"الصالة — قرب الكنبة",desc:"تحطمت أثناء المقاومة. على القاعدة بصمة جزئية غريبة عن الضحية — التطابق الأولي 87٪ مع أحد المشتبه بهم."},
+{id:"c1e3",num:"03",title:"الهاتف المحمول",img:IMGS.c1phone,main:true,found:"أرضية الصالة",desc:"بشاشة مكسورة. آخر نشاط: رسالة لم تُرسل عند 20:11 نصها «إذا وصلك هذا فأنا خائفة». أُحيل للمختبر الرقمي."},
+{id:"c1e4",num:"04",title:"آثار دماء على وسادة",img:IMGS.c1pillow,main:true,found:"غرفة النوم",desc:"نمط انتقالي وليس نزفاً مباشراً؛ يرجح أن الجاني لمس الوسادة بعد الاعتداء — سلوك يوحي بعلاقة شخصية."},
+{id:"c1e5",num:"05",title:"الملاحظة الورقية",img:"",main:false,found:"طاولة الصالة",desc:"ورقة كتب عليها بخط يد مائل: «ليفهم المسيء شعور الضحية». لا بصمات صالحة عليها."},
+{id:"c1e6",num:"06",title:"كوبا الشاي",img:"",main:false,found:"مغسلة المطبخ",desc:"كوبان مغسولان على عجل، أحدهما يحمل أثر شفاه — الضحية استقبلت ضيفاً قبل الجريمة بوقت قصير."},
+{id:"c1e7",num:"07",title:"المفتاح الاحتياطي المفقود",img:"",main:false,found:"مدخل الشقة",desc:"علبة المفاتيح خلف الباب فارغة. الجارة تؤكد أن ريم اعتادت الاحتفاظ بنسخة احتياطية فيها."},
+{id:"c1e8",num:"08",title:"ألياف قماش رمادية",img:"",main:false,found:"حافة طاولة الصالة",desc:"قطن ممزوج بمادة صناعية يتوافق مع سترة رجالية رمادية. لا قطعة مطابقة في الشقة."},
+{id:"c1e9",num:"09",title:"سجل المكالمات الفائتة",img:"",main:false,found:"هاتف الضحية",desc:"23 مكالمة فائتة من رقم مؤقت واحد خلال الأسبوعين الأخيرين، آخرها ليلة الجريمة."},
+{id:"c1e10",num:"10",title:"قفاز مطاطي ممزق",img:"",main:false,found:"سلة مهملات المطبخ",desc:"بأثر عرق داخلي صالح جزئياً للمطابقة الوراثية. يرجح أن الجاني حاول تنظيف المسرح."},
+{id:"c1e11",num:"11",title:"ساعة يد الضحية",img:"",main:false,found:"معصم الضحية",desc:"توقفت عند 20:26 إثر كسر زجاجها أثناء المقاومة — توقيت الجريمة شبه المؤكد."},
+{id:"c1e12",num:"12",title:"بصمة حذاء رياضي",img:"",main:false,found:"مدخل الشقة من الداخل",desc:"مقاس 43 بنمط نعل شائع، اتجاهها نحو الخارج."}
+],
+suspects:[
+{id:"c1s1",name:"عبدالله ناصر الحربي",photo:IMGS.c1s1,age:"34",job:"موظف حكومي",relation:"الجار المقابل",status:"قيد الاشتباه",
+alibi:"«كنت في شقتي أتابع مباراة حتى منتصف الليل، وسمعت جلبة قصيرة ظننتها شجاراً عابراً.»",
+statement:"أعرف ريم بحكم الجيرة فقط، وبيننا خلاف قديم على مواقف السيارات انتهى ببلاغين متبادلين ثم هدأت الأمور. مساء الجريمة سمعت صوت تحطم زجاج قرابة الثامنة والثلث ثم هدوءاً تاماً، ولم أفتح بابي لأنني اعتدت شجارات العمارة. لم أرَ أحداً على السلم، وأنا مستعد لتسليم هاتفي لإثبات أنني لم أغادر شقتي.",items:[]},
+{id:"c1s2",name:"فهد سلطان العنزي",photo:IMGS.c1s2,age:"31",job:"مهندس برمجيات",relation:"الخطيب السابق",status:"قيد الاشتباه",
+alibi:"«كنت في العمل حتى التاسعة مساءً ثم عدت إلى بيتي مباشرة.»",
+statement:"انتهت علاقتي بريم قبل شهرين بقرار منها، وتقبلت الأمر رغم قسوته عليّ. لم أزر شقتها منذ الفسخ، ولا أعرف شيئاً عن مفتاح احتياطي. ومن كتب «ليفهم المسيء شعور الضحية» يريد توريطي بوضوح — أنا من أُهين في هذه العلاقة، والجميع يعرف أنها هي من ظلمتني.",items:[]},
+{id:"c1s3",name:"سعود مطلق الشمري",photo:IMGS.c1s3,age:"47",job:"حارس أمن العمارة",relation:"حارس العمارة",status:"قيد الاشتباه",
+alibi:"«كنت في جولتي المعتادة بين العمارات من الثامنة حتى التاسعة إلا ربعاً.»",
+statement:"أعمل هنا منذ إحدى عشرة سنة ولم تقع جريمة واحدة. نعم، في تسجيل الكاميرا فجوة، وأعترف أنني عطلتها بنفسي لأنني غادرت موقعي لظرف خاص وخفت من الشكوى والفصل. رأيت سيارة داكنة تقف بعيداً عن العمارة مرتين هذا الأسبوع ولم أتبين قائدها — قلتها للمحقق من أول يوم.",items:[]},
+{id:"c1s4",name:"نورة عبدالرحمن القحطاني",photo:IMGS.c1s4,age:"29",job:"مصممة مستقلة",relation:"زميلة وشريكة مشروع",status:"قيد الاشتباه",
+alibi:"«كنت في عشاء عائلي موثق بالصور حتى العاشرة والنصف.»",
+statement:"ريم صديقتي قبل أن تكون شريكتي. خلافنا المالي على مستحقات مشروع المطعم (18 ألفاً) كان في طريقه للحل، وقد حولت لي نصف المبلغ قبل أسبوع. اتصلت بها في 20:15 فلم ترد وظننتها نائمة. من يستحق تحقيقكم هو من كان يراقبها — حدثتني بنفسها عن سيارة تلاحقها منذ أسبوعين.",items:[]}
+],
+witnesses:[
+{id:"c1w1",name:"أم محمد",role:"الجارة — مقدمة البلاغ",statement:"لاحظت باب الشقة موارباً منذ الفجر، وعند التاسعة طرقت فلم تجب. دفعت الباب قليلاً فرأيت المشهد واتصلت بالشرطة فوراً. ريم كانت هادئة ومحبوبة، لكنها بدت خائفة في الأيام الأخيرة، وسألتني قبل أسبوع إن كانت كاميرا العمارة تعمل فعلاً.",items:[]},
+{id:"c1w2",name:"خالد",role:"عامل توصيل",statement:"سلّمت طلباً للشقة 21 ثم نزلت بالمصعد. عند المدخل اصطدم بي رجل بقبعة داكنة وسترة رمادية يمشي بسرعة ورأسه منخفض، ولم يعتذر حتى. طوله فوق المتوسط وبنيته رياضية، ورائحة عطره قوية.",
+items:[{type:"image",label:"لقطة كاميرا المدخل — 20:32",src:IMGS.c1cctv}]},
+{id:"c1w3",name:"أبو فيصل",role:"جار الدور الثاني",statement:"سمعت صوت تحطم زجاج قرابة 20:20 يتبعه صراخ مكتوم قصير ثم صمت تام، فظننته تلفازاً بصوت عالٍ. بعدها بدقائق سمعت باباً يُغلق بهدوء غير معتاد — من يغلق الباب بهذا الحرص بعد شجار؟",items:[]},
+{id:"c1w4",name:"هند",role:"صديقة الضحية المقربة",statement:"كانت ريم تخاف من شخص قالت عنه إنه «لا يتقبل النهاية». قبل الجريمة بيومين أرتني رسالة تهديد من رقم غريب ثم حذفتها خوفاً. اتصلت بها في 20:15 فلم ترد، وبقيت رسائلي بلا قراءة.",
+items:[{type:"text",label:"نص رسالة التهديد كما تتذكره هند",text:"«سترين شعور من يُهان. لن يفهم أحد غيرك المعنى.»"}]}
+],
+folders:[
+{id:"c1f1",name:"البلاغات",icon:"phone",locked:false,docs:[
+ {id:"c1d1",title:"البلاغ الأول",date:"16/07/2024",time:"09:12",pages:3,body:"نص المكالمة الواردة لغرفة العمليات:\nالمبلغة (الجارة أم محمد) تفيد بأن باب الشقة 34 موارب منذ الصباح وأن رائحة غريبة تخرج منها، وأنها شاهدت الضحية آخر مرة عصر أمس.\nتم توجيه أقرب دورية فوراً وإخطار الأدلة الجنائية."},
+ {id:"c1d2",title:"البلاغ الثاني",date:"03/07/2024",time:"21:40",pages:2,body:"بلاغ سابق مقدم من الضحية ريم العتيبي ضد مجهول:\nشعور بالمراقبة أمام العمارة، وملاحظة سيارة داكنة متكررة في المواقف المقابلة.\nحُفظ البلاغ لعدم كفاية الأدلة مع توصية بتكثيف الدوريات — لم تُنفذ التوصية."}
+]},
+{id:"c1f2",name:"الطب الشرعي",icon:"medic",locked:false,docs:[
+ {id:"c1d3",title:"تقرير الطب الشرعي (جيسيكا)",date:"17/07/2024",time:"09:45",pages:6,body:"خلاصة تقرير التشريح — د. جيسيكا كرم:\nالوفاة نتيجة طعنتين نافذتين في الصدر بأداة حادة ذات نصل مطبخي. الزمن التقديري للوفاة بين 20:00 و21:00 مساء 15 يوليو.\nكدمات دفاعية على الساعدين، وأثر انتقال دم على وسادة غرفة النوم لا يتفق مع نزيف مباشر."},
+ {id:"c1d4",title:"تقرير الطب الشرعي (أرسين)",date:"17/07/2024",time:"10:10",pages:4,body:"تقرير السموم — د. أرسين نصري:\nلا آثار لمواد مخدرة أو سامة في الدم.\nخلايا جلدية غريبة تحت أظافر اليد اليمنى أُرسلت للمطابقة الوراثية — النتيجة ضمن الملفات السرية."}
+]},
+{id:"c1f3",name:"الأدلة الجنائية",icon:"finger",locked:false,docs:[
+ {id:"c1d5",title:"تقرير فحص البصمات",date:"17/07/2024",time:"11:05",pages:3,body:"بصمة جزئية على قاعدة المزهرية المكسورة لا تخص الضحية.\nدرجة التطابق الأولية مع عينة المشتبه به فهد العنزي: 87٪.\nباقي البصمات المرفوعة من الصالة تعود للضحية والجارة."},
+ {id:"c1d6",title:"تقرير تحليل DNA",date:"18/07/2024",time:"09:20",pages:4,body:"الحمض النووي للخلايا المستخرجة من تحت أظافر الضحية يعود لذكر.\nجارٍ استكمال المطابقة مع عينات المشتبه بهم — النتيجة النهائية ضمن الملفات السرية."},
+ {id:"c1d7",title:"تقرير مسح السكين",date:"17/07/2024",time:"13:30",pages:2,body:"السكين من طقم مطبخ الضحية نفسه.\nالمقبض مُسح جزئياً بقماش، مع بقايا ألياف رمادية متطابقة مع العينة المرفوعة من حافة الطاولة."},
+ {id:"c1d8",title:"تقرير نمط انتشار الدماء",date:"17/07/2024",time:"15:00",pages:5,body:"نمط البقع في الصالة يشير إلى مواجهة قصيرة قرب الكنبة.\nأثر الدم على الوسادة انتقالي، ما يرجح أن الجاني لمسها بعد الاعتداء — سلوك شخصي يوحي بعلاقة سابقة بالضحية."}
+]},
+{id:"c1f4",name:"التحاليل",icon:"dna",locked:false,docs:[
+ {id:"c1d9",title:"تحليل الألياف الرمادية",date:"18/07/2024",time:"08:40",pages:2,body:"الألياف قطن ممزوج بمادة صناعية، تتوافق مع سترة رجالية رمادية.\nلم يُعثر على قطعة مطابقة داخل شقة الضحية."},
+ {id:"c1d10",title:"تحليل بقايا القفاز",date:"18/07/2024",time:"10:15",pages:2,body:"القفاز المطاطي الممزق المرفوع من سلة المطبخ يحمل أثر عرق داخلي.\nالعينة صالحة جزئياً للمطابقة الوراثية."},
+ {id:"c1d11",title:"تحليل خط اليد",date:"18/07/2024",time:"12:00",pages:3,body:"العبارة المدونة في الملاحظة («ليفهم المسيء شعور الضحية») كُتبت بخط مائل وبضغط قلم مرتفع يدل على توتر.\nسمات الميل والربط تقارب عينة كتابة المشتبه به فهد العنزي بدرجة متوسطة إلى عالية."}
+]},
+{id:"c1f5",name:"استجوابات",icon:"mic",locked:false,docs:[
+ {id:"c1d12",title:"استجواب عبدالله الحربي",date:"17/07/2024",time:"10:00",pages:4,body:"أكد سماع جلبة قرابة 20:20 وأنه لم يغادر شقته.\nاعترف بخلاف قديم مع الضحية بسبب المواقف وببلاغي إزعاج متبادلين.\nلا شهود على بقائه في الشقة."},
+ {id:"c1d13",title:"استجواب فهد العنزي (الأول)",date:"17/07/2024",time:"12:30",pages:5,body:"أفاد بأنه لم يزر الضحية منذ فسخ الخطوبة قبل شهرين، وأنه غادر مقر عمله في 21:00.\nطلب محامياً فور سؤاله عن المفتاح الاحتياطي."},
+ {id:"c1d14",title:"استجواب فهد العنزي (الثاني)",date:"18/07/2024",time:"16:00",pages:6,body:"بمواجهته بسجل خروج الشركة (19:20) غيّر روايته وادعى التجول بسيارته وحيداً.\nأنكر معرفته بالملاحظة الورقية ثم ذكر نصها حرفياً دون أن يُتلى عليه — نقطة مفصلية سُجلت في المحضر."},
+ {id:"c1d15",title:"استجواب سعود الشمري",date:"17/07/2024",time:"14:00",pages:3,body:"ارتبك في تفسير فجوة تسجيلات الكاميرا (20:05 – 20:45).\nأقر لاحقاً بأنه غادر موقعه لقضاء حاجة شخصية وعطّل التسجيل خوفاً من المساءلة."},
+ {id:"c1d16",title:"استجواب نورة القحطاني",date:"17/07/2024",time:"16:30",pages:3,body:"أقرت بخلاف مالي مع الضحية حول مستحقات مشروع (18 ألفاً) وبمشادة هاتفية قبل ثلاثة أيام.\nقدمت ما يثبت حضورها عشاءً عائلياً حتى 22:30."},
+ {id:"c1d17",title:"استجواب خالد (عامل التوصيل)",date:"17/07/2024",time:"18:00",pages:2,body:"وصف رجلاً بقبعة داكنة وسترة رمادية اصطدم به عند المدخل في 20:32 وكان يخفي وجهه.\nتعرّف على بنية الجسم من صور المشتبه بهم بنسبة معقولة."}
+]},
+{id:"c1f6",name:"السجلات",icon:"records",locked:false,docs:[
+ {id:"c1d18",title:"سجل مكالمات الضحية",date:"18/07/2024",time:"09:00",pages:4,body:"23 مكالمة فائتة من رقم واحد خلال الأسبوعين الأخيرين، آخرها 20:11 ليلة الجريمة.\nالرقم مسجل بشريحة مؤقتة — جارٍ تتبع نقطة البيع."},
+ {id:"c1d19",title:"سجل دخول شركة البيانات",date:"18/07/2024",time:"11:30",pages:2,body:"بوابة شركة (تك داتا) تُظهر خروج الموظف فهد العنزي في 19:20 وليس 21:00 كما أفاد.\nلا تسجيل عودة في الليلة ذاتها."},
+ {id:"c1d20",title:"تقرير انتقال الشرطة",date:"16/07/2024",time:"09:30",pages:4,body:"وصلت الدورية 09:30. الباب موارب دون كسر، الضحية في الصالة، والمشهد يوحي بمقاومة قصيرة.\nجرى تأمين الموقع واستدعاء الأدلة الجنائية والطب الشرعي."},
+ {id:"c1d21",title:"تقرير كاميرات المراقبة",date:"18/07/2024",time:"10:30",pages:5,body:"كاميرا المدخل التقطت رجلاً بقبعة يغادر في 20:32.\nكاميرا كشك الحارس بها فجوة 40 دقيقة (20:05 – 20:45).\nلا كاميرات على السلم الخلفي."},
+ {id:"c1d22",title:"سجل زوار العمارة",date:"17/07/2024",time:"09:00",pages:2,body:"دفتر الحارس لا يتضمن زواراً للشقة 34 يوم الجريمة.\nآخر زيارة مسجلة قبل 9 أيام بتوقيع غير مكتمل: (ف. ع)."}
+]},
+{id:"c1f7",name:"الأوامر القضائية",icon:"gavel",locked:false,docs:[
+ {id:"c1d23",title:"إذن تفتيش الشقة",date:"16/07/2024",time:"11:00",pages:2,body:"إذن قضائي بتفتيش مسرح الجريمة ورفع الأحراز وتحريز محتويات الشقة 34."},
+ {id:"c1d24",title:"إذن استخراج بيانات الهاتف",date:"17/07/2024",time:"09:00",pages:2,body:"إذن باستخراج سجلات الاتصال والرسائل المحذوفة من هاتف الضحية وتتبع الرقم المؤقت."},
+ {id:"c1d25",title:"أمر ضبط وإحضار",date:"19/07/2024",time:"08:30",pages:1,body:"أمر ضبط وإحضار بحق المشتبه به الرئيسي بعد نتائج البصمات وسجل الخروج ومطابقة خط اليد."}
+]},
+{id:"c1f8",name:"الاعترافات",icon:"cuffs",locked:false,docs:[
+ {id:"c1d26",title:"محضر إنكار عبدالله",date:"17/07/2024",time:"11:00",pages:2,body:"أنكر أي صلة بالجريمة وتمسك بروايته، وأبدى استعداده لتسليم هاتفه طوعاً."},
+ {id:"c1d27",title:"محضر إنكار فهد",date:"18/07/2024",time:"17:00",pages:3,body:"أنكر رغم المواجهة بسجل الخروج، والتزم الصمت بعد سؤال الملاحظة بمشورة محاميه."},
+ {id:"c1d28",title:"إقرار سعود بشأن الكاميرا",date:"18/07/2024",time:"12:00",pages:2,body:"أقر بتعطيل التسجيل 40 دقيقة لمغادرته موقعه، ونفى أي صلة بالجريمة. أُحيل للمساءلة الإدارية."},
+ {id:"c1d29",title:"محضر المواجهة النهائية",date:"19/07/2024",time:"10:00",pages:4,body:"جرت مواجهة المشتبه به الرئيسي بالأدلة المجتمعة (البصمة، الخلايا، السجلات، خط اليد).\nالتزم الصمت الكامل بحضور محاميه."}
+]},
+{id:"c1f9",name:"ملفات سرية",icon:"lock",locked:true,docs:[
+ {id:"c1d30",title:"الرسائل المستعادة من الهاتف",date:"19/07/2024",time:"09:00",pages:3,body:"استعاد المختبر الرقمي رسائل محذوفة وردت من الرقم المؤقت:\n«سترين شعور من يُهان» — «لن يفهم أحد غيرك المعنى» — «سأجعلها نهاية تليق بما فعلتِه».\nأسلوب الصياغة يطابق عينة كتابة المشتبه به فهد العنزي."},
+ {id:"c1d31",title:"تقرير المطابقة النهائي",date:"19/07/2024",time:"13:00",pages:2,body:"اكتملت المطابقة الوراثية: عينة ما تحت الأظافر تطابق المشتبه به فهد العنزي باحتمال خطأ 1 إلى 5.8 مليار.\nالقضية جاهزة للإحالة."}
+]}
+],
+reports:[
+{id:"c1r1",title:"التقرير الأولي للمحقق",author:"النقيب م. الظاهري — المحقق الرئيسي",date:"16/07/2024",body:"عدم وجود كسر يشير إلى دخول برضا الضحية أو بمفتاح.\nتوقيت الجلبة (20:20) يطابق توقف ساعة اليد (20:26) وخروج الرجل ذي القبعة (20:32).\nخطوط التحقيق: العلاقات الشخصية، الرقم المؤقت، وفجوة كاميرا الحارس."},
+{id:"c1r2",title:"تقرير معاينة مسرح الجريمة",author:"قسم الأدلة الجنائية",date:"16/07/2024",body:"المعاينة تُظهر مقاومة قصيرة في الصالة وانتقال الجاني إلى غرفة النوم بعد الاعتداء.\nرُفع 12 حرزاً؛ أبرزها السكين والمزهرية والملاحظة الورقية وألياف القماش."},
+{id:"c1r3",title:"التقرير الفني للهاتف",author:"المختبر الرقمي",date:"18/07/2024",body:"رسالة غير مُرسلة في 20:11 نصها: «إذا وصلك هذا فأنا خائفة».\nرُصد حذف متعمد لمحادثات الرقم المؤقت قبل الجريمة بيوم — جارٍ الاستعادة، والنتائج ضمن الملفات السرية."}
+],
+notes:[
+{id:"c1n1",text:"لا تنسَ: التحقق من التقارير والاتصالات",color:"sy"},
+{id:"c1n2",text:"قارن توقيت خروج فهد من الشركة بإفادته الأولى",color:"so"},
+{id:"c1n3",text:"أين ذهب المفتاح الاحتياطي؟ اسأل الجارة عن النسخة",color:"sr"}
+],
+map:{nodes:[
+{id:"c1m1",label:"ريم العتيبي — الضحية",img:"",x:50,y:15},
+{id:"c1m2",label:"فهد — الخطيب السابق",img:IMGS.c1s2,x:16,y:36},
+{id:"c1m3",label:"عبدالله — الجار",img:IMGS.c1s1,x:84,y:36},
+{id:"c1m4",label:"نورة — الزميلة",img:IMGS.c1s4,x:16,y:76},
+{id:"c1m5",label:"سعود — الحارس",img:IMGS.c1s3,x:84,y:76},
+{id:"c1m6",label:"سكين المطبخ",img:IMGS.c1knife,x:37,y:56},
+{id:"c1m7",label:"المزهرية المكسورة",img:IMGS.c1vase,x:63,y:56},
+{id:"c1m8",label:"الهاتف — 23 مكالمة",img:IMGS.c1phone,x:50,y:88},
+{id:"c1m9",label:"الملاحظة الورقية",img:"",x:50,y:38}
+],links:[
+{a:"c1m1",b:"c1m2",label:"خطوبة مفسوخة"},
+{a:"c1m1",b:"c1m3",label:"جوار وخلاف قديم"},
+{a:"c1m1",b:"c1m4",label:"شراكة وخلاف مالي"},
+{a:"c1m1",b:"c1m5",label:"فجوة الكاميرا"},
+{a:"c1m7",b:"c1m2",label:"بصمة جزئية 87٪"},
+{a:"c1m8",b:"c1m2",label:"الرقم المؤقت"},
+{a:"c1m9",b:"c1m2",label:"تطابق خط اليد"},
+{a:"c1m6",b:"c1m1",label:"من مطبخها"}
+]},
+custom:[]
+},
+/* ============ القضية 2 ============ */
+{
+id:"c2",num:"02",code:"CT-24-0822",title:"سفاح برج الجدي",
+cover:IMGS.c2cover,badge:"",difficulty:5,duration:"60 - 90 دقيقة",
+culprit:"c2s1",
+hint:"من كان يكتب عن «عقاب السماء» قبل أن يمارسه؟ وطابق توقيت 10:10 مع ساعة قرارٍ قلب حياة أحدهم.",
+solvedText:"السفاح: يوسف الكاظمي — كاتب الأبراج.\n\nفُصل يوسف من الصحيفة وأُسقط مشروعه (مرصد المدينة) بقرار لجنة ضمت الضحايا الثلاثة، في اجتماع انتهى عند الساعة 10:10 صباحاً — التوقيت الذي جمّد عنده ساعات ضحاياه. اشترى نسخة بطاقة الأمن من ماجد منتحلاً صفة مدقق، وخدّر ضحاياه في المرائب، وأخرج جرائمه كطقوس فلكية، وكان يسرّب أخبارها للصحفية ريما ليكبر صدى «الأسطورة».\n\nأدانه: الحبر النادر في مرصده، خرائط الأبراج المعلقة على جداره وعليها الهدف الرابع، الباروكة الرمادية، وثبوت إرسال رسائل (المصدر المجهول) من حاسوبه. أُنقذ الهدف الرابع قبل الموعد بيوم واحد.",
+hiddenSections:[],
+summary:{
+ text:"ثلاث جثث خلال أربعين يوماً، كلها لرجال أعمال عُثر عليهم قرب أسطح أبراج المدينة، ومع كل جثة رسالة بخط واحد يتوسطها رمز برج الجدي وساعة جيب متوقفة عند 10:10. الضحية الثالثة: المهندس طارق الروقي، وُجد على سطح برج المها. باب السطح فُتح ببطاقة صلاحيات عالية دون أي عنف، والصحافة أطلقت على الفاعل لقب «سفاح برج الجدي».",
+ photo:IMGS.c2roof,photoCap:"مسرح الجريمة الثالث — سطح برج المها",
+ victim:{name:"طارق فهد الروقي",age:"39 سنة",job:"مدير تطوير عقاري",marital:"متزوج",photo:"",note:"الضحية الثالثة في السلسلة — ملفا الضحيتين السابقتين ضمن المستندات"},
+ timeline:[
+  {t:"21:40",l:"آخر ظهور للضحية في مرآب البرج"},
+  {t:"22:35",l:"انقطاع الاتصال بهاتف الضحية"},
+  {t:"05:50",l:"عامل الصيانة يعثر على الجثة"},
+  {t:"06:15",l:"وصول فريق التحقيق وتطويق السطح"}
+ ]
+},
+scene:{
+ address:"برج المها — السطح ومهبط المروحيات، الدور 58",
+ intro:"سطح مفتوح تعصف به الرياح ولا آثار مقاومة تُذكر، ما يرجح تخدير الضحية قبل الصعود. الرسالة مثبتة بحجر قرب الحافة، والحبل الجديد لم يُستخدم قط — مشهد مسرحي مُعد بعناية أكثر منه أداة جريمة.",
+ photos:[
+  {src:IMGS.c2roof,cap:"السطح — نقاط الأدلة قرب الحافة الشمالية"},
+  {src:IMGS.c2cover,cap:"برج المها ليلة الجريمة"}
+ ],
+ notes:["باب السطح فُتح في 22:58 ببطاقة مستنسخة عالية الصلاحية","كوب قهوة بأثر مهدئ في مرآب الضحية","الرسالة الثالثة بذات الحبر والخط في الجرائم السابقة","ساعة الجيب أوقفت عقاربها يدوياً عند 10:10"]
+},
+evidence:[
+{id:"c2e1",num:"01",title:"رسالة برج الجدي",img:IMGS.c2note,main:true,found:"قرب الحافة الشمالية",desc:"الرسالة الثالثة: رمز الجدي بحبر أحمر نادر التركيب، وسطر واحد: «العدالة تنزل من فوق». الخط مائل بضغط ثابت — يد واثقة لا مرتجفة."},
+{id:"c2e2",num:"02",title:"ساعة الجيب المتوقفة",img:IMGS.c2watch,main:true,found:"جيب سترة الضحية",desc:"ساعة نحاسية قديمة أوقفت عقاربها يدوياً عند 10:10 — التوقيت نفسه في الجرائم الثلاث. ليست ملكاً للضحية."},
+{id:"c2e3",num:"03",title:"حبل التسلق",img:"",main:true,found:"ملفوفاً قرب الحافة",desc:"حبل جديد لم يُستخدم؛ معقود بعقدة «الثمانية» الاحترافية التي تدل على خبرة تسلق أو إنقاذ — عنصر إخراجي في المشهد."},
+{id:"c2e4",num:"04",title:"بطاقة الدخول المستنسخة",img:"",main:true,found:"سجل قارئ باب السطح",desc:"نسخة RFID عن بطاقة صلاحيات أمنية عالية؛ الأصل يعود لمشرف الأمن ماجد العصيمي. النسخ تم بجهاز تجاري متاح."},
+{id:"c2e5",num:"05",title:"كوب القهوة المخدّر",img:"",main:false,found:"مرآب البرج — مستوى B2",desc:"من مقهى المرآب، وبه بنزوديازيبين بجرعة عالية. الكاميرا تُظهر رجلاً بمعطف يناول الضحية الكوب."},
+{id:"c2e6",num:"06",title:"الرسائل الثلاث المتطابقة",img:"",main:false,found:"ملف السلسلة",desc:"مضاهاة الخطوط تؤكد كاتباً واحداً للرسائل الثلاث، بنفس الحبر النادر ونفس الصياغة «القضائية»."},
+{id:"c2e7",num:"07",title:"لقطة كاميرا المرآب",img:"",main:false,found:"كاميرا المستوى B2",desc:"رجل بمعطف طويل وقبعة يحمل حقيبة معدات عند 22:20؛ وجهه خارج زاوية التصوير عمداً — يعرف مواقع الكاميرات."},
+{id:"c2e8",num:"08",title:"الشعرة الصناعية",img:"",main:false,found:"ياقة سترة الضحية",desc:"شعرة رمادية صناعية من باروكة تنكرية — الفاعل غيّر مظهره أثناء الاحتكاك بالضحية."}
+],
+suspects:[
+{id:"c2s1",name:"يوسف الكاظمي",photo:IMGS.c2s1,age:"46",job:"كاتب أبراج ومستشار فلكي سابق",relation:"كتب عن الضحايا الثلاثة قبل مقتلهم",status:"قيد الاشتباه",
+alibi:"«ليالي الجرائم كنت أرصد النجوم من مرصدي الخاص خارج المدينة — وحدي كعادتي.»",
+statement:"النجوم لا تكذب أيها المحقق. هؤلاء الثلاثة كانوا في لجنة «جائزة الإعمار»: أسقطوا مشروعي وسخروا من علمي أمام الملأ، فكتبتُ أن السماء سترد الدين — كتبتُ فقط. أنا رجل أفكار لا أفعال، والجدي برجي نعم، لكن نصف المدينة من مواليد يناير. أليس غريباً أن يوقّع قاتل باسم برجي هو؟",items:[]},
+{id:"c2s2",name:"ماجد العصيمي",photo:IMGS.c2s2,age:"33",job:"مشرف أمن برج المها",relation:"صاحب البطاقة الأصلية المستنسخة",status:"قيد الاشتباه",
+alibi:"«كنت في نوبتي بغرفة التحكم طوال الليل — والسجل يثبت ذلك.»",
+statement:"أنا غارق في الديون، وقبل شهرين عرض عليّ رجل غريب عشرة آلاف مقابل «نسخة اختبار» من بطاقتي زاعماً أنه مدقق أمني يفحص ثغرات الأبراج. قابلته مرتين ليلاً ولم أرَ وجهه بوضوح: طويل، نحيل، يلبس قفازين، يتحدث بهدوء غريب ويستشهد بالنجوم والأبراج. أقسم أنني لم أعرف نيته — أنا بعت ضعفي، لا دم أحد.",items:[]},
+{id:"c2s3",name:"ريما الدوسري",photo:IMGS.c2s3,age:"38",job:"صحفية جرائم",relation:"وصلت لمسرحين قبل الشرطة",status:"قيد الاشتباه",
+alibi:"«مصدر مجهول يراسلني قبل كل جريمة بساعات؛ عملي أن ألحق الخبر.»",
+statement:"منذ الجريمة الأولى يراسلني حساب مجهول برسائل مشفرة بمواقيت فلكية، وأعترف أنني أخفيت ذلك لحماية سبقي الصحفي — خطأ مهني أتحمله كاملاً. سلمتكم الآن كل الرسائل: من يكتبها يعرف تفاصيل لم تُنشر قط، وهو يريد جمهوراً ومسرحاً... وأنا — بغبائي — كنت منصته.",items:[]}
+],
+witnesses:[
+{id:"c2w1",name:"صالح",role:"عامل صيانة البرج — مكتشف الجثة",statement:"صعدت 05:45 لفحص مضخة السطح كما كل خميس، فوجدت الرجل ممدداً قرب الحافة والورقة تحت حجر تصفّق بالريح. لم ألمس شيئاً؛ نزلت أركض واتصلت بالأمن.",items:[]},
+{id:"c2w2",name:"أمل",role:"موظفة استقبال البرج",statement:"دخل رجل بمعطف طويل وقبعة عند 22:20 يحمل حقيبة معدات، وقال إنه «فني المصاعد المناوب» وأبرز تصريحاً بدا نظامياً. لاحقاً عرفت أن شركة المصاعد لا تعمل ليلاً إطلاقاً. مشيته هادئة أكثر من اللازم — كأنه يعرف المبنى.",items:[]},
+{id:"c2w3",name:"أبو سلمان",role:"سائق أجرة",statement:"أوصلت راكباً غريب الأطوار إلى جوار البرج في 22:05. ظل يتمتم طوال الطريق عن «العدالة السماوية» و«الحساب الذي ينزل من فوق». دفع نقداً بالضبط ونزل دون كلمة وداع.",items:[]},
+{id:"c2w4",name:"أروى",role:"زوجة الضحية",statement:"قبل أسبوع وصل زوجي ظرف بريدي بلا اسم مرسل، بداخله ورقة عليها رمز معزاة برأس سمكة. ضحك يومها وقال: «أصحاب الأبراج غاضبون مني منذ لجنة الجائزة». لم نتخيل أن الأمر جدي.",
+items:[{type:"text",label:"وصف الظرف البريدي",text:"ظرف أصفر سميك، بلا طوابع محلية، والرمز مرسوم بحبر أحمر داكن — سلمته أروى للمحققين وثبت تطابق حبره مع رسائل المسارح."}]}
+],
+folders:[
+{id:"c2f1",name:"البلاغات",icon:"phone",locked:false,docs:[
+ {id:"c2d1",title:"بلاغ العثور على الجثة",date:"02/10/2024",time:"05:58",pages:2,body:"اتصال عامل الصيانة صالح بغرفة عمليات أمن البرج ثم الشرطة.\nتم إغلاق مداخل السطح والمصاعد العلوية فور الوصول."}
+]},
+{id:"c2f2",name:"الطب الشرعي",icon:"medic",locked:false,docs:[
+ {id:"c2d2",title:"تقرير تشريح الروقي",date:"03/10/2024",time:"11:00",pages:5,body:"الوفاة نتيجة جرعة مهدئ عالية أوقفت التنفس بين 23:30 و00:30.\nلا إصابات عنف؛ الضحية نُقل إلى السطح وهو فاقد الوعي.\nآثار احتكاك خفيفة على الياقة — التقطت منها الشعرة الصناعية."},
+ {id:"c2d3",title:"تقرير مقارنة الضحايا الثلاثة",date:"04/10/2024",time:"09:30",pages:6,body:"المادة نفسها والجرعة نفسها في الحالات الثلاث، والإخراج المسرحي متطابق: رسالة، ساعة 10:10، وعنصر تسلق غير مستخدم.\nالضحايا الثلاثة جمعتهم عضوية لجنة «جائزة الإعمار» 2023."}
+]},
+{id:"c2f3",name:"الأدلة الجنائية",icon:"finger",locked:false,docs:[
+ {id:"c2d4",title:"تحليل الرسالة الثالثة",date:"03/10/2024",time:"14:00",pages:3,body:"الحبر الأحمر نادر بتركيبة يدوية (صبغة قرمزية + صمغ عربي) لا تُباع جاهزة.\nالورق قُص من كراسة رسم فلكي احترافية."},
+ {id:"c2d5",title:"فحص البطاقة المستنسخة",date:"03/10/2024",time:"16:20",pages:2,body:"النسخ تم بجهاز RFID تجاري متاح إلكترونياً.\nرقم البطاقة الأصل يعود لمشرف الأمن ماجد العصيمي — لم يُبلغ عن فقدانها."},
+ {id:"c2d6",title:"تقرير عقدة الحبل",date:"04/10/2024",time:"10:00",pages:2,body:"عقدة «الثمانية» متقنة بيد خبيرة.\nالحبل جديد كلياً؛ شراء نقدي يصعب تتبعه."}
+]},
+{id:"c2f4",name:"السجلات",icon:"records",locked:false,docs:[
+ {id:"c2d7",title:"سجل دخول السطح",date:"03/10/2024",time:"08:00",pages:2,body:"فتح باب السطح 22:58 ببطاقة صلاحيات عالية (نسخة).\nلا فتح آخر حتى 05:45 صباحاً."},
+ {id:"c2d8",title:"تقرير كاميرات المرآب",date:"03/10/2024",time:"12:30",pages:4,body:"رجل بمعطف طويل وقبعة عند 22:20 يتجنب زوايا الكاميرات بدقة ويحمل حقيبة معدات.\nيُرصد وهو يناول الضحية كوب قهوة قرب المصعد."},
+ {id:"c2d9",title:"سجل مكالمات الضحية",date:"03/10/2024",time:"15:00",pages:3,body:"مكالمة أخيرة من رقم مغلق عند 21:55 استمرت 40 ثانية.\nالرقم من فئة الشرائح المؤقتة نفسها في الجريمتين السابقتين."},
+ {id:"c2d10",title:"أرشيف زاوية «النجوم تحكم»",date:"04/10/2024",time:"11:00",pages:6,body:"ثلاث مقالات قديمة للكاتب يوسف الكاظمي هاجمت الضحايا الثلاثة بالاسم بعد قرار اللجنة، وتوعدتهم بـ«حساب السماء العادل الذي ينزل من فوق».\nالصياغة تطابق سطر الرسائل حرفياً تقريباً."}
+]},
+{id:"c2f5",name:"استجوابات",icon:"mic",locked:false,docs:[
+ {id:"c2d11",title:"استجواب يوسف الكاظمي",date:"05/10/2024",time:"10:00",pages:5,body:"هدوء غير طبيعي، يجيب بالأمثال الفلكية، ويعرف تفاصيل المواقيت بدقة لافتة.\nرفض تفتيش المرصد طوعاً — استُصدر إذن قضائي."},
+ {id:"c2d12",title:"استجواب ماجد العصيمي",date:"04/10/2024",time:"13:00",pages:4,body:"انهار وكشف صفقة «نسخة الاختبار» مقابل 10 آلاف.\nوصف المشتري: طويل نحيل، قفازان، حديث فلكي هادئ. تعاون كاملاً مع رسم الملامح."},
+ {id:"c2d13",title:"استجواب ريما الدوسري",date:"04/10/2024",time:"16:00",pages:4,body:"سلمت رسائل «المصدر المجهول» كاملة بعد تحفظ.\nالرسائل تصل قبل كل جريمة بساعات وتتضمن إحداثيات فلكية تشير للموقع."},
+ {id:"c2d14",title:"استجواب أمل (الاستقبال)",date:"03/10/2024",time:"18:00",pages:2,body:"وصفت «فني المصاعد» الليلي وتصريحه المزيف.\nتعرفت على نبرة الصوت لاحقاً في مقطع تلفزيوني قديم للكاظمي بنسبة عالية."}
+]},
+{id:"c2f6",name:"الأوامر القضائية",icon:"gavel",locked:false,docs:[
+ {id:"c2d15",title:"إذن تفتيش المرصد الخاص",date:"05/10/2024",time:"14:00",pages:2,body:"إذن بتفتيش مرصد الكاظمي خارج المدينة ومصادرة الأجهزة والأوراق والأحبار."},
+ {id:"c2d16",title:"أمر تتبع الحساب المجهول",date:"04/10/2024",time:"17:30",pages:2,body:"أمر قضائي بتتبع مصدر رسائل «المصدر المجهول» المرسلة إلى الصحفية."}
+]},
+{id:"c2f7",name:"ملفات سرية",icon:"lock",locked:true,docs:[
+ {id:"c2d17",title:"خريطة الهدف الرابع",date:"06/10/2024",time:"09:00",pages:3,body:"وُجدت في المرصد خريطة أبراج المدينة وعليها دائرة حمراء حول «برج النخيل» بتاريخ 22 أكتوبر — عضو اللجنة الرابع.\nتم تأمين الهدف ونصب المراقبة قبل الموعد بيوم."},
+ {id:"c2d18",title:"تحليل جهاز الإرسال",date:"06/10/2024",time:"12:00",pages:2,body:"رسائل «المصدر المجهول» أُرسلت من حاسوب المرصد نفسه عبر شبكة مموهة.\nعُثر على الباروكة الرمادية والمعطف الطويل في خزانة المرصد."}
+]}
+],
+reports:[
+{id:"c2r1",title:"تقرير وحدة السلوك الإجرامي",author:"وحدة التحليل السلوكي",date:"04/10/2024",body:"قاتل منظم بدوافع نرجسية انتقامية، يوظف الرمزية الفلكية ليمنح جرائمه صفة «الحكم الإلهي».\nيحتاج جمهوراً — تسريبه للصحافة جزء من الطقس لا ثغرة فيه.\nالتوقيت 10:10 مفتاح شخصي: ابحثوا عن حدث مهني بهذا التوقيت."},
+{id:"c2r2",title:"التقرير الميداني للسطح",author:"فريق المعاينة",date:"02/10/2024",body:"لا آثار مقاومة على السطح؛ الجر تم من المصعد الخدمي حتى المهبط.\nالحبل والرسالة والساعة وُضعت بعناية إخراجية بعد الوفاة أو قبيلها."},
+{id:"c2r3",title:"تقرير الربط بين الجرائم الثلاث",author:"غرفة عمليات السلسلة",date:"04/10/2024",body:"القاسم المشترك الوحيد بين الضحايا: عضوية لجنة «جائزة الإعمار» 2023 التي رفضت مشروع «مرصد المدينة» وسحبت اعتماد صاحبه.\nالعضو الرابع في اللجنة تحت الحماية."}
+],
+notes:[
+{id:"c2n1",text:"10:10 ليست عشوائية — ابحث عن حدث بهذا التوقيت",color:"sy"},
+{id:"c2n2",text:"من استفاد من نشر التفاصيل؟ ومن سرّبها؟",color:"so"},
+{id:"c2n3",text:"لجنة جائزة الإعمار: ثلاثة قتلى… من الرابع؟",color:"sr"}
+],
+map:{nodes:[
+{id:"c2m1",label:"طارق الروقي — الضحية 3",img:"",x:50,y:14},
+{id:"c2m2",label:"يوسف — كاتب الأبراج",img:IMGS.c2s1,x:16,y:38},
+{id:"c2m3",label:"ماجد — مشرف الأمن",img:IMGS.c2s2,x:84,y:38},
+{id:"c2m4",label:"ريما — الصحفية",img:IMGS.c2s3,x:16,y:78},
+{id:"c2m5",label:"رسالة الجدي",img:IMGS.c2note,x:40,y:57},
+{id:"c2m6",label:"ساعة 10:10",img:IMGS.c2watch,x:64,y:57},
+{id:"c2m7",label:"البطاقة المستنسخة",img:"",x:84,y:78}
+],links:[
+{a:"c2m1",b:"c2m2",label:"هاجمه في مقالاته"},
+{a:"c2m1",b:"c2m3",label:"سطح برجه"},
+{a:"c2m5",b:"c2m2",label:"الحبر والصياغة"},
+{a:"c2m6",b:"c2m2",label:"توقيت قرار اللجنة"},
+{a:"c2m7",b:"c2m3",label:"الأصل بحوزته"},
+{a:"c2m4",b:"c2m2",label:"مصدر مجهول يسرب لها"}
+]},
+custom:[]
+},
+/* ============ القضية 3 ============ */
+{
+id:"c3",num:"03",code:"CT-25-0114",title:"اختفاء ليلة الافتتاح",
+cover:IMGS.c3scene,badge:"",difficulty:3,duration:"30 - 45 دقيقة",
+culprit:"c3s1",
+hint:"اتبع الفاتورة: من حجز سيارة الشحن قبل الاختفاء بيوم كامل؟ ومن «أضاع» بطاقته قبل أسبوع بالضبط؟",
+solvedText:"الفاعل: زياد الحلبي — الشريك الفنان.\n\nاكتشفت سارة أن ثلاث لوحات في معرضها نسخ مزورة يبيع زياد أصولها سراً لسداد ديونه. واجهته خلف الستارة في 21:05 وأمهلته حتى نهاية الحفل ليعترف. دسّ المهدئ في كأسها، وأخرجها في صندوق «التمثال الخشبي» الذي حجز شحنه قبل يوم كامل — خطف مخطط لا ارتجال — وانتزع اللوحة الأصلية ليُخرج الأمر كسرقة.\n\nعُثر على سارة مخدرة وسليمة داخل مستودع «استوديو ز. للفنون» بالمنطقة الصناعية، ومعها اللوحة الأصلية وملف التزوير الذي جمعته بنفسها. أما البطاقة «المفقودة قبل أسبوع» فكانت في جيب معطفه.",
+hiddenSections:[],
+summary:{
+ text:"في ذروة حفل افتتاح معرض «المدى» للفنون، اختفت مالكته سارة الأنصاري بين لحظة وأخرى: كأسها المكسور خلف الستارة، لوحة «الوريث» — الأثمن في المعرض — انتُزعت من إطارها، وباب مخزن اللوحات موارب. لا دماء ولا شهود على خروجها، وهاتفها صمت عند 21:35. هل هي سرقة تحولت إلى خطف؟ أم مسرحية أتقنت سارة إخراجها؟",
+ photo:IMGS.c3scene,photoCap:"قاعة العرض بعد إخلاء الحفل",
+ victim:{name:"سارة عادل الأنصاري",age:"34 سنة",job:"مالكة جاليري المدى",marital:"مطلقة",photo:"",note:"مفقودة — البحث جارٍ منذ ليلة 14 يناير"},
+ timeline:[
+  {t:"19:00",l:"انطلاق حفل الافتتاح"},
+  {t:"21:10",l:"آخر ظهور لسارة داخل القاعة"},
+  {t:"21:35",l:"هاتفها يخرج عن التغطية"},
+  {t:"23:00",l:"تسجيل بلاغ الاختفاء"}
+ ]
+},
+scene:{
+ address:"جاليري المدى — حي السفارات، قاعة العرض الكبرى والمخزن",
+ intro:"أثر مهدئ سريع في كأس الشمبانيا خلف ستارة الجناح الشرقي، وخط سحبٍ خفيف على الأرض باتجاه ممر الخدمة. اللوحة قُطعت من إطارها بشفرة وعلى عجل، وباب المخزن فُتح ببطاقة دون أي عبث — من فعلها يعرف المكان جيداً.",
+ photos:[
+  {src:IMGS.c3scene,cap:"القاعة الكبرى — الإطار الفارغ والعلامات 1 و2"},
+  {src:IMGS.c3glass,cap:"الكأس خلف ستارة الجناح الشرقي"}
+ ],
+ notes:["كأس بأثر مهدئ سريع المفعول خلف الستارة","بطاقة زياد فتحت المخزن عند 21:18","نظام الحريق سجل فتح باب الخدمة 21:26 لأربع دقائق","سيارة شحن صغيرة غادرت بوابة الخدمة 21:44"]
+},
+evidence:[
+{id:"c3e1",num:"01",title:"كأس الشمبانيا",img:IMGS.c3glass,main:true,found:"خلف ستارة الجناح الشرقي",desc:"عليه أثر أحمر شفاه سارة ومادة مهدئة سريعة المفعول. سقط ولم ينكسر كلياً — وُضع المهدئ قبل دقائق من سقوطه."},
+{id:"c3e2",num:"02",title:"الإطار الفارغ",img:IMGS.c3scene,main:true,found:"الجدار الشرقي للقاعة",desc:"إطار لوحة «الوريث». قُطعت اللوحة بشفرة حادة على عجل، وقيمتها التأمينية مليونا ريال."},
+{id:"c3e3",num:"03",title:"الدعوة الممزقة وبطاقة المخزن",img:IMGS.c3card,main:true,found:"أرضية ممر الخدمة",desc:"دعوة باسم ضيف لم يسجل حضوره قط، وبطاقة المخزن التي فُتح بها الباب في 21:18 — مسجلة باسم زياد الحلبي الذي أبلغ عن «فقدانها» قبل أسبوع."},
+{id:"c3e4",num:"04",title:"وشاح سارة",img:"",main:true,found:"قرب باب الخدمة",desc:"وشاحها الحريري وعليه أثر عطر رجالي فاخر — العينة لا تطابق عطور الحضور المسجلين في قائمة الضيوف."},
+{id:"c3e5",num:"05",title:"سجل نظام الحريق",img:"",main:false,found:"النظام المركزي",desc:"فتح باب خدمة المخزن في 21:26 لمدة أربع دقائق ثم أُغلق بإحكام."},
+{id:"c3e6",num:"06",title:"فاتورة الشحن المستعجل",img:"",main:false,found:"شركة الشحن",desc:"حجز مسبق — قبل الاختفاء بيوم كامل — لنقل «تمثال خشبي ثقيل» عند 21:40. الجهة الدافعة: استوديو ز. للفنون."},
+{id:"c3e7",num:"07",title:"خزنة المكتب",img:"",main:false,found:"مكتب سارة",desc:"ناقصة 60 ألفاً سُحبت عند 20:55 ببصمة المساعدة لمى — بتفويض موقع صباح يوم الحفل."}
+],
+suspects:[
+{id:"c3s1",name:"زياد الحلبي",photo:IMGS.c3s1,age:"36",job:"فنان تشكيلي وشريك المعرض",relation:"شريك سارة الفني",status:"قيد الاشتباه",
+alibi:"«لم أغادر القاعة إطلاقاً؛ كنت أستقبل النقاد طوال الأمسية.»",
+statement:"سارة أختي الصغرى في هذا الوسط؛ بنينا «المدى» معاً من لا شيء. بطاقتي للمخزن أضعتها قبل أسبوع وأبلغت الإدارة شفهياً — اسألوا لمى. وحديث التزوير الذي يثيره إبراهيم المنصور ابتزاز دائنٍ حاقد لا أكثر. ليلة أمس بعتُ ثلاث لوحات دفعة واحدة، فلماذا أفسد أنجح ليالي حياتي؟",items:[]},
+{id:"c3s2",name:"لمى الحربي",photo:IMGS.c3s2,age:"26",job:"مساعدة المعرض وأمينة الخزنة",relation:"اليد اليمنى لسارة",status:"قيد الاشتباه",
+alibi:"«كنت أستقبل الضيوف عند المدخل معظم الوقت.»",
+statement:"سحبت 60 ألفاً من الخزنة بتفويض وقعته لي سارة صباحاً — لسداد دين مستشفى والدتي، والورقة معي وسلمتها للمحقق. بكيت في الممر لأن السيد المنصور أهانني وهدد بإغلاق المعرض «على رؤوسنا». سارة كانت متوترة طوال الأسبوع وتقول إن شيئاً في اللوحات «ليس على ما يرام».",items:[]},
+{id:"c3s3",name:"إبراهيم المنصور",photo:IMGS.c3s3,age:"58",job:"جامع تحف",relation:"دائن المعرض بمليون ريال",status:"قيد الاشتباه",
+alibi:"«غادرت في 20:30 — سائقي وكاميرات بوابتكم يشهدان.»",
+statement:"نعم هددت بإسقاط المعرض، لأنني اشتريت من زياد لوحتين تبين لخبيري أنهما منسوختان ببراعة إجرامية. جئت لأمنح سارة فرصة أخيرة: تفضح شريكها بنفسها أو أفضحهما معاً أمام الوسط كله. أعطتني موعداً بعد الافتتاح لتريني «الملف الكامل»… واختفت قبل الموعد. من أسكتها ليس أنا — أنا من كان ينتظر كلامها بفارغ الصبر.",items:[]}
+],
+witnesses:[
+{id:"c3w1",name:"سامي",role:"نادل الحفل",statement:"قرابة 21:05 سمعت همساً حاداً خلف ستارة الجناح الشرقي بين الأستاذة سارة والأستاذ زياد. التقطت جملة واحدة بصوتها: «حتى نهاية الليلة… وإلا سأتكلم». بعدها بدقائق طلب مني زياد أن أوصل كأسين إلى الجناح الشرقي.",items:[]},
+{id:"c3w2",name:"حارس البوابة",role:"أمن الجاليري",statement:"سيارة شحن صغيرة خرجت من بوابة الخدمة عند 21:44 بتصريح مسبق باسم استوديو فني. السائق أبرز الورق كاملاً فلم أوقفه — التصريح كان صادراً قبل يوم.",items:[]},
+{id:"c3w3",name:"دانة",role:"فنانة مشاركة في المعرض",statement:"لمى كانت تبكي في الممر حوالي 20:40 بعد حديث مع المنصور. وسارة سألتني قبل الحفل بيومين سؤالاً غريباً: «من تثقين به لفحص أصالة لوحة… بسرّية تامة؟»",items:[]},
+{id:"c3w4",name:"سائق الشحن",role:"شركة النقل السريع",statement:"حمّلنا صندوق تمثال خشبياً ثقيلاً جداً من باب الخدمة — أثقل من أي تمثال حملته. المستلم رجل نحيل بمعطف وقع بحبر أزرق توقيعاً غير مقروء، وطلب التفريغ في مستودع بالمنطقة الصناعية.",items:[]}
+],
+folders:[
+{id:"c3f1",name:"البلاغات",icon:"phone",locked:false,docs:[
+ {id:"c3d1",title:"بلاغ الاختفاء",date:"14/01/2025",time:"23:00",pages:2,body:"تقدمت المساعدة لمى الحربي بالبلاغ بعد فشل كل محاولات الاتصال وتفتيش المبنى.\nجرى تعميم أوصاف سارة وتطويق الجاليري."}
+]},
+{id:"c3f2",name:"الأدلة الجنائية",icon:"finger",locked:false,docs:[
+ {id:"c3d2",title:"تحليل الكأس",date:"15/01/2025",time:"10:00",pages:3,body:"مادة مهدئة سريعة المفعول (ميدازولام) بجرعة تفقد الوعي خلال دقائق دون أثر دائم.\nعلى ساق الكأس بصمة جزئية لا تخص سارة."},
+ {id:"c3d3",title:"فحص بطاقة المخزن وسجلها",date:"15/01/2025",time:"12:30",pages:2,body:"البطاقة مسجلة باسم زياد الحلبي وفتحت المخزن 21:18.\nلا يوجد أي بلاغ رسمي مكتوب عن فقدانها — «الإبلاغ الشفهي» لا سند له."}
+]},
+{id:"c3f3",name:"التحاليل",icon:"dna",locked:false,docs:[
+ {id:"c3d4",title:"تحليل العطر على الوشاح",date:"16/01/2025",time:"09:00",pages:2,body:"عطر رجالي فاخر محدود الإصدار.\nفاتورة شراء زجاجة منه قبل شهر باسم زياد الحلبي لدى الوكيل الحصري."},
+ {id:"c3d5",title:"تقرير أصالة اللوحات",date:"16/01/2025",time:"13:00",pages:5,body:"فحص عاجل لثلاث لوحات معروضة: نسخ مزورة عالية الإتقان بعمر طلاء لا يتجاوز سنة.\nالأصول الثلاثة بيعت سراً لمشترين خارجيين خلال العام الماضي."}
+]},
+{id:"c3f4",name:"استجوابات",icon:"mic",locked:false,docs:[
+ {id:"c3d6",title:"استجواب زياد الحلبي",date:"15/01/2025",time:"11:00",pages:4,body:"أنكر مغادرة القاعة؛ النادل سامي يكذبه (همس خلف الستارة 21:05 وطلب الكأسين).\nعجز عن تفسير فاتورة الشحن المحجوزة قبل يوم باسم استوديوه."},
+ {id:"c3d7",title:"استجواب لمى الحربي",date:"15/01/2025",time:"14:00",pages:3,body:"قدمت تفويض السحب الموقع من سارة صباح الحفل وإيصال سداد المستشفى.\nروايتها متسقة مع كاميرات المدخل."},
+ {id:"c3d8",title:"استجواب إبراهيم المنصور",date:"15/01/2025",time:"16:30",pages:3,body:"أكد مغادرته 20:30 — تؤكده كاميرات البوابة وسائقه.\nسلم تقرير خبيره عن اللوحتين المزورتين وفاتورتي الشراء."}
+]},
+{id:"c3f5",name:"السجلات",icon:"records",locked:false,docs:[
+ {id:"c3d9",title:"سجل نظام الأبواب",date:"15/01/2025",time:"09:30",pages:2,body:"المخزن: فتح 21:18 (بطاقة زياد). باب الخدمة: 21:26 لأربع دقائق.\nلا فتح لاحق حتى وصول الشرطة."},
+ {id:"c3d10",title:"كاميرات بوابة الخدمة",date:"15/01/2025",time:"11:30",pages:3,body:"سيارة شحن صغيرة تخرج 21:44 بتصريح مسبق.\nزاوية الكاميرا لا تُظهر منطقة التحميل — نقطة عمياء معروفة لموظفي المعرض."},
+ {id:"c3d11",title:"فاتورة الشحن المستعجل",date:"13/01/2025",time:"17:20",pages:1,body:"حجز مسبق بتاريخ 13 يناير — قبل الاختفاء بيوم كامل — لنقل «تمثال خشبي ثقيل».\nالجهة الدافعة: استوديو ز. للفنون. الوجهة: مستودع بالمنطقة الصناعية."}
+]},
+{id:"c3f6",name:"ملفات سرية",icon:"lock",locked:true,docs:[
+ {id:"c3d12",title:"ملف التزوير الكامل",date:"16/01/2025",time:"18:00",pages:4,body:"عُثر في بريد سارة الخاص على ملف جمعته سراً: صور مقارنة، رأي خبير مبدئي، وكشف بمبيعات زياد الخارجية.\nكانت تنوي مواجهته ليلة الافتتاح ومنحه فرصة الاعتراف — وهو ما سمعه النادل جزئياً."},
+ {id:"c3d13",title:"مذكرة مداهمة المستودع",date:"16/01/2025",time:"21:30",pages:2,body:"مداهمة مستودع «استوديو ز.» بالمنطقة الصناعية:\nالعثور على سارة مخدرة وبحالة مستقرة، ومعها لوحة «الوريث» الأصلية وصندوق الشحن الخشبي.\nضُبط زياد الحلبي في الموقع."}
+]}
+],
+reports:[
+{id:"c3r1",title:"التقرير الأولي",author:"المحقق المكلف — الرائد س. العمري",date:"15/01/2025",body:"فرضية السرقة وحدها لا تفسر المهدئ في كأس المالكة، وفرضية الهروب الطوعي تسقط أمام أثر السحب.\nالخط الأرجح: خطف منظم أعده شخص من الداخل يعرف الأبواب والنقاط العمياء ومواعيد النظام."},
+{id:"c3r2",title:"تقرير كاميرات البوابات",author:"فريق المراقبة",date:"15/01/2025",body:"مغادرة المنصور 20:30 مؤكدة.\nسيارة الشحن 21:44 بتصريح مسبق — التصريح صدر قبل الحادثة بيوم، وهو مفتاح القضية الزمني."},
+{id:"c3r3",title:"تقرير الوحدة المالية",author:"وحدة التحقيقات المالية",date:"16/01/2025",body:"ديون زياد الحلبي تقارب 900 ألف، مع إيداعات نقدية غير مبررة خلال العام الماضي تطابق تواريخ بيع الأصول المزوّرة نسخها."}
+],
+notes:[
+{id:"c3n1",text:"لا دماء = تخدير ونقل هادئ… من يعرف النقاط العمياء؟",color:"sy"},
+{id:"c3n2",text:"تصريح الشحن صدر قبل الاختفاء بيوم — خطف مخطط",color:"so"},
+{id:"c3n3",text:"اسأل شركة التأمين عن لوحة «الوريث»",color:"sr"}
+],
+map:{nodes:[
+{id:"c3m1",label:"سارة الأنصاري — المفقودة",img:"",x:50,y:14},
+{id:"c3m2",label:"زياد — الشريك الفنان",img:IMGS.c3s1,x:16,y:38},
+{id:"c3m3",label:"لمى — المساعدة",img:IMGS.c3s2,x:84,y:38},
+{id:"c3m4",label:"المنصور — الدائن",img:IMGS.c3s3,x:16,y:78},
+{id:"c3m5",label:"الكأس المخدّر",img:IMGS.c3glass,x:40,y:57},
+{id:"c3m6",label:"فاتورة الشحن",img:"",x:64,y:57},
+{id:"c3m7",label:"الدعوة والبطاقة",img:IMGS.c3card,x:84,y:78}
+],links:[
+{a:"c3m1",b:"c3m2",label:"مواجهة 21:05 خلف الستارة"},
+{a:"c3m1",b:"c3m3",label:"سحب 60 ألفاً بتفويض"},
+{a:"c3m1",b:"c3m4",label:"موعد لم يتم"},
+{a:"c3m5",b:"c3m2",label:"طلب الكأسين"},
+{a:"c3m6",b:"c3m2",label:"حجز باسم استوديوه"},
+{a:"c3m7",b:"c3m2",label:"بطاقته فتحت المخزن"}
+]},
+custom:[]
+},
+/* ============ القضية 4 ============ */
+{
+id:"c4",num:"04",code:"CT-25-0207",title:"بثٌ أخير على الهواء",
+cover:IMGS.c4scene,badge:"",difficulty:4,duration:"45 - 60 دقيقة",
+culprit:"c4s3",
+hint:"أنصت لخلفية شريط الكاسيت: أين يوجد هذا الطنين تحديداً؟ ومن الوحيد الذي تحرك أثناء الفاصل؟",
+solvedText:"القاتل: ناصر الزهراني — مهندس الصوت.\n\nقبل ثلاث سنوات سرق أحمد فكرة «بودكاست الليل» من ناصر وحوّلها إلى «خط الليل» الذي صنع مجده، وظل ناصر خلف زجاج غرفة التحكم يضبط صوت الرجل الذي سرق حياته. سجّل شريط التهديد في غرفة التحكم نفسها (فضحه طنين المكيف المميز)، وعطّل كاميرا الممر، وسرق الديجوكسين من حقيبة الضيفة ليلفق التهمة لها، ثم دسّ الجرعة في الفنجان وهو يحمل الصينية كعادته كل ليلة.\n\nأدانه: القفاز المقلوب في سلة غرفة التحكم، مطابقة ضجيج الكاسيت بنسبة 96٪، سجل حركته أثناء الفاصل، ورسائله المحذوفة: «سيدفع ثمن ما سرق».",
+hiddenSections:[],
+summary:{
+ text:"في الدقيقة الثالثة والخمسين من بث برنامجه الليلي «خط الليل»، تجرّع المذيع أحمد فارس قهوته المعتادة وانهار على الهواء أمام آلاف المستمعين. المبنى مغلق ليلاً ولم يدخل الاستوديو بعد التاسعة سوى أربعة: المنتج، الضيفة، مهندس الصوت، وعاملة التموين. السم في الفنجان وحده… والقاتل بين جدران عازلة للصوت.",
+ photo:IMGS.c4scene,photoCap:"استوديو 2 — لحظة توقف البث",
+ victim:{name:"أحمد إبراهيم فارس",age:"41 سنة",job:"مذيع برنامج «خط الليل»",marital:"متزوج",photo:"",note:""},
+ timeline:[
+  {t:"22:00",l:"بداية البث المباشر"},
+  {t:"22:39",l:"الفاصل — تحرك الوحيد خارج الغرف"},
+  {t:"22:47",l:"أحمد يشرب القهوة"},
+  {t:"22:53",l:"الانهيار على الهواء واستدعاء الإسعاف"}
+ ]
+},
+scene:{
+ address:"استوديوهات إذاعة المدى FM — استوديو 2 وغرفة التحكم",
+ intro:"الاستوديو معزول صوتياً بزجاج مزدوج بين المذيع وغرفة التحكم. القهوة تُعد في المطبخ وتوضع على طاولة التمرير قرب باب التحكم، ثم تدخل مع أوراق الفاصل. كاميرا الممر — الشاهد الوحيد على الطاولة — معطلة بشريط لاصق منذ 21:50.",
+ photos:[
+  {src:IMGS.c4scene,cap:"طاولة البث — العلامة 1 قرب الفنجان المقلوب"},
+  {src:IMGS.c4cup,cap:"الفنجان والسكربتات بعد الانهيار"}
+ ],
+ notes:["الديجوكسين في الفنجان فقط — إبريق التحضير سليم","قفاز لاتكس مقلوب في سلة غرفة التحكم","قارورة ديجوكسين اختفت من حقيبة الضيفة الطبية","سجل الأبواب: خروج واحد فقط أثناء الفاصل 22:39 – 22:44"]
+},
+evidence:[
+{id:"c4e1",num:"01",title:"فنجان القهوة",img:IMGS.c4cup,main:true,found:"طاولة البث",desc:"ديجوكسين بجرعة قاتلة في الفنجان تحديداً؛ الإبريق سليم. التسميم حدث بين طاولة التمرير ودخول الفنجان إلى المذيع."},
+{id:"c4e2",num:"02",title:"شريط الكاسيت",img:IMGS.c4tape,main:true,found:"درج مكتب الضحية",desc:"وصل بالبريد قبل أسبوع: صوت مشوه إلكترونياً يقول «البث الأخير قريب». في خلفية التسجيل طنين مكيف مميز النغمة."},
+{id:"c4e3",num:"03",title:"سجل دخول الاستوديو",img:"",main:true,found:"النظام الأمني",desc:"أربعة فقط بعد التاسعة. الوحيد الذي تحرك أثناء الفاصل: مهندس الصوت — خروج 22:39 وعودة 22:44."},
+{id:"c4e4",num:"04",title:"قفاز اللاتكس",img:"",main:true,found:"سلة غرفة التحكم",desc:"مقلوب على عجل وبداخله بقايا المادة نفسها. مقاس M — يستبعد يدين أكبر."},
+{id:"c4e5",num:"05",title:"قارورة الديجوكسين المفقودة",img:"",main:false,found:"حقيبة الضيفة (مفقودة منها)",desc:"اختفت من حقيبة د. أريج الطبية بعد وصولها بساعة — علماً أن الحقيبة بقيت في غرفة الضيوف قرب غرفة التحكم. هي من أبلغت عن الفقدان طوعاً."},
+{id:"c4e6",num:"06",title:"الشريط اللاصق على الكاميرا",img:"",main:false,found:"كاميرا الممر",desc:"قصاصة سوداء عطلت العدسة منذ 21:50 — قبل وصول الضيفة أصلاً. لا بصمات عليها."},
+{id:"c4e7",num:"07",title:"مخطوطة «بودكاست الليل»",img:"",main:false,found:"أرشيف القناة",desc:"مقترح برنامج بتوقيع ناصر الزهراني قبل ثلاث سنوات — بنيته وفقراته مطابقة لهيكل «خط الليل» الحالي."}
+],
+suspects:[
+{id:"c4s1",name:"وائل السالم",photo:IMGS.c4s1,age:"42",job:"منتج البرنامج",relation:"خلاف عقود مع الضحية",status:"قيد الاشتباه",
+alibi:"«كنت في المرقاب خلف المخرج طوال الحلقة ولم أقترب من طاولة التمرير.»",
+statement:"أحمد نجم القناة وصداعها في آن. كان يفاوض قناة منافسة وأنا أحاول تثبيته بعقد أفضل — خسارته وهو حي أهون عليّ من كل خلافاتنا. القهوة مرت أمام عيني كما كل ليلة: سعاد تضعها على طاولة التمرير، وناصر يدخلها مع أوراق الفاصل. تلك الليلة، الوحيد الذي أمسك الصينية هو ناصر.",items:[]},
+{id:"c4s2",name:"د. أريج الشهري",photo:IMGS.c4s2,age:"35",job:"طبيبة قلب — ضيفة الحلقة",relation:"الحلقة كانت عن قضية تشهير تخصها",status:"قيد الاشتباه",
+alibi:"«كنت على الهواء بجوار الضحية طوال الوقت وأمام أعين الجميع.»",
+statement:"جئت لأرد على حملة ظالمة قادها برنامج أحمد ضد عيادتي، وقبلت الدعوة لأن الحقيقة في صفي. الديجوكسين دواء أحمله لمرضاي دائماً، واكتشفت اختفاء القارورة فأبلغت بنفسي فوراً — لو كنت القاتلة لصمتّ. من فتش حقيبتي فعلها بينما هي في غرفة الضيوف… الغرفة الملاصقة لغرفة التحكم.",items:[]},
+{id:"c4s3",name:"ناصر الزهراني",photo:IMGS.c4s3,age:"28",job:"مهندس الصوت",relation:"صاحب فكرة البرنامج الأصلية",status:"قيد الاشتباه",
+alibi:"«أثناء الفاصل خرجت لدورة المياه خمس دقائق ثم عدت للكونسول.»",
+statement:"قبل ثلاث سنوات قدمت لأحمد مقترح «بودكاست الليل» فرفضه… ثم أطلقه باسمه بعد شهرين وأخذ المجد كله. بقيت أنا خلف الزجاج أضبط صوته وهو يقرأ فقراتي القديمة كل ليلة. نعم أكرهه، ونعم خرجت في الفاصل، لكن الكره لا يقتل — وأنا آخر من يلمس الصينية لأن هذا عملي منذ خمس سنوات.",items:[]}
+],
+witnesses:[
+{id:"c4w1",name:"فيصل",role:"مخرج البث",statement:"من المرقاب رأيت الصينية تنتقل كالمعتاد تماماً: سعاد ← طاولة التمرير ← ناصر ← طاولة أحمد مع أوراق الفاصل. لا أحد آخر اقترب منها. أحمد شرب أول رشفة بعد عودتنا للهواء بدقائق ثم بدأ صوته يتغير.",items:[]},
+{id:"c4w2",name:"سعاد",role:"عاملة التموين",statement:"أعددت القهوة 22:30 كعادتي كل ليلة: إبريق وفنجانان. تذوقت من الإبريق نفسه كي أضبط السكر — ولم يصبني أي شيء. وضعت الصينية على طاولة التمرير وانصرفت للمطبخ مباشرة.",items:[]},
+{id:"c4w3",name:"مستمع متصل",role:"شاهد سمعي",statement:"قبل بداية البث بدقائق فُتح خط الاتصال بالخطأ لثوانٍ، وسمعت مشادة مكتومة خلف الميكروفون: صوت شاب يقول بغضب «انتهى وقتك… على حسابي أنا». ثم أُغلق الخط.",
+items:[{type:"text",label:"إفادة مسجلة عبر الهاتف",text:"المستمع تعرف على توقيت المشادة: 21:57 — أي قبل تعطيل كاميرا الممر بسبع دقائق فقط."}]},
+{id:"c4w4",name:"حارس الاستوديو",role:"أمن المبنى",statement:"لم يدخل أي غريب بعد التاسعة. الضيفة سلمتني حقيبتها الطبية عند الاستقبال ثم طلبت وضعها في غرفة الضيوف. لاحظت ناصر يخرج مرة واحدة أثناء الفاصل ويعود بسرعة غير معتادة.",items:[]}
+],
+folders:[
+{id:"c4f1",name:"البلاغات",icon:"phone",locked:false,docs:[
+ {id:"c4d1",title:"بلاغ الإسعاف أثناء البث",date:"07/02/2025",time:"22:54",pages:2,body:"اتصال المخرج فيصل بالإسعاف لحظة الانهيار.\nالمذيع نُقل خلال 11 دقيقة وفارق الحياة قبل الوصول للمستشفى."}
+]},
+{id:"c4f2",name:"الطب الشرعي",icon:"medic",locked:false,docs:[
+ {id:"c4d2",title:"تقرير السموم",date:"08/02/2025",time:"10:00",pages:4,body:"ديجوكسين بجرعة قاتلة تُمتص خلال دقائق، مذاب في القهوة المحلاة التي تخفي مرارته.\nالتركيز في الفنجان يعادل محتوى قارورة كاملة تقريباً."},
+ {id:"c4d3",title:"تقرير الوفاة",date:"08/02/2025",time:"12:30",pages:3,body:"توقف قلبي حاد متسق مع تسمم الديجوكسين.\nلا آثار عنف أو مقاومة؛ الوفاة 23:20."}
+]},
+{id:"c4f3",name:"الأدلة الجنائية",icon:"finger",locked:false,docs:[
+ {id:"c4d4",title:"فحص الفنجان",date:"08/02/2025",time:"14:00",pages:3,body:"بصمات الضحية وأثر ضغط قفاز على المقبض.\nلا بصمات ثالثة — من دس المادة كان مقفزاً."},
+ {id:"c4d5",title:"تحليل القفاز",date:"08/02/2025",time:"16:00",pages:2,body:"بقايا ديجوكسين داخل أصابع القفاز المقلوب.\nمقاس M، ونمط الطي يدل على نزع سريع متوتر."},
+ {id:"c4d6",title:"فحص شريط الكاسيت",date:"09/02/2025",time:"09:30",pages:4,body:"الصوت مشوه ببرنامج تعديل شائع.\nفي الخلفية طنين مكيف بتردد ثابت مميز — أُحيل لمطابقة أماكن المبنى."}
+]},
+{id:"c4f4",name:"السجلات",icon:"records",locked:false,docs:[
+ {id:"c4d7",title:"سجل دخول الاستوديو",date:"08/02/2025",time:"08:30",pages:2,body:"بعد التاسعة: المنتج، الضيفة، مهندس الصوت، عاملة التموين فقط.\nحركة الفاصل الوحيدة: ناصر 22:39 – 22:44."},
+ {id:"c4d8",title:"تقرير كاميرا الممر",date:"08/02/2025",time:"11:00",pages:2,body:"العدسة عُطلت بقصاصة لاصقة سوداء عند 21:50.\nآخر لقطة سليمة تُظهر الممر فارغاً — التعطيل تم من زاوية ميتة."},
+ {id:"c4d9",title:"أرشيف نزاع «بودكاست الليل»",date:"09/02/2025",time:"13:00",pages:3,body:"شكوى إدارية قديمة من ناصر الزهراني ضد أحمد فارس بسرقة مقترح برنامج — حُفظت «لعدم الاختصاص» قبل ثلاث سنوات.\nبعدها بشهرين انطلق «خط الليل»."}
+]},
+{id:"c4f5",name:"استجوابات",icon:"mic",locked:false,docs:[
+ {id:"c4d10",title:"استجواب وائل السالم",date:"08/02/2025",time:"10:30",pages:3,body:"مؤكد وجوده في المرقاب طوال الحلقة بشهادة المخرج.\nكشف تفاصيل تفاوض الضحية مع قناة منافسة."},
+ {id:"c4d11",title:"استجواب د. أريج الشهري",date:"08/02/2025",time:"13:00",pages:4,body:"أبلغت طوعاً عن فقدان القارورة قبل أن يُكتشف نوع السم.\nلم تغادر مقعد البث إطلاقاً بين 22:00 والانهيار — تؤكده الكاميرات الداخلية."},
+ {id:"c4d12",title:"استجواب ناصر الزهراني",date:"08/02/2025",time:"15:30",pages:5,body:"أنكر لمس الحقيبة الطبية ثم عجز عن تفسير مرور «دورة المياه» من أمام غرفة الضيوف.\nأنكر المشادة قبل البث؛ إفادة المستمع تكذبه."},
+ {id:"c4d13",title:"استجواب سعاد",date:"08/02/2025",time:"09:30",pages:2,body:"أكدت إعداد القهوة وتذوق الإبريق دون أعراض.\nحركتها بعد وضع الصينية موثقة بكاميرا المطبخ."}
+]},
+{id:"c4f6",name:"الأوامر القضائية",icon:"gavel",locked:false,docs:[
+ {id:"c4d14",title:"إذن تفتيش غرفة التحكم",date:"08/02/2025",time:"12:00",pages:2,body:"إذن بتفتيش غرفة التحكم وخزائن الطاقم — أسفر عن ضبط القفاز في السلة."},
+ {id:"c4d15",title:"إذن استخراج هواتف الطاقم",date:"09/02/2025",time:"10:00",pages:2,body:"إذن باستخراج بيانات هواتف الأربعة واستعادة المحذوف."}
+]},
+{id:"c4f7",name:"ملفات سرية",icon:"lock",locked:true,docs:[
+ {id:"c4d16",title:"تقرير مطابقة الضجيج الصوتي",date:"09/02/2025",time:"16:00",pages:3,body:"طنين خلفية الكاسيت يطابق مكيف غرفة التحكم بنسبة ثقة 96٪.\nشريط التهديد سُجل في غرفة التحكم نفسها — من شخص يملك مفاتيحها ليلاً."},
+ {id:"c4d17",title:"الرسائل المحذوفة",date:"09/02/2025",time:"19:00",pages:2,body:"استُعيدت من هاتف ناصر رسائل لمجهول قبل أسبوعين:\n«سيدفع ثمن ما سرق. البث الأخير قريب — وسيسمعه الجميع هذه المرة».\nنفس عبارة الكاسيت حرفياً."}
+]}
+],
+reports:[
+{id:"c4r1",title:"التقرير الأولي",author:"المحقق المكلف — المقدم هـ. القحطاني",date:"08/02/2025",body:"دائرة مغلقة من أربعة أشخاص، والسم في الفنجان لا الإبريق.\nمسار الفنجان: سعاد ← طاولة التمرير ← ناصر ← المذيع. كل حلقة في المسار موثقة إلا خمس دقائق الفاصل."},
+{id:"c4r2",title:"تقرير المختبر السمي",author:"المختبر الجنائي المركزي",date:"08/02/2025",body:"الجرعة تعادل قارورة كاملة — مصدرها الأرجح قارورة الضيفة المفقودة.\nمن أخذها احتاج دقيقتين وحيداً مع الحقيبة في غرفة الضيوف."},
+{id:"c4r3",title:"تقرير المسار الحركي",author:"فريق إعادة التمثيل",date:"09/02/2025",body:"إعادة تمثيل الفاصل: الطريق من غرفة التحكم لدورة المياه يمر بغرفة الضيوف وطاولة التمرير معاً.\nخمس دقائق تكفي بالضبط: سرقة القارورة، تجهيز الفنجان، والعودة."}
+],
+notes:[
+{id:"c4n1",text:"السم في الفنجان لا الإبريق — ضيّق الدائرة",color:"sy"},
+{id:"c4n2",text:"من يعرف عادة أحمد: أول رشفة بعد الفاصل مباشرة؟",color:"so"},
+{id:"c4n3",text:"الكاسيت رسالة من داخل البيت لا من خارجه",color:"sr"}
+],
+map:{nodes:[
+{id:"c4m1",label:"أحمد فارس — الضحية",img:"",x:50,y:14},
+{id:"c4m2",label:"ناصر — مهندس الصوت",img:IMGS.c4s3,x:16,y:38},
+{id:"c4m3",label:"وائل — المنتج",img:IMGS.c4s1,x:84,y:38},
+{id:"c4m4",label:"د. أريج — الضيفة",img:IMGS.c4s2,x:16,y:78},
+{id:"c4m5",label:"فنجان القهوة",img:IMGS.c4cup,x:40,y:57},
+{id:"c4m6",label:"شريط الكاسيت",img:IMGS.c4tape,x:64,y:57},
+{id:"c4m7",label:"سجل الدخول",img:"",x:84,y:78}
+],links:[
+{a:"c4m1",b:"c4m2",label:"فكرة مسروقة"},
+{a:"c4m1",b:"c4m3",label:"نزاع عقود"},
+{a:"c4m1",b:"c4m4",label:"قضية تشهير"},
+{a:"c4m5",b:"c4m2",label:"آخر من حمل الصينية"},
+{a:"c4m6",b:"c4m2",label:"طنين غرفة التحكم"},
+{a:"c4m7",b:"c4m2",label:"تحرك أثناء الفاصل"}
+]},
+custom:[]
+}
+]};
+/* ================= CORE ================= */
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]})}
+function uid(p){return (p||"x")+Math.random().toString(36).slice(2,9)}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+var ICO={
+file:'<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><path d="M9 12h7M9 16h7"/>',
+pin:'<path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+finger:'<path d="M12 11a3 3 0 0 0-3 3c0 2.2.6 4.4 1.6 6.3"/><path d="M12 7.5A6.5 6.5 0 0 0 5.5 14c0 2 .4 3.9 1.2 5.7"/><path d="M12 4a10 10 0 0 0-9.4 6.6"/><path d="M15 14c0 2.6-.5 5.1-1.5 7.4"/><path d="M18.4 17.5c.4-1.6.6-3.3.6-5A7 7 0 0 0 12 7.5"/><path d="M20.9 9.5A10 10 0 0 0 12 4"/>',
+users:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.4 2.9-5.2 5.5-5.2s4.9 1.8 5.5 5.2"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.6c2.4.2 4.4 1.9 5 5.4"/>',
+eye:'<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+folder:'<path d="M3 6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+clipboard:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="M9 11h6M9 15h6M9 18h4"/>',
+pencil:'<path d="M14.5 4.5l5 5L8 21H3v-5z"/><path d="M12.5 6.5l5 5"/>',
+network:'<circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M6.8 7.4 10.6 16M17.2 7.4 13.4 16M7.2 6h9.6"/>',
+gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.3 6.9l2.1 2.1M17.6 15l2.1 2.1M2.5 12h3M18.5 12h3M4.3 17.1l2.1-2.1M17.6 9l2.1-2.1"/>',
+search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
+lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+phone:'<path d="M5 4h4l1.5 4.5L8 10.5a12 12 0 0 0 5.5 5.5l2-2.5L20 15v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+medic:'<circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/>',
+dna:'<path d="M7 3c0 5 10 5 10 9s-10 4-10 9"/><path d="M17 3c0 5-10 5-10 9s10 4 10 9"/><path d="M8 6.5h8M8 17.5h8M9.5 12h5"/>',
+mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21M9 21h6"/>',
+records:'<path d="M7 3h10a2 2 0 0 1 2 2v14"/><rect x="4" y="6" width="13" height="15" rx="2"/><path d="M7.5 10.5h6M7.5 14h6M7.5 17.5h4"/>',
+gavel:'<path d="m12.5 8.5-8 8a1.8 1.8 0 0 0 2.5 2.5l8-8"/><path d="m11 6 6.5 6.5M13.5 3.5 20 10M12 5l6.5 6.5"/><path d="M13.5 21H21"/>',
+cuffs:'<circle cx="7" cy="16" r="3.8"/><circle cx="17" cy="16" r="3.8"/><path d="M7 12.2V8.5A2.5 2.5 0 0 1 9.5 6h5A2.5 2.5 0 0 1 17 8.5v3.7"/>',
+clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+trash:'<path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/><path d="M10 11v6M14 11v6"/>',
+x:'<path d="m6 6 12 12M18 6 6 18"/>',
+check:'<path d="m5 13 4.5 4.5L19 8"/>',
+key:'<circle cx="7.5" cy="15.5" r="4"/><path d="M10.5 12.5 20 3M16 7l3 3M13 10l2.5 2.5"/>',
+download:'<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/>',
+upload:'<path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 19h16"/>',
+home:'<path d="m3 11 9-8 9 8"/><path d="M5.5 9.5V21h13V9.5"/>',
+arrowL:'<path d="M15 5l-7 7 7 7"/>',
+link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 1 0-6-6l-1.5 1.5"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 1 0 6 6l1.5-1.5"/>',
+play:'<path d="M8 5v14l11-7z" fill="currentColor" stroke="none"/>',
+camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7 10 4h4l1.5 3"/><circle cx="12" cy="13" r="3.6"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-4.2 3.9-6.3 7.5-6.3s6.7 2.1 7.5 6.3"/>',
+info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.8v.4"/>',
+note:'<path d="M5 4h14v12l-4 4H5z"/><path d="M15 20v-4h4"/><path d="M8.5 9h7M8.5 12.5h5"/>',
+audio:'<path d="M4 10v4h3l5 4V6l-5 4z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>',
+video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',
+unlock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.8-1.2"/>'
+};
+function ic(n,s){return '<svg class="ic" width="'+(s||19)+'" height="'+(s||19)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(ICO[n]||ICO.file)+'</svg>'}
+/* ---------- storage ---------- */
+var canStore=true;try{localStorage.setItem("__ct","1");localStorage.removeItem("__ct")}catch(e){canStore=false}
+var MEM={};
+function sget(k){if(canStore){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return MEM[k]||null}}return MEM[k]||null}
+function sset(k,v){MEM[k]=v;if(canStore){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}}
+function sdel(k){delete MEM[k];if(canStore){try{localStorage.removeItem(k)}catch(e){}}}
+var K={data:"ct_data_v1",prog:"ct_prog_v1",role:"ct_role_v1"};
+var DATA=sget(K.data);if(!DATA||!DATA.cases){DATA=clone(DEFAULT_DATA)}
+var PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};
+var ROLE=sget(K.role)||"user";
+var S={view:"home",caseId:null,sec:"summary",tab:"ev",folderId:null,edit:false,pick:null,connect:false,connectFrom:null,drawer:false};
+var CUR_FORM=null,ITEMS_CTX=null;
+var LAST_SEC="";function secAnim(){var cls=S.sec!==LAST_SEC?"sec-anim":"";LAST_SEC=S.sec;return cls}
+function saveData(re){DATA.version=DATA.version||1;sset(K.data,DATA);if(re!==false)render()}
+function saveProg(){sset(K.prog,PROG)}
+function isAdmin(){return ROLE==="admin"||ROLE==="super"}
+function canEdit(){return isAdmin()&&S.edit}
+function curCase(){for(var i=0;i<DATA.cases.length;i++)if(DATA.cases[i].id===S.caseId)return DATA.cases[i];return null}
+function roleName(){return ROLE==="super"?"سوبر أدمن":ROLE==="admin"?"أدمن":"مستخدم"}
+function caseUnlocked(i){if(i===0)return true;if(DATA.settings.unlockAll)return true;if(isAdmin())return true;var prev=DATA.cases[i-1];return !!PROG.solved[prev.id]}
+function visitedCount(cid){return (PROG.visited[cid]||[]).length}
+function secretOpen(c){return !!PROG.solved[c.id]||isAdmin()||DATA.settings.unlockAll||visitedCount(c.id)>=7}
+function docCount(c){var n=0;(c.folders||[]).forEach(function(f){n+=f.docs.length});return n}
+function imgTag(src,cls,alt){return '<img src="'+esc(src||SIL)+'" class="'+(cls||"")+'" alt="'+esc(alt||"")+'" loading="lazy" onerror="this.src=SIL">'}
+function stars(n,hard){var s="";for(var i=1;i<=5;i++)s+=(i<=n?"<b>★</b>":"☆");return '<span class="stars'+(hard?" hard":"")+'">'+s+"</span>"}
+function toast(m,err){var d=document.createElement("div");d.className="toast"+(err?" err":"");d.textContent=m;$("#toasts").appendChild(d);setTimeout(function(){d.style.opacity="0";d.style.transition="opacity .4s";setTimeout(function(){d.remove()},420)},2600)}
+/* ---------- modals ---------- */
+function openModal(html,cls){$("#modals").innerHTML='<div class="overlay" data-ovl="1"><div class="modal paper pstack '+(cls||"")+'"><button class="iconbtn m-x" data-act="close-modal" style="width:32px;height:32px">'+ic("x",15)+'</button>'+html+"</div></div>";var m=$("#modals .modal");if(m)m.scrollTop=0}
+function closeModal(){$("#modals").innerHTML="";CUR_FORM=null}
+function confirmM(msg,onYes){openModal('<div class="m-title">تأكيد</div><p style="text-align:center;font-size:17px;line-height:2">'+esc(msg)+'</p><div class="m-actions"><button class="btn" id="cf-yes">نعم، متأكد</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>',"narrow");$("#cf-yes").onclick=function(){closeModal();onYes()}}
+function row(lab,inner,help){return '<div class="form-row"><label>'+esc(lab)+"</label>"+inner+(help?'<div class="help">'+esc(help)+"</div>":"")+"</div>"}
+function formModal(title,fields,vals,onSave,opts){opts=opts||{};var h="";fields.forEach(function(f){var v=(vals&&vals[f.k]!==undefined&&vals[f.k]!==null)?vals[f.k]:(f.def!==undefined?f.def:"");
+if(f.type==="area"){h+=row(f.l,'<textarea id="F_'+f.k+'" '+(f.ph?'placeholder="'+esc(f.ph)+'"':"")+">"+esc(v)+"</textarea>",f.help)}
+else if(f.type==="select"){h+=row(f.l,'<select id="F_'+f.k+'">'+f.opts.map(function(o){return '<option value="'+esc(o.v)+'"'+(String(o.v)===String(v)?" selected":"")+">"+esc(o.l)+"</option>"}).join("")+"</select>",f.help)}
+else if(f.type==="check"){h+='<label class="chk"><input type="checkbox" id="F_'+f.k+'"'+(v?" checked":"")+"> "+esc(f.l)+"</label>"}
+else if(f.type==="stars"){h+=row(f.l,'<div class="stars-pick" id="F_'+f.k+'" data-val="'+(v||0)+'">'+[1,2,3,4,5].map(function(i){return '<span data-star="'+i+'" class="'+(i<=v?"on":"")+'">★</span>'}).join("")+"</div>")}
+else{h+=row(f.l,'<input id="F_'+f.k+'" type="text" value="'+esc(v)+'" '+(f.ph?'placeholder="'+esc(f.ph)+'"':"")+">",f.help)}});
+openModal('<div class="m-title">'+esc(title)+"</div>"+h+(opts.extra||"")+'<div class="m-actions"><button class="btn" data-act="form-save">'+ic("check",16)+' حفظ</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>',opts.cls||"");
+CUR_FORM={fields:fields,onSave:onSave};
+$$(".stars-pick span").forEach(function(sp){sp.onclick=function(){var w=sp.parentNode,val=+sp.dataset.star;w.dataset.val=val;$$("span",w).forEach(function(s2){s2.classList.toggle("on",+s2.dataset.star<=val)})}})}
+/* ---------- render root ---------- */
+function render(){var app=$("#app");document.body.classList.toggle("editing",canEdit());$("#bgimg").style.backgroundImage='url("'+(DATA.settings.bg||IMGS.bg)+'")';
+app.innerHTML=S.view==="home"?homeHTML():caseHTML();
+if(S.view==="case"&&S.sec==="map")setTimeout(initBoard,30)}
+/* ---------- HOME ---------- */
+function homeHTML(){var st=DATA.settings;
+var firstOpen=-1;DATA.cases.forEach(function(cc,ii){if(firstOpen<0&&caseUnlocked(ii)&&!PROG.solved[cc.id])firstOpen=ii});
+var cards=DATA.cases.map(function(c,i){var un=caseUnlocked(i),solved=!!PROG.solved[c.id];
+var meta='<div class="cc-meta"><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="cc-mcol"><span class="cc-mlab">الوقت المتوقع</span><span class="cc-time">'+ic("clock",15)+" "+esc(c.duration)+"</span></div></div>";
+var adminBtns=canEdit()?'<div class="editbar"><button class="mini" data-act="edit-case-h" data-id="'+c.id+'" title="تعديل">'+ic("pencil",13)+'</button><button class="mini danger" data-act="del-case" data-id="'+c.id+'" title="حذف">'+ic("trash",13)+"</button></div>":"";
+var body;
+if(un){body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+"</h3>"+meta+
+ (solved?'<div class="stamp">تم حل القضية</div>':(visitedCount(c.id)>0?'<span class="cc-prog">تقدم التحقيق: '+Math.min(100,Math.round(visitedCount(c.id)/9*100))+"٪</span>":""))+
+ '<button class="btn cc-open" data-act="open-case" data-id="'+c.id+'">'+ic("folder",17)+" فتح ملف القضية</button>"+adminBtns+"</div>"}
+else{body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+'</h3><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="lockbox">'+ic("lock",42)+'<span class="locktxt">مقفلة</span><span class="locksub">أكمل القضية السابقة لفتحها</span></div>'+adminBtns+"</div>"}
+return '<div class="case-card paper pstack'+(un?"":" locked")+(i===firstOpen?" featured":"")+'" style="animation-delay:'+(i*0.14)+'s"><span class="cc-tab"></span><span class="cc-tab t2"></span>'+(solved?'<span class="solved-stamp stamp sm">أُغلقت</span>':"")+body+'<div class="cc-photo">'+clipMini()+(c.badge&&un&&!solved?'<span class="ribbon">'+esc(c.badge)+"</span>":"")+imgTag(c.cover,"","غلاف القضية")+"</div></div>"}).join("");
+var addC=canEdit()?'<button class="add-dashed addcase" data-act="add-case">'+ic("plus",17)+" إضافة قضية جديدة</button>":"";
+return '<div class="rolebar">'+(ROLE==="user"?'<button class="rolechip" data-act="login-open">'+ic("key",14)+" دخول المشرفين</button>":'<span class="rolechip"><span class="rdot"></span>'+roleName()+'</span><button class="rolechip" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",13)+" "+(S.edit?"التحرير: مفعّل":"التحرير: متوقف")+'</button><button class="rolechip" data-act="logout">'+ic("x",12)+" خروج</button>")+"</div>"+
+'<div class="cornergear"><button class="iconbtn" data-act="settings-open" title="الإعدادات">'+ic("gear",19)+"</button></div>"+
+'<div class="deco" aria-hidden="true"><div class="dp d1">'+imgTag(IMGS.c1cctv,"","")+'</div><div class="dp d2">'+imgTag(IMGS.c2cover,"","")+'</div><div class="dp d3">'+imgTag(IMGS.c3scene,"","")+'</div><div class="conf"><div class="cstamp">سري للغاية</div><div class="cen">CONFIDENTIAL</div></div></div>'+
+'<div class="home-wrap">'+
+(st.logo!==""?'<img class="logo-img" src="'+esc(st.logo||IMGS.logo)+'" alt="'+esc(st.gameTitle)+'">':'<img class="logo-img" src="'+esc(IMGS.logo)+'" alt="logo">')+
+'<div class="tagline">'+esc(st.tagline)+"</div>"+
+'<div class="home-folder">'+ic("folder",24)+"</div>"+
+'<div class="choose"><span class="dm">◆</span> اختر القضية <span class="dm">◆</span></div>'+cards+addC+"</div>"+
+'<nav class="bottom-nav"><span class="bn-item active">'+ic("home",18)+' الرئيسية</span><span class="bn-item" data-act="settings-open">'+ic("gear",18)+' الإعدادات</span><span class="bn-item" data-act="about-open">'+ic("info",18)+' حول اللعبة</span></nav>'+
+(canStore?"":'<div class="storage-warn">⚠ التخزين المحلي غير متاح في هذا العرض — التعديلات مؤقتة، استخدم التصدير من الإعدادات</div>')}
+/* ---------- CASE ---------- */
+var SECS=[{id:"summary",n:"ملخص القضية",i:"file"},{id:"scene",n:"مسرح الجريمة",i:"pin"},{id:"evidence",n:"الأدلة",i:"finger"},{id:"suspects",n:"المشتبه بهم",i:"users"},{id:"witnesses",n:"الشهود",i:"eye"},{id:"docs",n:"المستندات",i:"folder"},{id:"reports",n:"التقارير",i:"clipboard"},{id:"notes",n:"الملاحظات",i:"note"},{id:"map",n:"خريطة الربط",i:"network"}];
+function visibleSecs(c){var hid=c.hiddenSections||[];return SECS.filter(function(s){return hid.indexOf(s.id)<0})}
+function caseHTML(){var c=curCase();if(!c){S.view="home";return homeHTML()}
+return '<div class="case-wrap">'+topbarHTML(c)+'<div class="case-grid"><div>'+sidebarHTML(c)+"</div><div class=\"paper pstack main-sheet\">"+clipsHTML()+'<div class="'+secAnim()+'">'+mainHTML(c)+"</div></div><div class=\"rpanel\">"+rpanelHTML(c)+"</div></div></div>"+
+'<button class="fab-r" data-act="toggle-drawer" title="اللوحة الجانبية">'+ic("finger",22)+"</button>"+
+(S.drawer?'<div class="rdrawer"><button class="iconbtn" data-act="toggle-drawer" style="margin-bottom:10px">'+ic("x",16)+"</button>"+rpanelHTML(c)+"</div>":"")+
+(canStore?"":'<div class="storage-warn">⚠ التخزين المحلي غير متاح — التعديلات مؤقتة</div>')}
+function clipSVG(){return '<path d="M9 7v27a5 5 0 0 0 10 0V11a7.5 7.5 0 0 0-15 0v25a9.5 9.5 0 0 0 19 0V13" fill="none" stroke="#a8placeholder" stroke-width="2.3" stroke-linecap="round"/>'.replace("#a8placeholder","#a89a72")}
+function clipsHTML(){return '<svg class="clip c-l" viewBox="0 0 28 52">'+clipSVG()+'</svg><svg class="clip c-r" viewBox="0 0 28 52">'+clipSVG()+"</svg>"}
+function clipMini(){return '<svg class="cc-clip" width="20" height="38" viewBox="0 0 28 52">'+clipSVG()+"</svg>"}
+function topbarHTML(c){return '<div class="topbar-row"><div class="topbar"><span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span><button class="iconbtn" data-act="go-home" title="الرئيسية">'+ic("home",17)+'</button>'+
+(isAdmin()?'<button class="iconbtn'+(S.edit?" on":"")+'" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",16)+'</button>':"")+
+(canEdit()?'<button class="iconbtn" data-act="edit-case" title="تعديل بيانات القضية">'+ic("gear",16)+'</button>':"")+
+'<div class="tb-title"><span class="sm">القضية الحالية</span><h1>'+esc(c.title)+'</h1></div><div class="tb-num">'+esc(c.num)+" "+ic("folder",26)+'</div></div><button class="iconbtn gear-corner" data-act="settings-open" title="الإعدادات">'+ic("gear",20)+"</button></div>"}
+function sidebarHTML(c){var menu=visibleSecs(c).map(function(s){var badge="";if(s.id==="map"&&c.map.links.length)badge='<span class="badge-red">'+c.map.links.length+"</span>";
+return '<button class="side-btn'+(S.sec===s.id?" active":"")+'" data-act="go-sec" data-sec="'+s.id+'">'+ic(s.i,18)+'<span class="lbl">'+esc(s.n)+"</span>"+badge+(S.sec===s.id?'<span class="dot"></span>':"")+"</button>"}).join("");
+menu+=(c.custom||[]).map(function(cs){return '<button class="side-btn'+(S.sec==="cs_"+cs.id?" active":"")+'" data-act="go-sec" data-sec="cs_'+cs.id+'">'+ic("folder",18)+'<span class="lbl">'+esc(cs.name)+"</span>"+(S.sec==="cs_"+cs.id?'<span class="dot"></span>':"")+"</button>"}).join("");
+var editSec=canEdit()?'<div class="editbar"><button class="mini" data-act="manage-secs" title="إظهار/إخفاء الأقسام">'+ic("eye",13)+'</button><button class="mini" data-act="add-custom" title="إضافة قسم مخصص">'+ic("plus",13)+"</button></div>":"";
+var accuse=PROG.solved[c.id]?'<button class="btn block" data-act="show-solution">'+ic("check",16)+" عرض الحل الكامل</button>":'<button class="btn block" data-act="accuse-open">'+ic("cuffs",17)+" توجيه الاتهام</button>";
+var note=(c.notes&&c.notes[0])?'<div class="side-note">'+esc(c.notes[0].text)+"</div>":"";
+return '<div class="sidebar"><div class="side-head"><div class="en">'+esc(DATA.settings.gameTitle)+'</div><div class="ar">'+esc(DATA.settings.gameSub)+'</div></div><div class="case-tag"><div class="lb">رقم القضية</div><div class="num">'+esc(c.code)+'</div><div class="stamp sm">سري للغاية</div></div><div class="side-menu">'+menu+"</div>"+editSec+note+'<div class="side-actions">'+accuse+'<button class="btn dark block" data-act="go-home">'+ic("arrowL",15)+" كل القضايا</button></div></div>"}
+function mainHTML(c){var s=S.sec;
+if(s==="summary")return sumHTML(c);if(s==="scene")return sceneHTML(c);if(s==="evidence")return evHTML(c);if(s==="suspects")return susHTML(c);if(s==="witnesses")return witHTML(c);if(s==="docs")return docsHTML(c);if(s==="reports")return repHTML(c);if(s==="notes")return notesHTML(c);if(s==="map")return mapHTML(c);
+if(s.indexOf("cs_")===0){var cs=(c.custom||[]).filter(function(x){return "cs_"+x.id===s})[0];if(cs)return csHTML(c,cs)}
+S.sec="summary";return sumHTML(c)}
+/* ---------- sections ---------- */
+function ebar(btns){return canEdit()?'<div class="editbar">'+btns+"</div>":""}
+function sumHTML(c){var sm=c.summary,v=sm.victim;
+var tl=sm.timeline.map(function(t,i){return '<div class="tl" style="animation-delay:'+(0.15+i*0.13)+'s"><i></i><div class="t">'+esc(t.t)+'</div><div class="l">'+esc(t.l)+(canEdit()?'<div style="margin-top:4px"><button class="mini" data-act="edit-tl" data-i="'+i+'">'+ic("pencil",11)+'</button> <button class="mini danger" data-act="del-tl" data-i="'+i+'">'+ic("trash",11)+"</button></div>":"")+"</div></div>"}).join("");
+return '<h2 class="sec-h">ملخص القضية</h2>'+ebar('<button class="btn gold sm" data-act="edit-summary">'+ic("pencil",13)+' تعديل الملخص</button><button class="btn gold sm" data-act="edit-victim">'+ic("user",13)+" تعديل بيانات الضحية</button>")+
+'<div class="sum-top"><div class="sum-text">'+esc(sm.text)+'<div class="sum-stamp"><span class="stamp slam">سري للغاية</span></div></div>'+
+(sm.photo?'<div class="pol sum-photo" data-act="lb-img" data-src="'+esc(sm.photo)+'" data-cap="'+esc(sm.photoCap||"")+'"><span class="tape"></span>'+imgTag(sm.photo,"",sm.photoCap)+'<div class="pcap">'+esc(sm.photoCap||"")+"</div></div>":"")+"</div>"+
+'<h3 class="vic-h">معلومات الضحية</h3><div class="vic-box"><div class="vic-photo">'+imgTag(v.photo||SIL,"","الضحية")+'</div><div class="vic-table">'+
+'<div class="vic-row"><b>الاسم:</b><span>'+esc(v.name)+'</span></div><div class="vic-row"><b>العمر:</b><span>'+esc(v.age)+'</span></div><div class="vic-row"><b>الوظيفة:</b><span>'+esc(v.job)+'</span></div><div class="vic-row"><b>الحالة الاجتماعية:</b><span>'+esc(v.marital)+"</span></div></div></div>"+
+(v.note?'<div class="vic-note">'+esc(v.note)+"</div>":"")+
+'<h3 class="vic-h">الخط الزمني</h3><div class="timeline">'+tl+"</div>"+
+(canEdit()?'<div class="editbar" style="margin-top:14px"><button class="btn gold sm" data-act="add-tl">'+ic("plus",13)+" إضافة نقطة زمنية</button></div>":"")}
+function sceneHTML(c){var sc=c.scene;
+var ph=sc.photos.map(function(p,i){return '<div class="pol'+(i%2?" tilt-l":"")+'" data-act="lb-img" data-src="'+esc(p.src)+'" data-cap="'+esc(p.cap||"")+'"><span class="tape"></span>'+imgTag(p.src,"",p.cap)+'<div class="pcap">'+esc(p.cap||"")+(canEdit()?' <button class="mini" data-act="edit-scph" data-i="'+i+'">'+ic("pencil",11)+'</button> <button class="mini danger" data-act="del-scph" data-i="'+i+'">'+ic("trash",11)+"</button>":"")+"</div></div>"}).join("");
+return '<h2 class="sec-h">مسرح الجريمة</h2>'+ebar('<button class="btn gold sm" data-act="edit-scene">'+ic("pencil",13)+' تعديل المسرح</button><button class="btn gold sm" data-act="add-scph">'+ic("plus",13)+" إضافة صورة</button>")+
+'<div class="addr">'+ic("pin",17)+esc(sc.address)+'</div><p class="intro-p">'+esc(sc.intro)+'</p><div class="scene-grid">'+ph+'</div><div class="obs"><h4>ملاحظات المعاينة الميدانية</h4><ul>'+sc.notes.map(function(n){return "<li>"+esc(n)+"</li>"}).join("")+"</ul></div>"}
+function evHTML(c){var cards=c.evidence.map(function(e,i){
+var im=e.img?imgTag(e.img,"ev-img",e.title):'<div class="ev-noimg">'+ic("finger",34)+"</div>";
+return '<div class="ev-card" data-act="lb-ev" data-id="'+e.id+'" style="animation-delay:'+Math.min(i*0.07,0.55)+'s"><span class="ev-num">'+esc(e.num)+"</span>"+(e.main?'<span class="ev-main-tag">دليل رئيسي</span>':"")+im+'<div class="ev-t">'+esc(e.title)+'</div><div class="ev-f">'+esc(e.found||"")+"</div>"+
+(canEdit()?'<div class="editbar"><button class="mini" data-act="edit-ev" data-id="'+e.id+'">'+ic("pencil",12)+'</button><button class="mini danger" data-act="del-ev" data-id="'+e.id+'">'+ic("trash",12)+"</button></div>":"")+"</div>"}).join("");
+return '<h2 class="sec-h">الأدلة</h2><p class="sec-sub">إجمالي الأحراز المرفوعة: '+c.evidence.length+' — اضغط على أي دليل لفحصه بالتفصيل</p>'+ebar('<button class="btn gold sm" data-act="add-ev">'+ic("plus",13)+' إضافة دليل</button>')+'<div class="ev-grid">'+cards+"</div>"}
+function statusCls(st){return st==="مستبعد"?"gray":st==="مشتبه رئيسي"?"hard":""}
+function susHTML(c){var cards=c.suspects.map(function(s,i){
+return '<div class="sus-card" style="animation-delay:'+Math.min(i*0.1,0.5)+'s"><span class="sus-status '+statusCls(s.status)+'">'+esc(s.status)+"</span>"+imgTag(s.photo,"sus-photo",s.name).replace('class="sus-photo"','class="sus-photo" data-act="lb-img" data-src="'+esc(s.photo||SIL)+'" data-cap="'+esc(s.name)+'"')+
+'<div class="sus-name">'+esc(s.name)+'</div><div class="sus-chips"><span class="chip">'+esc(s.age)+' سنة</span><span class="chip">'+esc(s.job)+'</span><span class="chip">'+esc(s.relation)+'</span></div><div class="sus-alibi">'+esc(s.alibi)+'</div><div class="sus-btns"><button class="btn sm" data-act="open-sus" data-id="'+s.id+'">'+ic("mic",14)+" عرض الإفادة</button>"+
+(canEdit()?'<button class="mini" data-act="edit-sus" data-id="'+s.id+'">'+ic("pencil",12)+'</button><button class="mini" data-act="sus-items" data-id="'+s.id+'" title="عناصر وملفات">'+ic("link",12)+'</button><button class="mini danger" data-act="del-sus" data-id="'+s.id+'">'+ic("trash",12)+"</button>":"")+"</div></div>"}).join("");
+return '<h2 class="sec-h">المشتبه بهم</h2><p class="sec-sub">'+c.suspects.length+' مشتبه بهم في هذه القضية — لكل منهم إفادة كاملة</p>'+ebar('<button class="btn gold sm" data-act="add-sus">'+ic("plus",13)+' إضافة مشتبه به</button>')+'<div class="sus-grid">'+cards+"</div>"+
+(PROG.solved[c.id]?'<div style="text-align:center;margin-top:26px"><button class="btn" data-act="show-solution">'+ic("check",16)+' عرض الحل الكامل</button></div>':'<div style="text-align:center;margin-top:26px"><button class="btn" data-act="accuse-open">'+ic("cuffs",17)+" حسم القضية: توجيه الاتهام</button></div>")}
+function itemHTML(it,ctx){var t=it.type;
+if(t==="image")return '<div class="pol it-img" data-act="lb-img" data-src="'+esc(it.src)+'" data-cap="'+esc(it.label||"")+'"><span class="tape"></span>'+imgTag(it.src,"",it.label)+'<div class="pcap">'+esc(it.label||"")+"</div></div>";
+if(t==="audio")return '<div class="it-audio"><span class="it-lab">'+ic("audio",15)+esc(it.label||"تسجيل صوتي")+'</span><audio controls preload="none" src="'+esc(it.src)+'"></audio></div>';
+if(t==="video"){var src=String(it.src||"");var m=src.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/);var inner=m?'<iframe src="https://www.youtube.com/embed/'+m[1]+'" allowfullscreen></iframe>':'<video controls preload="none" src="'+esc(src)+'"></video>';return '<div class="it-video"><span class="it-lab">'+ic("video",15)+esc(it.label||"مقطع فيديو")+"</span>"+inner+"</div>"}
+if(t==="link")return '<a class="it-link" href="'+esc(it.src)+'" target="_blank" rel="noopener noreferrer">'+ic("link",14)+esc(it.label||"رابط خارجي")+"</a>";
+if(t==="doc")return '<span class="it-doc" data-act="open-itdoc" data-ctx="'+esc(ctx)+'">'+ic("file",14)+esc(it.label||"مستند")+"</span>";
+return '<div class="it-text"><span class="it-lab">'+ic("note",14)+esc(it.label||"ملاحظة")+'</span><div style="margin-top:5px">'+esc(it.text||"")+"</div></div>"}
+function witHTML(c){var cards=c.witnesses.map(function(w,wi){
+var items=(w.items&&w.items.length)?'<div class="items-row">'+w.items.map(function(it,i){return itemHTML(it,"w|"+w.id+"|"+i)}).join("")+"</div>":"";
+return '<div class="wit-card" style="animation-delay:'+Math.min(wi*0.1,0.5)+'s"><div class="wit-head"><span class="wit-ic">'+ic("user",20)+'</span><span class="wit-name">'+esc(w.name)+'</span><span class="wit-role">'+esc(w.role)+"</span>"+
+(canEdit()?'<span style="margin-inline-start:auto"><button class="mini" data-act="edit-wit" data-id="'+w.id+'">'+ic("pencil",12)+'</button> <button class="mini" data-act="wit-items" data-id="'+w.id+'" title="عناصر الشاهد">'+ic("link",12)+'</button> <button class="mini danger" data-act="del-wit" data-id="'+w.id+'">'+ic("trash",12)+"</button></span>":"")+
+'</div><div class="wit-st">«'+esc(w.statement)+"»</div>"+items+"</div>"}).join("");
+return '<h2 class="sec-h">ملف الشهود</h2><p class="sec-sub">إفادات الشهود وما أرفق بها من تسجيلات وصور وعناصر</p>'+ebar('<button class="btn gold sm" data-act="add-wit">'+ic("plus",13)+" إضافة شاهد</button>")+cards}
+/* ---------- docs ---------- */
+function findFolder(c,fid){for(var i=0;i<c.folders.length;i++)if(c.folders[i].id===fid)return c.folders[i];return null}
+function docsHTML(c){
+if(S.folderId){var f=findFolder(c,S.folderId);if(!f){S.folderId=null}else{
+var rows=f.docs.map(function(d){return '<div class="doc-row" data-act="open-doc" data-f="'+f.id+'" data-d="'+d.id+'"><span class="mag">'+ic("search",15)+'</span><div class="doc-meta"><div class="t">'+esc(d.title)+'</div><div class="d">'+esc(d.date)+" - "+esc(d.time)+" &nbsp;•&nbsp; صفحة "+d.pages+"</div></div>"+
+(canEdit()?'<span><button class="mini" data-act="edit-doc" data-f="'+f.id+'" data-d="'+d.id+'">'+ic("pencil",12)+'</button> <button class="mini danger" data-act="del-doc" data-f="'+f.id+'" data-d="'+d.id+'">'+ic("trash",12)+"</button></span>":"")+ic("file",20)+"</div>"}).join("");
+return '<h2 class="sec-h">'+esc(f.name)+'</h2><div class="crumb"><button data-act="back-folders">'+ic("arrowL",13)+" كل المجلدات</button> / "+esc(f.name)+" ("+f.docs.length+" مستندات)</div>"+
+ebar('<button class="btn gold sm" data-act="add-doc" data-f="'+f.id+'">'+ic("plus",13)+' إضافة مستند</button><button class="btn gold sm" data-act="edit-folder" data-f="'+f.id+'">'+ic("pencil",13)+" تعديل المجلد</button>")+rows}}
+var grid=c.folders.map(function(f,i){var lk=f.locked&&!secretOpen(c);
+return '<div class="folder'+(f.locked?" lockf":"")+'" data-act="open-folder" data-f="'+f.id+'" style="animation-delay:'+Math.min(i*0.07,0.55)+'s"><div class="fic">'+ic(lk||f.locked?"lock":f.icon,30)+'</div><div class="fname">'+esc(f.name)+"</div>"+
+(lk?'<div class="fcount">مقفل — يتطلب تقدماً في التحقيق</div><div class="fstamp"><span class="stamp sm">سري للغاية</span></div>':'<div class="fcount">'+ic("file",13)+" "+f.docs.length+" مستندات</div>")+
+(canEdit()?'<div class="editbar"><button class="mini" data-act="edit-folder" data-f="'+f.id+'">'+ic("pencil",12)+'</button><button class="mini danger" data-act="del-folder" data-f="'+f.id+'">'+ic("trash",12)+"</button></div>":"")+"</div>"}).join("");
+return '<h2 class="sec-h">المستندات</h2><p class="sec-sub">'+docCount(c)+' مستنداً موزعة على '+c.folders.length+' مجلدات</p>'+ebar('<button class="btn gold sm" data-act="add-folder">'+ic("plus",13)+' إضافة مجلد</button>')+'<div class="folders">'+grid+'</div><div class="inv-note"><h4>ملاحظة المحقق</h4><p>بعض المستندات مقفلة حالياً.\nستتمكن من الوصول إليها عند جمع أدلة كافية أو بعد حسم القضية.</p></div>'}
+function repHTML(c){var rows=c.reports.map(function(r){return '<div class="rep-card"><span class="rep-ic">'+ic("clipboard",20)+'</span><div class="rep-meta"><div class="t">'+esc(r.title)+'</div><div class="a">'+esc(r.author)+" &nbsp;•&nbsp; "+esc(r.date)+'</div></div><button class="btn sm" data-act="open-report" data-id="'+r.id+'">'+ic("search",14)+" فتح التقرير</button>"+
+(canEdit()?'<span><button class="mini" data-act="edit-report" data-id="'+r.id+'">'+ic("pencil",12)+'</button> <button class="mini danger" data-act="del-report" data-id="'+r.id+'">'+ic("trash",12)+"</button></span>":"")+"</div>"}).join("");
+return '<h2 class="sec-h">التقارير</h2><p class="sec-sub">التقارير الرسمية لفريق التحقيق</p>'+ebar('<button class="btn gold sm" data-act="add-report">'+ic("plus",13)+" إضافة تقرير</button>")+rows}
+function notesHTML(c){var off=c.notes.map(function(n){return '<div class="sticky '+(n.color||"sy")+'">'+esc(n.text)+(canEdit()?'<span class="sdel"><button class="mini" data-act="edit-note" data-id="'+n.id+'">'+ic("pencil",11)+'</button> <button class="mini danger" data-act="del-note" data-id="'+n.id+'">'+ic("trash",11)+"</button></span>":"")+"</div>"}).join("");
+var mine=(PROG.unotes[c.id]||[]).map(function(t,i){return '<div class="sticky so">'+esc(t)+'<span class="sdel"><button class="mini danger" data-act="del-unote" data-i="'+i+'">'+ic("trash",11)+"</button></span></div>"}).join("");
+return '<h2 class="sec-h">الملاحظات</h2><p class="sec-sub">ملاحظات فريق التحقيق الرسمية</p>'+ebar('<button class="btn gold sm" data-act="add-note">'+ic("plus",13)+' إضافة ملاحظة رسمية</button>')+'<div class="notes-board">'+off+'</div><div class="notes-divider">ملاحظاتي الخاصة (تُحفظ على جهازك فقط)</div><div class="notes-board">'+mine+'</div><div style="text-align:center;margin-top:18px"><button class="btn dark sm" data-act="add-unote">'+ic("plus",13)+' أضف ملاحظتك الخاصة</button></div>'}
+function csHTML(c,cs){var items=(cs.items&&cs.items.length)?'<div class="items-row" style="justify-content:center">'+cs.items.map(function(it,i){return itemHTML(it,"c|"+cs.id+"|"+i)}).join("")+"</div>":'<p class="sec-sub">لا عناصر في هذا القسم بعد</p>';
+return '<h2 class="sec-h">'+esc(cs.name)+"</h2>"+ebar('<button class="btn gold sm" data-act="cs-items" data-id="'+cs.id+'">'+ic("link",13)+' إدارة العناصر</button><button class="btn gold sm" data-act="edit-custom" data-id="'+cs.id+'">'+ic("pencil",13)+' إعادة تسمية</button><button class="btn gold sm" data-act="del-custom" data-id="'+cs.id+'">'+ic("trash",13)+" حذف القسم</button>")+items}
+/* ---------- board ---------- */
+function nodePos(c,n){var p=PROG.mapPos[c.id]&&PROG.mapPos[c.id][n.id];return p||{x:n.x,y:n.y}}
+function mapHTML(c){
+var nodes=c.map.nodes.map(function(n,i){var p=nodePos(c,n);return '<div class="node" data-id="'+n.id+'" style="left:'+p.x+"%;top:"+p.y+'%;animation-delay:'+Math.min(i*0.09,0.8)+'s"><div class="np">'+imgTag(n.img||SIL,"",n.label)+'<div class="nl">'+esc(n.label)+"</div></div>"+(canEdit()?'<button class="mini danger ndel" data-act="map-del-node" data-id="'+n.id+'">'+ic("x",11)+"</button>":"")+"</div>"}).join("");
+var lbls=c.map.links.map(function(l,i){return '<span class="link-lbl'+(canEdit()?" del":"")+'" data-i="'+i+'"'+(canEdit()?' data-act="map-del-link"':"")+' title="'+(canEdit()?"اضغط للحذف":"")+'">'+esc(l.label||"")+"</span>"}).join("");
+var tools='<div class="board-tools">'+(canEdit()?'<button class="btn gold sm" data-act="map-add-node">'+ic("plus",13)+' إضافة عنصر</button><button class="btn '+(S.connect?"":"dark ")+'sm" data-act="map-connect">'+ic("link",13)+" "+(S.connect?"إلغاء وضع الربط":"ربط عنصرين بخيط")+"</button>":"")+'<button class="btn dark sm" data-act="map-reset">'+ic("network",13)+' إعادة الترتيب الافتراضي</button></div>'+(S.connect?'<div class="connect-hint" style="text-align:center;margin-bottom:10px">اضغط على العنصر الأول ثم الثاني لربطهما بخيط أحمر</div>':"");
+return '<h2 class="sec-h">خريطة الربط</h2><p class="sec-sub">اسحب العناصر ورتبها كما يفعل المحققون — الخيوط الحمراء تكشف العلاقات</p>'+tools+'<div class="board" id="board"><svg id="strings"></svg>'+nodes+lbls+"</div>"}
+function drawLines(anim){var board=$("#board");if(!board)return;var svg=$("#strings");var c=curCase();var r=board.getBoundingClientRect();
+var pos={};$$(".node",board).forEach(function(n){var nr=n.getBoundingClientRect();pos[n.dataset.id]={x:nr.left+nr.width/2-r.left,y:nr.top+nr.height/2-r.top}});
+svg.setAttribute("viewBox","0 0 "+r.width+" "+r.height);
+svg.innerHTML=c.map.links.map(function(l,i){var a=pos[l.a],b=pos[l.b];if(!a||!b)return"";return '<line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'" pathLength="1"'+(anim?' class="lnA" style="animation-delay:'+(0.5+i*0.12)+'s"':"")+"/>"}).join("");
+$$(".link-lbl",board).forEach(function(el){var l=c.map.links[+el.dataset.i];if(!l){el.style.display="none";return}var a=pos[l.a],b=pos[l.b];if(!a||!b){el.style.display="none";return}el.style.left=(a.x+b.x)/2+"px";el.style.top=(a.y+b.y)/2+"px"})}
+function initBoard(){drawLines(true);var board=$("#board");if(!board)return;
+$$(".node",board).forEach(function(n){n.addEventListener("pointerdown",function(ev){if(ev.target.closest("[data-act]"))return;if(S.connect){pickConnect(n);return}startDrag(n,ev)})})}
+function pickConnect(n){var id=n.dataset.id;
+if(!S.connectFrom){S.connectFrom=id;n.classList.add("csrc");return}
+if(S.connectFrom===id){S.connectFrom=null;n.classList.remove("csrc");return}
+var from=S.connectFrom;S.connectFrom=null;S.connect=false;
+formModal("تسمية الخيط",[{k:"label",l:"ما العلاقة بين العنصرين؟",ph:"مثال: خلاف مالي / بصمة / شاهد عيان"}],{},function(o){var c=curCase();c.map.links.push({a:from,b:id,label:o.label||""});saveData();toast("تم ربط العنصرين")})}
+function startDrag(n,ev){ev.preventDefault();var board=$("#board");var r=board.getBoundingClientRect();var c=curCase();var node=null;for(var i=0;i<c.map.nodes.length;i++)if(c.map.nodes[i].id===n.dataset.id)node=c.map.nodes[i];if(!node)return;
+var moved=false;
+function mv(e2){moved=true;var x=(e2.clientX-r.left)/r.width*100,y=(e2.clientY-r.top)/r.height*100;x=Math.max(5,Math.min(95,x));y=Math.max(8,Math.min(93,y));n.style.left=x+"%";n.style.top=y+"%";n._x=x;n._y=y;drawLines()}
+function up(){document.removeEventListener("pointermove",mv);document.removeEventListener("pointerup",up);if(!moved)return;
+if(canEdit()){node.x=Math.round(n._x*10)/10;node.y=Math.round(n._y*10)/10;saveData(false)}
+else{PROG.mapPos[c.id]=PROG.mapPos[c.id]||{};PROG.mapPos[c.id][node.id]={x:Math.round(n._x*10)/10,y:Math.round(n._y*10)/10};saveProg()}}
+document.addEventListener("pointermove",mv);document.addEventListener("pointerup",up)}
+/* ---------- right panel ---------- */
+function rpanelHTML(c){var t=S.tab;
+var tabs='<div class="rtabs"><span class="rtab'+(t==="ev"?" active":"")+'" data-act="set-tab" data-tab="ev">الأدلة الرئيسية</span><span class="rtab'+(t==="docs"?" active":"")+'" data-act="set-tab" data-tab="docs">المستندات</span><span class="rtab'+(t==="wit"?" active":"")+'" data-act="set-tab" data-tab="wit">ملف الشهود</span></div>';
+var body="";
+if(t==="ev"){var mains=c.evidence.filter(function(e){return e.main});
+body='<div class="rp-title"><span class="ar">←</span>الأدلة الرئيسية<span class="ar">→</span></div><div class="rlist">'+mains.map(function(e,i){
+return '<div class="rev-card"><div class="rev-head"><span class="rev-num">'+esc(e.num)+'</span><span class="rev-label">'+esc(e.title)+"</span></div>"+(e.img?imgTag(e.img,"rev-img",e.title):'<div class="ev-noimg" style="height:96px">'+ic("finger",26)+"</div>")+'<div class="rev-foot"><button class="mag" data-act="lb-ev" data-id="'+e.id+'">'+ic("search",15)+"</button></div></div>"}).join("")+"</div>"+
+'<button class="btn block rp-btn" data-act="go-sec" data-sec="evidence">'+ic("folder",16)+' عرض جميع الأدلة <span class="badge-red">'+c.evidence.length+"</span></button>"}
+else if(t==="docs"){var all=[];c.folders.forEach(function(f){f.docs.forEach(function(d){all.push({f:f,d:d})})});
+body='<div class="rp-title">قائمة المستندات</div><div class="rlist">'+all.map(function(x){var lk=x.f.locked&&!secretOpen(c);
+return '<div class="rdoc-row" '+(lk?'data-act="locked-doc"':'data-act="open-doc" data-f="'+x.f.id+'" data-d="'+x.d.id+'"')+' style="cursor:pointer"><span class="mag">'+ic(lk?"lock":"search",14)+'</span><div class="rdoc-meta"><div class="t">'+esc(x.d.title)+'</div><div class="d">'+esc(x.d.date)+" - "+esc(x.d.time)+" • صفحة "+x.d.pages+"</div></div>"+ic("file",19)+"</div>"}).join("")+"</div>"+
+'<button class="btn block rp-btn" data-act="go-sec" data-sec="docs">'+ic("folder",16)+' عرض كل المستندات <span class="badge-red">'+docCount(c)+"</span></button>"}
+else{body='<div class="rp-title">ملف الشهود</div><div class="rlist">'+c.witnesses.map(function(w){return '<div class="rwit-row"><span class="wit-ic" style="width:34px;height:34px">'+ic("user",17)+'</span><div style="flex:1;min-width:0"><div class="nm">'+esc(w.name)+'</div><div class="rl">'+esc(w.role)+"</div></div>"+(w.items&&w.items.length?'<span class="badge-red">'+w.items.length+"</span>":"")+"</div>"}).join("")+"</div>"+
+'<button class="btn block rp-btn" data-act="go-sec" data-sec="witnesses">'+ic("eye",16)+' فتح ملف الشهود <span class="badge-red">'+c.witnesses.length+"</span></button>"}
+return tabs+'<div class="paper pstack rbody">'+body+"</div>"}
+/* ---------- viewers ---------- */
+function openLBimg(src,cap){openModal('<div class="m-title">'+esc(cap||"صورة")+'</div><div class="pol" style="transform:none;max-width:100%"><span class="tape"></span>'+imgTag(src,"lb-img",cap)+"</div>","wide")}
+function openLBev(c,e){var im=e.img?'<div class="pol" style="transform:none"><span class="tape"></span>'+imgTag(e.img,"lb-img",e.title)+"</div>":'<div class="ev-noimg" style="height:150px">'+ic("finger",40)+"</div>";
+openModal('<div class="m-title">دليل رقم '+esc(e.num)+" — "+esc(e.title)+"</div>"+im+'<div class="lb-meta"><span class="chip">مكان العثور: '+esc(e.found||"غير محدد")+"</span>"+(e.main?'<span class="chip" style="background:#3a2b16;color:#ecd28a">دليل رئيسي</span>':"")+'</div><div class="lb-cap">'+esc(e.desc||"")+"</div>","wide")}
+function openDocReader(c,f,d){var lk=f.locked&&!secretOpen(c);if(lk){toast("🔒 هذا الملف سري — يتطلب تقدماً في التحقيق أو حسم القضية",true);return}
+openModal('<div class="docpage">'+(f.locked?'<div class="wm slam">سري للغاية</div>':"")+'<div class="dp-head"><div class="t">'+esc(d.title)+'</div><div class="dp-meta"><span>القضية: '+esc(c.code)+"</span><span>التاريخ: "+esc(d.date)+"</span><span>الوقت: "+esc(d.time)+"</span><span>الصفحات: "+d.pages+'</span><span>المجلد: '+esc(f.name)+'</span></div></div><div class="dp-body">'+esc(d.body)+"</div></div>","wide")}
+function openReport(c,r){openModal('<div class="docpage"><div class="dp-head"><div class="t">'+esc(r.title)+'</div><div class="dp-meta"><span>'+esc(r.author)+"</span><span>"+esc(r.date)+"</span><span>القضية: "+esc(c.code)+'</span></div></div><div class="dp-body">'+esc(r.body)+"</div></div>","wide")}
+function openSuspect(c,s){var items=(s.items&&s.items.length)?'<div class="m-sec"><h4>'+ic("link",15)+' عناصر مرفقة</h4><div class="items-row">'+s.items.map(function(it,i){return itemHTML(it,"s|"+s.id+"|"+i)}).join("")+"</div></div>":"";
+openModal('<div class="m-title">إفادة: '+esc(s.name)+'</div><div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;justify-content:center"><div>'+imgTag(s.photo,"sus-photo",s.name)+'<div style="text-align:center;margin-top:6px"><span class="sus-status '+statusCls(s.status)+'" style="position:static;display:inline-block;transform:rotate(-4deg)">'+esc(s.status)+'</span></div></div><div style="flex:1;min-width:260px"><div class="sus-chips" style="justify-content:flex-start"><span class="chip">'+esc(s.age)+' سنة</span><span class="chip">'+esc(s.job)+'</span><span class="chip">'+esc(s.relation)+'</span></div><div class="m-sec" style="border:none;margin:0;padding:0"><h4>'+ic("clock",15)+' أين كان وقت الجريمة؟</h4><p style="font-style:italic;line-height:1.9;font-size:16px">'+esc(s.alibi)+'</p></div><div class="m-sec"><h4>'+ic("mic",15)+' نص الإفادة الرسمية</h4><div class="it-text" style="max-width:100%">'+esc(s.statement)+"</div></div>"+items+"</div></div>","wide")}
+function openItemDoc(it){openModal('<div class="docpage"><div class="dp-head"><div class="t">'+esc(it.label||"مستند")+'</div></div><div class="dp-body">'+esc(it.text||"")+"</div></div>","wide")}
+/* ---------- accuse ---------- */
+function accuseHTML(c){return '<div class="m-title">من هو الجاني؟</div><p style="text-align:center;color:var(--ink2);font-family:Cairo;font-size:13px;font-weight:700">اختر المتهم ثم أكد قرارك — القرار الخاطئ يُسجل ضدك</p><div class="accuse-grid">'+c.suspects.map(function(s){return '<div class="acc-item'+(S.pick===s.id?" sel":"")+'" data-act="accuse-pick" data-id="'+s.id+'">'+imgTag(s.photo,"",s.name)+'<div class="n">'+esc(s.name)+"</div></div>"}).join("")+'</div><div class="m-actions"><button class="btn" data-act="accuse-confirm">'+ic("cuffs",16)+' تأكيد الاتهام</button><button class="btn dark" data-act="close-modal">تراجع</button></div>'+(PROG.attempts[c.id]>=3&&c.hint?'<div class="m-sec"><h4>'+ic("info",15)+' تلميح المحقق الخبير</h4><p style="line-height:1.9">'+esc(c.hint)+"</p></div>":"")}
+function doAccuse(){var c=curCase();if(!S.pick){toast("اختر مشتبهاً به أولاً",true);return}
+var s=null;c.suspects.forEach(function(x){if(x.id===S.pick)s=x});
+if(S.pick===c.culprit){PROG.solved[c.id]=true;saveProg();S.pick=null;closeModal();showSolution(true);render()}
+else{PROG.attempts[c.id]=(PROG.attempts[c.id]||0)+1;saveProg();S.pick=null;
+openModal('<div class="sol-stamp"><span class="stamp big dark-on slam" style="mix-blend-mode:normal">اتهام خاطئ</span></div><p style="text-align:center;font-size:18px;line-height:2">'+esc(s?s.name:"")+' ليس الجاني…<br>المحاولات الخاطئة حتى الآن: <b>'+PROG.attempts[c.id]+"</b>"+(PROG.attempts[c.id]>=3&&c.hint?"<br><br>💡 "+esc(c.hint):"<br>راجع الأدلة والمستندات ثم حاول مجدداً")+'</p><div class="m-actions"><button class="btn" data-act="accuse-open">محاولة أخرى</button><button class="btn dark" data-act="close-modal">عودة للتحقيق</button></div>')}}
+function showSolution(first){var c=curCase();var s=null;c.suspects.forEach(function(x){if(x.id===c.culprit)s=x});
+var next="";var idx=DATA.cases.indexOf(c);if(first&&idx>=0&&idx<DATA.cases.length-1)next='<p style="text-align:center;font-family:Cairo;font-weight:800;color:#2e6b3a;font-size:14px">🔓 تم فتح القضية التالية: '+esc(DATA.cases[idx+1].title)+"</p>";
+openModal('<div class="sol-stamp"><span class="stamp big slam">تم حل القضية</span></div>'+(s?'<div style="text-align:center">'+imgTag(s.photo,"sus-photo",s.name)+"</div>":"")+'<div class="dp-body" style="margin-top:10px">'+esc(c.solvedText||("الجاني: "+(s?s.name:"غير محدد")))+"</div>"+next+'<div class="m-actions"><button class="btn" data-act="close-modal">'+ic("check",15)+' إغلاق الملف</button></div>',"wide")}
+/* ---------- items manager ---------- */
+var TYPES=[{v:"text",l:"نص"},{v:"image",l:"صورة"},{v:"audio",l:"تسجيل صوتي"},{v:"video",l:"فيديو"},{v:"link",l:"رابط خارجي"},{v:"doc",l:"مستند"}];
+function typeName(t){for(var i=0;i<TYPES.length;i++)if(TYPES[i].v===t)return TYPES[i].l;return t}
+function manageItems(title,getArr){ITEMS_CTX={title:title,get:getArr};
+var arr=getArr();
+var rows=arr.length?arr.map(function(it,i){return '<div class="item-row"><span class="ty">'+typeName(it.type)+'</span><span class="t">'+esc(it.label||it.text||it.src||"عنصر")+'</span><button class="mini" data-act="it-edit" data-i="'+i+'">'+ic("pencil",12)+'</button><button class="mini danger" data-act="it-del" data-i="'+i+'">'+ic("trash",12)+"</button></div>"}).join(""):'<p style="text-align:center;color:var(--ink2)">لا عناصر بعد — أضف نصاً أو صورة أو صوتاً أو فيديو أو رابطاً أو مستنداً</p>';
+openModal('<div class="m-title">'+esc(title)+"</div>"+rows+'<div class="m-sec"><h4>'+ic("plus",15)+' إضافة عنصر جديد</h4><div class="form-row"><select id="it-type">'+TYPES.map(function(t){return '<option value="'+t.v+'">'+t.l+"</option>"}).join("")+'</select></div><div class="m-actions" style="margin-top:8px"><button class="btn sm" data-act="it-add">إضافة</button><button class="btn dark sm" data-act="close-modal">إغلاق</button></div></div>')}
+function itemForm(type,idx){var arr=ITEMS_CTX.get();var val=idx>=0?arr[idx]:{type:type};type=val.type||type;
+var fields=[{k:"label",l:"العنوان / الوصف",ph:"مثال: تسجيل كاميرا المراقبة — المدخل"}];
+if(type==="text"||type==="doc")fields.push({k:"text",l:type==="doc"?"محتوى المستند":"النص",type:"area"});
+else fields.push({k:"src",l:type==="image"?"رابط الصورة":type==="audio"?"رابط الملف الصوتي (mp3)":type==="video"?"رابط الفيديو (mp4 أو يوتيوب)":"الرابط",ph:"https://…",help:"الصق رابطاً مباشراً للملف — روابط يوتيوب مدعومة للفيديو"});
+formModal((idx>=0?"تعديل عنصر: ":"إضافة عنصر: ")+typeName(type),fields,val,function(o){o.type=type;var a=ITEMS_CTX.get();if(idx>=0)a[idx]=o;else a.push(o);saveData(false);manageItems(ITEMS_CTX.title,ITEMS_CTX.get);toast("تم الحفظ")})}
+/* ---------- helpers for find ---------- */
+function byId(arr,id){for(var i=0;i<arr.length;i++)if(arr[i].id===id)return arr[i];return null}
+function delById(arr,id){for(var i=0;i<arr.length;i++)if(arr[i].id===id){arr.splice(i,1);return true}return false}
+/* ---------- settings / about / login ---------- */
+function openSettings(){var st=DATA.settings;var h='<div class="m-title">الإعدادات</div>';
+h+='<div class="m-sec"><h4>'+ic("user",15)+" الدور الحالي: "+roleName()+"</h4>";
+if(ROLE==="user"){h+='<div class="form-row"><label>كلمة مرور المشرف (أدمن أو سوبر أدمن)</label><input type="password" id="pw-in" data-enter="login-submit" placeholder="أدخل كلمة المرور…"></div><div class="m-actions" style="margin-top:6px"><button class="btn sm" data-act="login-submit">'+ic("key",14)+" دخول</button></div>"}
+else{h+='<div class="m-actions" style="justify-content:flex-start"><button class="btn sm '+(S.edit?"":"dark")+'" data-act="edit-toggle">'+ic("pencil",13)+" وضع التحرير: "+(S.edit?"مفعّل":"متوقف")+'</button><button class="btn dark sm" data-act="logout">تسجيل الخروج</button></div>'}
+h+="</div>";
+h+='<div class="m-sec"><h4>'+ic("clock",15)+' تقدمي في اللعب</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn dark sm" data-act="reset-prog">مسح تقدمي المحلي (الحلول والملاحظات الخاصة)</button></div></div>';
+if(isAdmin()){h+='<div class="m-sec"><h4>'+ic("gear",15)+' إعدادات اللعبة (أدمن)</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-game">تعديل هوية اللعبة والنصوص</button><button class="btn '+(st.unlockAll?"":"dark ")+'sm" data-act="toggle-unlock">'+(st.unlockAll?"إقفال القضايا بالتسلسل":"فتح جميع القضايا للجميع")+"</button></div></div>"}
+if(ROLE==="super"){h+='<div class="m-sec"><h4>'+ic("key",15)+' السوبر أدمن</h4><div class="form-row"><label>كلمة مرور السوبر أدمن</label><input id="pw-super" value="'+esc(st.passwords.super)+'"></div><div class="form-row"><label>كلمة مرور الأدمن</label><input id="pw-admin" value="'+esc(st.passwords.admin)+'"></div><div class="m-actions" style="justify-content:flex-start"><button class="btn sm" data-act="save-pws">حفظ كلمات المرور</button></div>'+
+'<div class="m-actions" style="justify-content:flex-start;margin-top:12px"><button class="btn gold sm" data-act="export-data">'+ic("download",14)+' تصدير بيانات اللعبة</button><button class="btn gold sm" data-act="import-data">'+ic("upload",14)+' استيراد بيانات</button><button class="btn dark sm" data-act="reset-data">إعادة الضبط للنسخة الأصلية</button></div></div>'}
+h+='<div class="help" style="text-align:center;margin-top:14px">تعديلات المشرفين تُحفظ في متصفح هذا الجهاز — استخدم التصدير/الاستيراد لنقلها لجهاز آخر أو لطلب تضمينها في نسخة منشورة محدثة.</div>';
+openModal(h)}
+function openAbout(){var st=DATA.settings;openModal('<div style="text-align:center">'+(st.logo!==""?'<img src="'+esc(st.logo||IMGS.logo)+'" style="width:230px;mix-blend-mode:multiply">':"")+'</div><div class="m-title">'+esc(st.gameTitle)+" — "+esc(st.gameSub)+'</div><p style="text-align:center;color:#9d2121;font-weight:700">'+esc(st.tagline)+'</p><div class="dp-body" style="margin-top:10px">'+esc(st.about)+"</div>")}
+function tryLogin(){var el=$("#pw-in");if(!el)return;var pw=el.value.trim();var st=DATA.settings;
+if(pw===st.passwords.super){ROLE="super"}else if(pw===st.passwords.admin){ROLE="admin"}else{el.classList.add("shake");toast("كلمة مرور غير صحيحة",true);setTimeout(function(){el.classList.remove("shake")},350);return}
+sset(K.role,ROLE);S.edit=true;closeModal();render();toast("مرحباً — دخلت بدور: "+roleName())}
+/* ---------- ACT ---------- */
+var ACT={};
+ACT["close-modal"]=function(){closeModal()};
+ACT["go-home"]=function(){S.view="home";S.caseId=null;S.drawer=false;render()};
+ACT["open-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;playIntro(c,function(){S.view="case";S.caseId=d.id;S.sec="summary";S.tab="ev";S.folderId=null;S.drawer=false;LAST_SEC="";markVisit();render()})};
+var CINE_T=null,CINE_CB=null;
+function playIntro(c,cb){var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(rm){cb();return}
+CINE_CB=cb;
+$("#modals").innerHTML='<div class="cine" data-act="cine-skip"><div class="cine-code">ملف القضية — '+esc(c.code)+'</div><div class="cine-title">'+esc(c.title)+'</div><div class="cine-stamp"><span class="stamp big slam" style="animation-delay:.7s">سري للغاية</span></div><div class="cine-load"><i></i></div><div class="cine-hint">اضغط في أي مكان للتخطي</div></div>';
+CINE_T=setTimeout(finishIntro,2100)}
+function finishIntro(){if(CINE_T){clearTimeout(CINE_T);CINE_T=null}var cb=CINE_CB;CINE_CB=null;$("#modals").innerHTML="";if(cb)cb()}
+ACT["cine-skip"]=function(){finishIntro()};
+ACT["go-sec"]=function(d){S.sec=d.sec;S.folderId=null;S.drawer=false;markVisit();render()};
+ACT["set-tab"]=function(d){S.tab=d.tab;render()};
+ACT["toggle-drawer"]=function(){S.drawer=!S.drawer;render()};
+function markVisit(){if(!S.caseId)return;var v=PROG.visited[S.caseId]||[];if(v.indexOf(S.sec)<0){v.push(S.sec);PROG.visited[S.caseId]=v;saveProg()}}
+ACT["open-folder"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;var c=curCase();var f=findFolder(c,d.f);if(!f)return;
+if(f.locked&&!secretOpen(c)){toast("🔒 مجلد سري — يُفتح بعد التقدم في التحقيق أو حسم القضية",true);return}
+S.folderId=d.f;render()};
+ACT["back-folders"]=function(){S.folderId=null;render()};
+ACT["open-doc"]=function(d){var c=curCase();var f=findFolder(c,d.f);if(!f)return;var doc=byId(f.docs,d.d);if(doc)openDocReader(c,f,doc)};
+ACT["locked-doc"]=function(){toast("🔒 هذا المستند داخل مجلد سري — تقدم في التحقيق لفتحه",true)};
+ACT["open-report"]=function(d){var c=curCase();var r=byId(c.reports,d.id);if(r)openReport(c,r)};
+ACT["open-sus"]=function(d){var c=curCase();var s=byId(c.suspects,d.id);if(s)openSuspect(c,s)};
+ACT["lb-img"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;openLBimg(d.src,d.cap)};
+ACT["lb-ev"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;var c=curCase();var ev=byId(c.evidence,d.id);if(ev)openLBev(c,ev)};
+ACT["open-itdoc"]=function(d){var c=curCase();var p=d.ctx.split("|");var host=p[0]==="w"?byId(c.witnesses,p[1]):p[0]==="s"?byId(c.suspects,p[1]):byId(c.custom,p[1]);if(host&&host.items&&host.items[+p[2]])openItemDoc(host.items[+p[2]])};
+ACT["accuse-open"]=function(){S.pick=null;openModal(accuseHTML(curCase()))};
+ACT["accuse-pick"]=function(d){S.pick=d.id;var c=curCase();openModal(accuseHTML(c))};
+ACT["accuse-confirm"]=function(){doAccuse()};
+ACT["show-solution"]=function(){showSolution(false)};
+ACT["settings-open"]=function(){openSettings()};
+ACT["about-open"]=function(){openAbout()};
+ACT["login-open"]=function(){openModal('<div class="m-title">دخول المشرفين</div><div class="form-row"><label>كلمة المرور</label><input type="password" id="pw-in" data-enter="login-submit" placeholder="كلمة مرور الأدمن أو السوبر أدمن…"></div><div class="m-actions"><button class="btn" data-act="login-submit">'+ic("key",15)+" دخول</button><button class=\"btn dark\" data-act=\"close-modal\">إلغاء</button></div>","narrow");setTimeout(function(){var i=$("#pw-in");if(i)i.focus()},60)};
+ACT["login-submit"]=function(){tryLogin()};
+ACT["logout"]=function(){ROLE="user";S.edit=false;sset(K.role,ROLE);closeModal();render();toast("تم تسجيل الخروج")};
+ACT["edit-toggle"]=function(){if(!isAdmin())return;S.edit=!S.edit;closeModal();render();toast(S.edit?"وضع التحرير مفعّل — كل العناصر قابلة للتعديل الآن":"تم إيقاف وضع التحرير")};
+ACT["form-save"]=function(){if(!CUR_FORM)return;var out={};CUR_FORM.fields.forEach(function(f){var el=$("#F_"+f.k);if(!el)return;if(f.type==="check")out[f.k]=el.checked;else if(f.type==="stars")out[f.k]=+(el.dataset.val||0);else out[f.k]=el.value.trim()});var cb=CUR_FORM.onSave;closeModal();cb(out)};
+ACT["reset-prog"]=function(){confirmM("سيُمسح تقدمك المحلي: القضايا المحلولة والمحاولات وملاحظاتك الخاصة ومواضع الخريطة. البيانات والمحتوى لن تتأثر.",function(){PROG={solved:{},attempts:{},visited:{},unotes:{},mapPos:{}};saveProg();render();toast("تم مسح التقدم")})};
+ACT["toggle-unlock"]=function(){DATA.settings.unlockAll=!DATA.settings.unlockAll;saveData(false);openSettings();toast(DATA.settings.unlockAll?"كل القضايا مفتوحة الآن للجميع":"عاد القفل التسلسلي للقضايا")};
+ACT["save-pws"]=function(){var s=$("#pw-super"),a=$("#pw-admin");if(!s||!a)return;if(!s.value.trim()||!a.value.trim()){toast("لا يمكن ترك كلمة مرور فارغة",true);return}DATA.settings.passwords.super=s.value.trim();DATA.settings.passwords.admin=a.value.trim();saveData(false);toast("تم حفظ كلمات المرور")};
+ACT["export-data"]=function(){var json=JSON.stringify(DATA,null,1);openModal('<div class="m-title">تصدير بيانات اللعبة</div><p class="help" style="text-align:center">انسخ هذا الملف واحفظه — أو أرسله لي في المحادثة لأضمّنه نسخة منشورة دائمة للجميع.</p><textarea id="exp-ta" style="min-height:220px;direction:ltr;font-family:monospace;font-size:11px">'+esc(json)+'</textarea><div class="m-actions"><button class="btn sm" id="copy-exp">نسخ إلى الحافظة</button><button class="btn gold sm" id="dl-exp">تنزيل كملف</button><button class="btn dark sm" data-act="close-modal">إغلاق</button></div>');
+$("#copy-exp").onclick=function(){var ta=$("#exp-ta");ta.select();try{document.execCommand("copy");toast("تم النسخ")}catch(e){if(navigator.clipboard){navigator.clipboard.writeText(ta.value).then(function(){toast("تم النسخ")})}}};
+$("#dl-exp").onclick=function(){try{var b=new Blob([json],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="crime-tapes-data.json";document.body.appendChild(a);a.click();a.remove();toast("بدأ التنزيل")}catch(e){toast("التنزيل غير متاح هنا — استخدم النسخ",true)}}};
+ACT["import-data"]=function(){openModal('<div class="m-title">استيراد بيانات اللعبة</div><div class="form-row"><label>الصق ملف JSON هنا</label><textarea id="imp-ta" style="min-height:200px;direction:ltr;font-family:monospace;font-size:11px" placeholder=\'{"version":1,"settings":…}\'></textarea></div><div class="form-row"><label>أو اختر ملفاً من جهازك</label><input type="file" id="impFile" accept=".json,application/json"></div><div class="m-actions"><button class="btn" id="do-imp">استيراد وتطبيق</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>');
+$("#do-imp").onclick=function(){try{var obj=JSON.parse($("#imp-ta").value);if(!obj||!obj.cases||!obj.settings)throw new Error("bad");DATA=obj;saveData();closeModal();toast("تم استيراد البيانات بنجاح")}catch(e){toast("ملف غير صالح — تأكد من لصق JSON الصحيح",true)}}};
+ACT["reset-data"]=function(){confirmM("ستعود اللعبة بالكامل للنسخة الأصلية وتُحذف كل تعديلات المشرفين على هذا الجهاز. هل أنت متأكد؟",function(){sdel(K.data);DATA=clone(DEFAULT_DATA);render();toast("تمت إعادة الضبط للنسخة الأصلية")})};
+ACT["edit-game"]=function(){var st=DATA.settings;formModal("هوية اللعبة",[
+{k:"gameTitle",l:"اسم اللعبة (لاتيني للشعار الجانبي)"},{k:"gameSub",l:"العنوان الفرعي"},{k:"tagline",l:"الشعار / السطر التعريفي"},{k:"about",l:"نص (حول اللعبة)",type:"area"},{k:"logo",l:"رابط صورة الشعار (اختياري)",ph:"https://…"},{k:"bg",l:"رابط صورة الخلفية (اختياري)",ph:"https://…"}
+],st,function(o){st.gameTitle=o.gameTitle||st.gameTitle;st.gameSub=o.gameSub;st.tagline=o.tagline;st.about=o.about;st.logo=o.logo;st.bg=o.bg;saveData();toast("تم حفظ هوية اللعبة")})};
+/* ----- case CRUD ----- */
+function caseForm(c,isNew){var susOpts=[{v:"",l:"— لم يُحدد بعد —"}].concat(c.suspects.map(function(s){return{v:s.id,l:s.name}}));
+formModal(isNew?"إضافة قضية جديدة":"تعديل بيانات القضية",[
+{k:"num",l:"رقم القضية (للعرض)",ph:"01"},{k:"code",l:"الكود المرجعي",ph:"CT-24-0000"},{k:"title",l:"عنوان القضية"},{k:"cover",l:"رابط صورة الغلاف",ph:"https://…"},{k:"difficulty",l:"مستوى الصعوبة",type:"stars"},{k:"duration",l:"الوقت المتوقع",ph:"45 - 60 دقيقة"},{k:"badge",l:"شارة مميزة (اختياري)",ph:"جديدة"},{k:"culprit",l:"الجاني الحقيقي (لآلية الاتهام)",type:"select",opts:susOpts},{k:"hint",l:"تلميح يظهر بعد 3 محاولات خاطئة",type:"area"},{k:"solvedText",l:"نص كشف الحقيقة عند الحل",type:"area"}
+],c,function(o){c.num=o.num;c.code=o.code;c.title=o.title||c.title;c.cover=o.cover;c.difficulty=o.difficulty||1;c.duration=o.duration;c.badge=o.badge;c.culprit=o.culprit;c.hint=o.hint;c.solvedText=o.solvedText;saveData();toast("تم حفظ القضية")})}
+ACT["edit-case"]=function(){caseForm(curCase(),false)};
+ACT["edit-case-h"]=function(d){var c=byId(DATA.cases,d.id);if(c)caseForm(c,false)};
+ACT["add-case"]=function(){var n=DATA.cases.length+1;var c={id:uid("case"),num:(n<10?"0":"")+n,code:"CT-25-0"+(100+n),title:"قضية جديدة بلا عنوان",cover:"",badge:"",difficulty:3,duration:"30 - 45 دقيقة",culprit:"",hint:"",solvedText:"",hiddenSections:[],
+summary:{text:"اكتب ملخص القضية هنا…",photo:"",photoCap:"",victim:{name:"غير محدد",age:"—",job:"—",marital:"—",photo:"",note:""},timeline:[]},
+scene:{address:"العنوان غير محدد",intro:"وصف مسرح الجريمة…",photos:[],notes:[]},evidence:[],suspects:[],witnesses:[],folders:[],reports:[],notes:[],map:{nodes:[],links:[]},custom:[]};
+DATA.cases.push(c);saveData(false);S.view="case";S.caseId=c.id;S.sec="summary";render();caseForm(c,true)};
+ACT["del-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;confirmM("سيتم حذف القضية «"+c.title+"» بكل محتوياتها نهائياً.",function(){delById(DATA.cases,d.id);if(S.caseId===d.id){S.view="home";S.caseId=null}saveData();toast("تم حذف القضية")})};
+/* ----- summary CRUD ----- */
+ACT["edit-summary"]=function(){var c=curCase();formModal("تعديل ملخص القضية",[{k:"text",l:"نص الملخص",type:"area"},{k:"photo",l:"رابط صورة الملخص",ph:"https://…"},{k:"photoCap",l:"وصف الصورة"}],c.summary,function(o){c.summary.text=o.text;c.summary.photo=o.photo;c.summary.photoCap=o.photoCap;saveData();toast("تم الحفظ")})};
+ACT["edit-victim"]=function(){var c=curCase();formModal("بيانات الضحية",[{k:"name",l:"الاسم"},{k:"age",l:"العمر",ph:"28 سنة"},{k:"job",l:"الوظيفة"},{k:"marital",l:"الحالة الاجتماعية"},{k:"photo",l:"رابط صورة (اتركه فارغاً لصورة الظل)",ph:"https://…"},{k:"note",l:"سطر أحمر تحت الجدول (اختياري)",ph:"مثال: الضحية الثالثة في السلسلة"}],c.summary.victim,function(o){c.summary.victim=o;saveData();toast("تم الحفظ")})};
+ACT["add-tl"]=function(){var c=curCase();formModal("نقطة زمنية جديدة",[{k:"t",l:"الوقت",ph:"20:15"},{k:"l",l:"الحدث",ph:"انقطاع التواصل مع الضحية"}],{},function(o){c.summary.timeline.push(o);saveData();toast("أضيفت")})};
+ACT["edit-tl"]=function(d){var c=curCase();var t=c.summary.timeline[+d.i];formModal("تعديل نقطة زمنية",[{k:"t",l:"الوقت"},{k:"l",l:"الحدث"}],t,function(o){c.summary.timeline[+d.i]=o;saveData()})};
+ACT["del-tl"]=function(d){var c=curCase();confirmM("حذف هذه النقطة الزمنية؟",function(){c.summary.timeline.splice(+d.i,1);saveData()})};
+/* ----- scene CRUD ----- */
+ACT["edit-scene"]=function(){var c=curCase();var v={address:c.scene.address,intro:c.scene.intro,notes:c.scene.notes.join("\n")};
+formModal("تعديل مسرح الجريمة",[{k:"address",l:"العنوان / الموقع"},{k:"intro",l:"الوصف العام",type:"area"},{k:"notes",l:"ملاحظات المعاينة (سطر لكل ملاحظة)",type:"area"}],v,function(o){c.scene.address=o.address;c.scene.intro=o.intro;c.scene.notes=o.notes?o.notes.split("\n").filter(function(x){return x.trim()}):[];saveData();toast("تم الحفظ")})};
+ACT["add-scph"]=function(){var c=curCase();formModal("إضافة صورة للمسرح",[{k:"src",l:"رابط الصورة",ph:"https://…"},{k:"cap",l:"وصف الصورة"}],{},function(o){if(o.src)c.scene.photos.push(o);saveData()})};
+ACT["edit-scph"]=function(d){var c=curCase();var p=c.scene.photos[+d.i];formModal("تعديل صورة",[{k:"src",l:"رابط الصورة"},{k:"cap",l:"الوصف"}],p,function(o){c.scene.photos[+d.i]=o;saveData()})};
+ACT["del-scph"]=function(d){var c=curCase();confirmM("حذف هذه الصورة؟",function(){c.scene.photos.splice(+d.i,1);saveData()})};
+/* ----- evidence CRUD ----- */
+function evForm(c,e,isNew){formModal(isNew?"إضافة دليل":"تعديل دليل",[{k:"num",l:"الرقم",ph:"01"},{k:"title",l:"اسم الدليل"},{k:"img",l:"رابط الصورة (اختياري)",ph:"https://…"},{k:"found",l:"مكان العثور"},{k:"desc",l:"الوصف التفصيلي",type:"area"},{k:"main",l:"دليل رئيسي (يظهر في اللوحة الجانبية)",type:"check"}],e,function(o){o.id=e.id;o.main=!!o.main;var i=c.evidence.indexOf(e);if(isNew)c.evidence.push(o);else c.evidence[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-ev"]=function(){var c=curCase();evForm(c,{id:uid("ev"),num:(c.evidence.length<9?"0":"")+(c.evidence.length+1),main:false},true)};
+ACT["edit-ev"]=function(d){var c=curCase();var e=byId(c.evidence,d.id);if(e)evForm(c,e,false)};
+ACT["del-ev"]=function(d){var c=curCase();confirmM("حذف هذا الدليل؟",function(){delById(c.evidence,d.id);saveData()})};
+/* ----- suspects CRUD ----- */
+function susForm(c,s,isNew){formModal(isNew?"إضافة مشتبه به":"تعديل مشتبه به",[{k:"name",l:"الاسم الكامل"},{k:"photo",l:"رابط الصورة",ph:"https://…"},{k:"age",l:"العمر",ph:"31"},{k:"job",l:"المهنة"},{k:"relation",l:"صلته بالقضية",ph:"الجار / الشريك / …"},{k:"status",l:"الحالة",type:"select",opts:[{v:"قيد الاشتباه",l:"قيد الاشتباه"},{v:"مشتبه رئيسي",l:"مشتبه رئيسي"},{v:"مستبعد",l:"مستبعد"}]},{k:"alibi",l:"أين كان وقت الجريمة؟ (بين قوسي اقتباس)",type:"area"},{k:"statement",l:"نص الإفادة الكاملة",type:"area"}],s,function(o){o.id=s.id;o.items=s.items||[];var i=c.suspects.indexOf(s);if(isNew)c.suspects.push(o);else c.suspects[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-sus"]=function(){var c=curCase();susForm(c,{id:uid("sus"),status:"قيد الاشتباه",items:[]},true)};
+ACT["edit-sus"]=function(d){var c=curCase();var s=byId(c.suspects,d.id);if(s)susForm(c,s,false)};
+ACT["del-sus"]=function(d){var c=curCase();confirmM("حذف هذا المشتبه به؟",function(){delById(c.suspects,d.id);if(c.culprit===d.id)c.culprit="";saveData()})};
+ACT["sus-items"]=function(d){var c=curCase();var s=byId(c.suspects,d.id);if(!s)return;s.items=s.items||[];manageItems("عناصر المشتبه به: "+s.name,function(){return s.items})};
+/* ----- witnesses CRUD ----- */
+function witForm(c,w,isNew){formModal(isNew?"إضافة شاهد":"تعديل شاهد",[{k:"name",l:"الاسم"},{k:"role",l:"الصفة",ph:"الجارة — مقدمة البلاغ"},{k:"statement",l:"نص الإفادة",type:"area"}],w,function(o){o.id=w.id;o.items=w.items||[];var i=c.witnesses.indexOf(w);if(isNew)c.witnesses.push(o);else c.witnesses[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-wit"]=function(){var c=curCase();witForm(c,{id:uid("wit"),items:[]},true)};
+ACT["edit-wit"]=function(d){var c=curCase();var w=byId(c.witnesses,d.id);if(w)witForm(c,w,false)};
+ACT["del-wit"]=function(d){var c=curCase();confirmM("حذف هذا الشاهد؟",function(){delById(c.witnesses,d.id);saveData()})};
+ACT["wit-items"]=function(d){var c=curCase();var w=byId(c.witnesses,d.id);if(!w)return;w.items=w.items||[];manageItems("عناصر الشاهد: "+w.name,function(){return w.items})};
+/* ----- folders & docs CRUD ----- */
+var ICON_OPTS=[{v:"phone",l:"هاتف (بلاغات)"},{v:"medic",l:"طبي"},{v:"finger",l:"بصمة (أدلة جنائية)"},{v:"dna",l:"DNA (تحاليل)"},{v:"mic",l:"مايك (استجوابات)"},{v:"records",l:"سجلات"},{v:"gavel",l:"مطرقة (أوامر قضائية)"},{v:"cuffs",l:"أصفاد (اعترافات)"},{v:"camera",l:"كاميرات"},{v:"folder",l:"مجلد عام"},{v:"lock",l:"قفل (سري)"}];
+function folderForm(c,f,isNew){formModal(isNew?"إضافة مجلد":"تعديل مجلد",[{k:"name",l:"اسم المجلد"},{k:"icon",l:"الأيقونة",type:"select",opts:ICON_OPTS},{k:"locked",l:"مجلد سري (يُفتح بالتقدم أو حل القضية)",type:"check"}],f,function(o){f.name=o.name||f.name;f.icon=o.icon;f.locked=!!o.locked;if(isNew)c.folders.push(f);saveData();toast("تم الحفظ")})}
+ACT["add-folder"]=function(){var c=curCase();folderForm(c,{id:uid("fol"),name:"",icon:"folder",locked:false,docs:[]},true)};
+ACT["edit-folder"]=function(d,el,e){if(e)e.stopPropagation();var c=curCase();var f=findFolder(c,d.f);if(f)folderForm(c,f,false)};
+ACT["del-folder"]=function(d,el,e){if(e)e.stopPropagation();var c=curCase();var f=findFolder(c,d.f);if(!f)return;confirmM("حذف مجلد «"+f.name+"» وكل مستنداته ("+f.docs.length+")؟",function(){delById(c.folders,d.f);if(S.folderId===d.f)S.folderId=null;saveData()})};
+function docForm(c,f,doc,isNew){formModal(isNew?"إضافة مستند":"تعديل مستند",[{k:"title",l:"عنوان المستند"},{k:"date",l:"التاريخ",ph:"16/07/2024"},{k:"time",l:"الوقت",ph:"09:30"},{k:"pages",l:"عدد الصفحات",ph:"3"},{k:"body",l:"محتوى المستند",type:"area"}],doc,function(o){o.id=doc.id;o.pages=parseInt(o.pages)||1;var i=f.docs.indexOf(doc);if(isNew)f.docs.push(o);else f.docs[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-doc"]=function(d){var c=curCase();var f=findFolder(c,d.f);if(f)docForm(c,f,{id:uid("doc"),date:"",time:"",pages:1},true)};
+ACT["edit-doc"]=function(d,el,e){if(e)e.stopPropagation();var c=curCase();var f=findFolder(c,d.f);if(!f)return;var doc=byId(f.docs,d.d);if(doc)docForm(c,f,doc,false)};
+ACT["del-doc"]=function(d,el,e){if(e)e.stopPropagation();var c=curCase();var f=findFolder(c,d.f);if(!f)return;confirmM("حذف هذا المستند؟",function(){delById(f.docs,d.d);saveData()})};
+/* ----- reports CRUD ----- */
+function repForm(c,r,isNew){formModal(isNew?"إضافة تقرير":"تعديل تقرير",[{k:"title",l:"عنوان التقرير"},{k:"author",l:"الجهة / المُعد"},{k:"date",l:"التاريخ"},{k:"body",l:"محتوى التقرير",type:"area"}],r,function(o){o.id=r.id;var i=c.reports.indexOf(r);if(isNew)c.reports.push(o);else c.reports[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-report"]=function(){var c=curCase();repForm(c,{id:uid("rep")},true)};
+ACT["edit-report"]=function(d){var c=curCase();var r=byId(c.reports,d.id);if(r)repForm(c,r,false)};
+ACT["del-report"]=function(d){var c=curCase();confirmM("حذف هذا التقرير؟",function(){delById(c.reports,d.id);saveData()})};
+/* ----- notes ----- */
+function noteForm(c,n,isNew){formModal(isNew?"ملاحظة رسمية جديدة":"تعديل ملاحظة",[{k:"text",l:"نص الملاحظة",type:"area"},{k:"color",l:"اللون",type:"select",opts:[{v:"sy",l:"أصفر"},{v:"so",l:"برتقالي"},{v:"sr",l:"وردي"}]}],n,function(o){o.id=n.id;var i=c.notes.indexOf(n);if(isNew)c.notes.push(o);else c.notes[i]=o;saveData();toast("تم الحفظ")})}
+ACT["add-note"]=function(){var c=curCase();noteForm(c,{id:uid("nt"),color:"sy"},true)};
+ACT["edit-note"]=function(d){var c=curCase();var n=byId(c.notes,d.id);if(n)noteForm(c,n,false)};
+ACT["del-note"]=function(d){var c=curCase();confirmM("حذف هذه الملاحظة الرسمية؟",function(){delById(c.notes,d.id);saveData()})};
+ACT["add-unote"]=function(){var c=curCase();formModal("ملاحظتي الخاصة",[{k:"text",l:"نص الملاحظة (تُحفظ على جهازك فقط)",type:"area"}],{},function(o){if(!o.text)return;PROG.unotes[c.id]=PROG.unotes[c.id]||[];PROG.unotes[c.id].push(o.text);saveProg();render()})};
+ACT["del-unote"]=function(d){var c=curCase();(PROG.unotes[c.id]||[]).splice(+d.i,1);saveProg();render()};
+/* ----- map CRUD ----- */
+ACT["map-add-node"]=function(){var c=curCase();var opts=[{v:"custom",l:"— عنصر مخصص —"},{v:"victim",l:"الضحية: "+c.summary.victim.name}];
+c.suspects.forEach(function(s){opts.push({v:"s:"+s.id,l:"مشتبه: "+s.name})});
+c.evidence.forEach(function(e){opts.push({v:"e:"+e.id,l:"دليل: "+e.title})});
+c.witnesses.forEach(function(w){opts.push({v:"w:"+w.id,l:"شاهد: "+w.name})});
+formModal("إضافة عنصر للخريطة",[{k:"ref",l:"المصدر",type:"select",opts:opts},{k:"label",l:"التسمية على اللوحة (اختياري — تُملأ تلقائياً)"},{k:"img",l:"رابط صورة مخصصة (اختياري)",ph:"https://…"}],{},function(o){
+var label=o.label,img=o.img;var r=o.ref;
+if(r==="victim"){label=label||c.summary.victim.name;img=img||c.summary.victim.photo}
+else if(r&&r.indexOf("s:")===0){var s=byId(c.suspects,r.slice(2));if(s){label=label||s.name;img=img||s.photo}}
+else if(r&&r.indexOf("e:")===0){var e=byId(c.evidence,r.slice(2));if(e){label=label||e.title;img=img||e.img}}
+else if(r&&r.indexOf("w:")===0){var w=byId(c.witnesses,r.slice(2));if(w){label=label||w.name}}
+c.map.nodes.push({id:uid("nd"),label:label||"عنصر جديد",img:img||"",x:50,y:50});saveData();toast("أُضيف للخريطة — اسحبه لمكانه")})};
+ACT["map-connect"]=function(){S.connect=!S.connect;S.connectFrom=null;render()};
+ACT["map-del-node"]=function(d,el,e){if(e)e.stopPropagation();var c=curCase();confirmM("حذف هذا العنصر وكل خيوطه؟",function(){delById(c.map.nodes,d.id);c.map.links=c.map.links.filter(function(l){return l.a!==d.id&&l.b!==d.id});saveData()})};
+ACT["map-del-link"]=function(d){if(!canEdit())return;var c=curCase();confirmM("حذف هذا الخيط؟",function(){c.map.links.splice(+d.i,1);saveData()})};
+ACT["map-reset"]=function(){var c=curCase();delete PROG.mapPos[c.id];saveProg();render();toast("عاد الترتيب الافتراضي")};
+/* ----- sections mgmt / custom ----- */
+ACT["manage-secs"]=function(){var c=curCase();var hid=c.hiddenSections||[];
+var h='<div class="m-title">إظهار / إخفاء الأقسام</div>'+SECS.map(function(s){return '<label class="chk"><input type="checkbox" data-sec-chk="'+s.id+'"'+(hid.indexOf(s.id)<0?" checked":"")+"> "+s.n+"</label>"}).join("")+'<div class="m-actions"><button class="btn" id="secs-save">حفظ</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>';
+openModal(h,"narrow");$("#secs-save").onclick=function(){var nh=[];$$("[data-sec-chk]").forEach(function(ch){if(!ch.checked)nh.push(ch.dataset.secChk)});c.hiddenSections=nh;if(nh.indexOf(S.sec)>=0)S.sec="summary";closeModal();saveData();toast("تم تحديث الأقسام")}};
+ACT["add-custom"]=function(){var c=curCase();formModal("قسم مخصص جديد",[{k:"name",l:"اسم القسم",ph:"مثال: تسجيلات المكالمات"}],{},function(o){if(!o.name)return;c.custom=c.custom||[];var cs={id:uid("cs"),name:o.name,items:[]};c.custom.push(cs);S.sec="cs_"+cs.id;saveData();toast("أُضيف القسم — أضف عناصره الآن")})};
+ACT["edit-custom"]=function(d){var c=curCase();var cs=byId(c.custom,d.id);if(!cs)return;formModal("إعادة تسمية القسم",[{k:"name",l:"اسم القسم"}],cs,function(o){cs.name=o.name||cs.name;saveData()})};
+ACT["del-custom"]=function(d){var c=curCase();var cs=byId(c.custom,d.id);if(!cs)return;confirmM("حذف قسم «"+cs.name+"» وكل عناصره؟",function(){delById(c.custom,d.id);S.sec="summary";saveData()})};
+ACT["cs-items"]=function(d){var c=curCase();var cs=byId(c.custom,d.id);if(!cs)return;cs.items=cs.items||[];manageItems("عناصر قسم: "+cs.name,function(){return cs.items})};
+/* ----- items manager actions ----- */
+ACT["it-add"]=function(){var sel=$("#it-type");if(!sel||!ITEMS_CTX)return;itemForm(sel.value,-1)};
+ACT["it-edit"]=function(d){if(!ITEMS_CTX)return;itemForm(null,+d.i)};
+ACT["it-del"]=function(d){if(!ITEMS_CTX)return;var a=ITEMS_CTX.get();a.splice(+d.i,1);saveData(false);manageItems(ITEMS_CTX.title,ITEMS_CTX.get)};
+/* ---------- events & init ---------- */
+document.addEventListener("click",function(e){
+var ov=e.target.classList&&e.target.classList.contains("overlay");if(ov){closeModal();return}
+var t=e.target.closest("[data-act]");if(!t)return;var a=t.dataset.act;
+if(ACT[a]){e.preventDefault();ACT[a](t.dataset,t,e)}});
+document.addEventListener("keydown",function(e){
+if(e.key==="Escape"){closeModal();return}
+if(e.key==="Enter"){var t=e.target.closest?e.target.closest("[data-enter]"):null;if(t&&ACT[t.dataset.enter]){e.preventDefault();ACT[t.dataset.enter](t.dataset,t,e)}}});
+document.addEventListener("change",function(e){
+if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var ta=$("#imp-ta");if(ta)ta.value=rd.result};rd.readAsText(f)}});
+window.addEventListener("resize",function(){if(S.view==="case"&&S.sec==="map")drawLines()});
+render();
+if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900);
+
+</script>
+</body>
+</html>
