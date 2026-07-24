@@ -288,6 +288,59 @@ a{color:#7c5e14}
 /* richer paper aging */
 .paper{background-image:var(--noise),radial-gradient(420px 300px at 85% 8%,rgba(140,100,45,.14),transparent 70%),radial-gradient(360px 260px at 10% 92%,rgba(120,85,35,.16),transparent 70%),radial-gradient(200px 150px at 25% 20%,rgba(180,150,90,.10),transparent 70%),linear-gradient(160deg,rgba(255,250,230,.55),rgba(180,148,92,.30))}
 .main-sheet{box-shadow:0 22px 55px rgba(0,0,0,.6),inset 0 0 90px rgba(120,90,40,.30)}
+/* ---- mobile / tablet polish ---- */
+.board{touch-action:pan-y}
+.node{touch-action:none}
+@media(max-width:920px){
+.case-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+.case-grid>*{min-width:0;max-width:100%}
+.sidebar{overflow:hidden}
+.side-menu{max-width:100%}
+.side-head{padding:10px 8px 8px}
+.case-tag{margin:10px auto 4px;padding:7px 8px 9px}
+.side-actions{padding-top:10px}
+.main-sheet{min-height:auto}
+}
+.storage-warn{cursor:pointer}
+.storage-warn .swx{font-family:'Cairo';font-weight:800;margin-inline-start:8px;opacity:.8}
+.au-line{display:flex;gap:8px;align-items:stretch}
+.au-line input{flex:1;min-width:0;font-size:13px;font-family:'Cairo'}
+input[type=range]{accent-color:#9d2121;padding:0;height:26px;background:transparent;border:none}
+@media(max-width:640px){
+.rolebar,.cornergear{position:absolute}
+.home-wrap{padding-top:92px}
+.rolebar{max-width:calc(100vw - 74px);flex-wrap:wrap;gap:6px}
+.rolechip{font-size:11px;padding:6px 10px}
+.bottom-nav{justify-content:space-around}
+.bn-item{padding:2px 12px;font-size:12px}
+.bn-item:not(:first-child){border-inline-start:none}
+.topbar-row{gap:8px}
+.topbar-row .topbar{padding:8px 10px;gap:8px}
+.gear-corner{width:44px;min-height:44px;border-radius:9px}
+.tb-num{font-size:17px;gap:5px}
+.iconbtn{width:34px;height:34px}
+.clip.c-l{left:26px}
+.clip.c-r{right:26px}
+.overlay{padding:12px}
+.modal{max-height:94vh}
+.docpage{padding:18px 14px}
+.wm{font-size:38px;left:6%}
+.cc-photo img{height:180px}
+.scene-grid .pol img{height:190px}
+.sum-text{font-size:17px}
+.dp-body{font-size:16.5px}
+.fab-r{bottom:16px;left:12px;width:50px;height:50px}
+.storage-warn{max-width:230px;font-size:11px;bottom:70px}
+.ev-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.ev-img,.ev-noimg{height:110px}
+.folders{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px 16px}
+.sus-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.sus-photo{width:120px;height:150px}
+.accuse-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.acc-item img{height:105px}
+.notes-board{gap:16px}
+.sticky{width:170px;min-height:120px;font-size:14.5px}
+}
 /* reduced motion */
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -537,7 +590,7 @@ settings:{
  logo:"",bg:"",
  passwords:{super:"super2026",admin:"admin2026"},
  unlockAll:false,
- audio:{musicUrl:"",musicVol:22,sfxVol:60,sfx:{click:"",paper:"",stamp:"",solve:"",wrong:"",suspense:""}}
+ audio:{musicUrl:"",caseMusicUrl:"",musicVol:22,sfxVol:60,sfx:{click:"",paper:"",stamp:"",solve:"",wrong:"",suspense:""}}
 },
 cases:[
 /* ============ القضية 1 ============ */
@@ -1123,7 +1176,9 @@ $$(".stars-pick span").forEach(function(sp){sp.onclick=function(){var w=sp.paren
 /* ---------- render root ---------- */
 function render(){var app=$("#app");document.body.classList.toggle("editing",canEdit());$("#bgimg").style.backgroundImage='url("'+(DATA.settings.bg||IMGS.bg)+'")';
 app.innerHTML=S.view==="home"?homeHTML():caseHTML();
-if(S.view==="case"&&S.sec==="map")setTimeout(initBoard,30)}
+if(S.view==="case"&&S.sec==="map")setTimeout(initBoard,30);
+var ab=$(".side-btn.active");if(ab&&ab.scrollIntoView){try{ab.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}}
+try{syncMusic()}catch(e){}}
 /* ---------- HOME ---------- */
 function homeHTML(){var st=DATA.settings;
 var firstOpen=-1;DATA.cases.forEach(function(cc,ii){if(firstOpen<0&&caseUnlocked(ii)&&!PROG.solved[cc.id])firstOpen=ii});
@@ -1146,7 +1201,7 @@ return '<div class="rolebar">'+(ROLE==="user"?'<button class="rolechip" data-act
 '<div class="home-folder">'+ic("folder",24)+"</div>"+
 '<div class="choose"><span class="dm">◆</span> اختر القضية <span class="dm">◆</span></div>'+cards+addC+"</div>"+
 '<nav class="bottom-nav"><span class="bn-item active">'+ic("home",18)+' الرئيسية</span><span class="bn-item" data-act="settings-open">'+ic("gear",18)+' الإعدادات</span><span class="bn-item" data-act="about-open">'+ic("info",18)+' حول اللعبة</span></nav>'+
-(canStore?"":'<div class="storage-warn">⚠ التخزين المحلي غير متاح في هذا العرض — التعديلات مؤقتة، استخدم التصدير من الإعدادات</div>')}
+(canStore||window.__HIDE_SW?"":'<div class="storage-warn" data-act="hide-sw" title="اضغط للإخفاء">⚠ التخزين المحلي غير متاح في هذا العرض — التعديلات مؤقتة، استخدم التصدير من الإعدادات<span class="swx">✕</span></div>')}
 /* ---------- CASE ---------- */
 var SECS=[{id:"summary",n:"ملخص القضية",i:"file"},{id:"scene",n:"مسرح الجريمة",i:"pin"},{id:"evidence",n:"الأدلة",i:"finger"},{id:"suspects",n:"المشتبه بهم",i:"users"},{id:"witnesses",n:"الشهود",i:"eye"},{id:"docs",n:"المستندات",i:"folder"},{id:"reports",n:"التقارير",i:"clipboard"},{id:"notes",n:"الملاحظات",i:"note"},{id:"map",n:"خريطة الربط",i:"network"}];
 function visibleSecs(c){var hid=c.hiddenSections||[];return SECS.filter(function(s){return hid.indexOf(s.id)<0})}
@@ -1154,7 +1209,7 @@ function caseHTML(){var c=curCase();if(!c){S.view="home";return homeHTML()}
 return '<div class="case-wrap">'+topbarHTML(c)+'<div class="case-grid"><div>'+sidebarHTML(c)+"</div><div class=\"paper pstack main-sheet\">"+clipsHTML()+'<div class="'+secAnim()+'">'+mainHTML(c)+"</div></div><div class=\"rpanel\">"+rpanelHTML(c)+"</div></div></div>"+
 '<button class="fab-r" data-act="toggle-drawer" title="اللوحة الجانبية">'+ic("finger",22)+"</button>"+
 (S.drawer?'<div class="rdrawer"><button class="iconbtn" data-act="toggle-drawer" style="margin-bottom:10px">'+ic("x",16)+"</button>"+rpanelHTML(c)+"</div>":"")+
-(canStore?"":'<div class="storage-warn">⚠ التخزين المحلي غير متاح — التعديلات مؤقتة</div>')}
+(canStore||window.__HIDE_SW?"":'<div class="storage-warn" data-act="hide-sw" title="اضغط للإخفاء">⚠ التخزين المحلي غير متاح — التعديلات مؤقتة<span class="swx">✕</span></div>')}
 function clipSVG(){return '<path d="M9 7v27a5 5 0 0 0 10 0V11a7.5 7.5 0 0 0-15 0v25a9.5 9.5 0 0 0 19 0V13" fill="none" stroke="#a8placeholder" stroke-width="2.3" stroke-linecap="round"/>'.replace("#a8placeholder","#a89a72")}
 function clipsHTML(){return '<svg class="clip c-l" viewBox="0 0 28 52">'+clipSVG()+'</svg><svg class="clip c-r" viewBox="0 0 28 52">'+clipSVG()+"</svg>"}
 function clipMini(){return '<svg class="cc-clip" width="20" height="38" viewBox="0 0 28 52">'+clipSVG()+"</svg>"}
@@ -1317,6 +1372,7 @@ function sfxSuspense(){var t=AC.currentTime;[55,58.2,82.4].forEach(function(f){v
 var SFX_FN={click:sfxClick,paper:sfxPaper,stamp:sfxStamp,solve:sfxSolve,wrong:sfxWrong,suspense:sfxSuspense};
 function sfxOn(){return !PROG.audio||PROG.audio.sfx!==false}
 function playSfx(name){try{if(!sfxOn())return;var a=audioCfg();var u=a.sfx&&a.sfx[name];
+if(u==="off")return;
 if(u){var el=new Audio(u);el.volume=Math.min(1,(a.sfxVol==null?60:+a.sfxVol)/100);el.play().catch(function(){});return}
 if(!actx())return;if(AC.state==="suspended")AC.resume();(SFX_FN[name]||sfxClick)()}catch(e){}}
 /* ---- الموسيقى: حلقة نوار محيطية مُصنّعة ---- */
@@ -1327,14 +1383,16 @@ function startCrackle(){if(MUSIC.crk)return;var s=AC.createBufferSource();s.buff
 MUSIC.pop=setInterval(function(){try{if(Math.random()<0.55&&AC&&MUSIC.playing)_noise(AC.currentTime,0.03,"bandpass",3000+Math.random()*3000,0.045,MUSIC.gain)}catch(e){}},900)}
 function stopCrackle(){if(MUSIC.crk){try{MUSIC.crk.s.stop()}catch(e){}MUSIC.crk=null}if(MUSIC.pop){clearInterval(MUSIC.pop);MUSIC.pop=null}}
 function musicOn(){return !PROG.audio||PROG.audio.music!==false}
-function startMusic(){try{if(MUSIC.playing||!musicOn())return;var a=audioCfg();
-if(a.musicUrl){if(!MUSIC.el){MUSIC.el=new Audio(a.musicUrl);MUSIC.el.loop=true}applyVols();MUSIC.el.play().catch(function(){});MUSIC.playing=true;return}
-if(!actx())return;if(AC.state==="suspended")AC.resume();applyVols();startCrackle();chordStep();MUSIC.timer=setInterval(chordStep,7000);MUSIC.playing=true}catch(e){}}
+function desiredMusicSrc(){var a=audioCfg();var u=(S.view==="case"&&a.caseMusicUrl)?a.caseMusicUrl:a.musicUrl;return u||"synth"}
+function startMusic(){try{if(MUSIC.playing||!musicOn())return;var src=desiredMusicSrc();if(src==="off")return;
+if(src!=="synth"){if(!MUSIC.el||MUSIC.el.__src!==src){try{if(MUSIC.el)MUSIC.el.pause()}catch(e2){}MUSIC.el=new Audio(src);MUSIC.el.loop=true;MUSIC.el.__src=src}applyVols();MUSIC.el.play().catch(function(){});MUSIC.src=src;MUSIC.playing=true;return}
+if(!actx())return;if(AC.state==="suspended")AC.resume();applyVols();startCrackle();chordStep();MUSIC.timer=setInterval(chordStep,7000);MUSIC.src="synth";MUSIC.playing=true}catch(e){}}
+function syncMusic(){if(!MUSIC.playing)return;if(MUSIC.src!==desiredMusicSrc())restartMusic()}
 function stopMusic(){if(MUSIC.timer){clearInterval(MUSIC.timer);MUSIC.timer=null}stopCrackle();if(MUSIC.el){try{MUSIC.el.pause()}catch(e){}}MUSIC.playing=false}
 function restartMusic(){stopMusic();MUSIC.el=null;if(musicOn())startMusic()}
 function audioKick(){try{if(actx()&&AC.state==="suspended")AC.resume();if(musicOn())startMusic()}catch(e){}}
 function sndChipHTML(){return '<button class="rolechip" data-act="toggle-music" title="تشغيل/كتم الموسيقى">'+ic(musicOn()?"audio":"mute",14)+" "+(musicOn()?"الموسيقى: تعمل":"الموسيقى: صامتة")+"</button>"}
-var SND_MAP={"open-case":null,"cine-skip":null,"accuse-open":"suspense","accuse-confirm":null,"go-sec":"paper","set-tab":"paper","open-folder":"paper","back-folders":"paper","open-doc":"paper","open-report":"paper","open-sus":"paper","lb-img":"paper","lb-ev":"paper","show-solution":"stamp","toggle-music":null,"form-save":"click","close-modal":"click"};
+var SND_MAP={"open-case":null,"cine-skip":null,"accuse-open":"suspense","accuse-confirm":null,"go-sec":"paper","set-tab":"paper","open-folder":"paper","back-folders":"paper","open-doc":"paper","open-report":"paper","open-sus":"paper","lb-img":"paper","lb-ev":"paper","show-solution":"stamp","toggle-music":null,"form-save":"click","close-modal":"click","au-test":null,"au-save":null,"au-reset":null,"hide-sw":null};
 /* ---------- items manager ---------- */
 var TYPES=[{v:"text",l:"نص"},{v:"image",l:"صورة"},{v:"audio",l:"تسجيل صوتي"},{v:"video",l:"فيديو"},{v:"link",l:"رابط خارجي"},{v:"doc",l:"مستند"}];
 function typeName(t){for(var i=0;i<TYPES.length;i++)if(TYPES[i].v===t)return TYPES[i].l;return t}
@@ -1382,6 +1440,7 @@ ACT["cine-skip"]=function(){finishIntro()};
 ACT["go-sec"]=function(d){S.sec=d.sec;S.folderId=null;S.drawer=false;markVisit();render()};
 ACT["set-tab"]=function(d){S.tab=d.tab;render()};
 ACT["toggle-drawer"]=function(){S.drawer=!S.drawer;render()};
+ACT["hide-sw"]=function(){window.__HIDE_SW=true;render()};
 function markVisit(){if(!S.caseId)return;var v=PROG.visited[S.caseId]||[];if(v.indexOf(S.sec)<0){v.push(S.sec);PROG.visited[S.caseId]=v;saveProg()}}
 ACT["open-folder"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;var c=curCase();var f=findFolder(c,d.f);if(!f)return;
 if(f.locked&&!secretOpen(c)){toast("🔒 مجلد سري — يُفتح بعد التقدم في التحقيق أو حسم القضية",true);return}
@@ -1415,20 +1474,38 @@ ACT["import-data"]=function(){openModal('<div class="m-title">استيراد ب�
 $("#do-imp").onclick=function(){try{var obj=JSON.parse($("#imp-ta").value);if(!obj||!obj.cases||!obj.settings)throw new Error("bad");DATA=obj;saveData();closeModal();toast("تم استيراد البيانات بنجاح")}catch(e){toast("ملف غير صالح — تأكد من لصق JSON الصحيح",true)}}};
 ACT["reset-data"]=function(){confirmM("ستعود اللعبة بالكامل للنسخة الأصلية وتُحذف كل تعديلات المشرفين على هذا الجهاز. هل أنت متأكد؟",function(){sdel(K.data);DATA=clone(DEFAULT_DATA);render();toast("تمت إعادة الضبط للنسخة الأصلية")})};
 ACT["toggle-music"]=function(){PROG.audio.music=!musicOn();saveProg();if(musicOn()){startMusic();toast("🎵 الموسيقى تعمل")}else{stopMusic();toast("🔇 الموسيقى صامتة")}render()};
-ACT["edit-audio"]=function(){var a=audioCfg();formModal("تخصيص الموسيقى والمؤثرات",[
-{k:"musicUrl",l:"رابط الموسيقى الخلفية (mp3/ogg)",ph:"https://…",help:"اتركه فارغاً لاستخدام موسيقى النوار المدمجة — الرابط يجب أن يكون ملفاً صوتياً مباشراً"},
-{k:"musicVol",l:"مستوى الموسيقى (0 - 100)",ph:"22"},
-{k:"sfxVol",l:"مستوى المؤثرات (0 - 100)",ph:"60"},
-{k:"s_click",l:"مؤثر النقر (رابط اختياري)",ph:"https://…"},
-{k:"s_paper",l:"مؤثر تقليب الورق (رابط اختياري)",ph:"https://…"},
-{k:"s_stamp",l:"مؤثر انطباع الختم (رابط اختياري)",ph:"https://…"},
-{k:"s_solve",l:"مؤثر حل القضية (رابط اختياري)",ph:"https://…"},
-{k:"s_wrong",l:"مؤثر الاتهام الخاطئ (رابط اختياري)",ph:"https://…"},
-{k:"s_suspense",l:"مؤثر التوتر عند الاتهام (رابط اختياري)",ph:"https://…"}
-],{musicUrl:a.musicUrl,musicVol:a.musicVol,sfxVol:a.sfxVol,s_click:a.sfx.click||"",s_paper:a.sfx.paper||"",s_stamp:a.sfx.stamp||"",s_solve:a.sfx.solve||"",s_wrong:a.sfx.wrong||"",s_suspense:a.sfx.suspense||""},function(o){
-a.musicUrl=o.musicUrl;a.musicVol=Math.max(0,Math.min(100,parseInt(o.musicVol)||0));a.sfxVol=Math.max(0,Math.min(100,parseInt(o.sfxVol)||0));
-a.sfx={click:o.s_click,paper:o.s_paper,stamp:o.s_stamp,solve:o.s_solve,wrong:o.s_wrong,suspense:o.s_suspense};
-saveData(false);applyVols();restartMusic();toast("تم حفظ إعدادات الصوت");playSfx("stamp")})};
+function auRow(id,lab,val,testK){return '<div class="form-row"><label>'+esc(lab)+'</label><div class="au-line"><input id="au-'+id+'" value="'+esc(val||"")+'" placeholder="https://… (فارغ = الصوت المدمج)" style="direction:ltr"><button class="btn dark sm" data-act="au-test" data-k="'+testK+'" title="معاينة">'+ic("play",13)+"</button></div></div>"}
+function openAudioModal(){var a=audioCfg();
+openModal('<div class="m-title">🎛️ التحكم الكامل بالصوت والموسيقى</div>'
++'<div class="m-sec" style="border:none;margin:0;padding:0"><h4>'+ic("audio",16)+" الموسيقى</h4>"
++auRow("music","الموسيقى العامة (الشاشة الرئيسية واللعبة كلها)",a.musicUrl,"music")
++auRow("casemusic","موسيقى داخل ملفات القضايا (اختيارية — تحل محل العامة داخل القضية)",a.caseMusicUrl,"casemusic")
++'<div class="form-row"><label>مستوى الموسيقى: <b id="au-mvol-v">'+(a.musicVol==null?22:a.musicVol)+'</b>٪</label><input type="range" id="au-mvol" min="0" max="100" value="'+(a.musicVol==null?22:a.musicVol)+'"></div></div>'
++'<div class="m-sec"><h4>'+ic("mic",16)+" المؤثرات الصوتية — كل مؤثر برابط مستقل</h4>"
++auRow("click","نقر الأزرار",a.sfx.click,"click")
++auRow("paper","تقليب الورق والتنقل بين الأقسام",a.sfx.paper,"paper")
++auRow("stamp","انطباع الختم (الافتتاحية والمستندات)",a.sfx.stamp,"stamp")
++auRow("suspense","التوتر عند فتح نافذة الاتهام",a.sfx.suspense,"suspense")
++auRow("wrong","الاتهام الخاطئ",a.sfx.wrong,"wrong")
++auRow("solve","حل القضية",a.sfx.solve,"solve")
++'<div class="form-row"><label>مستوى المؤثرات: <b id="au-svol-v">'+(a.sfxVol==null?60:a.sfxVol)+'</b>٪</label><input type="range" id="au-svol" min="0" max="100" value="'+(a.sfxVol==null?60:a.sfxVol)+'"></div></div>'
++'<div class="m-actions"><button class="btn" data-act="au-save">'+ic("check",15)+' حفظ إعدادات الصوت</button><button class="btn gold" data-act="au-reset">استعادة الافتراضي</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>'
++'<div class="help" style="text-align:center;line-height:2">▶ لمعاينة أي صوت قبل الحفظ • اكتب <b>off</b> في أي خانة مؤثر لتعطيله نهائياً • الروابط ملفات صوتية مباشرة (mp3 / ogg / wav) • كل الإعدادات تدخل ضمن التصدير والاستيراد',"wide")}
+ACT["edit-audio"]=function(){openAudioModal()};
+ACT["au-test"]=function(d){var k=d.k;var el=$("#au-"+k);var v=el?el.value.trim():"";
+if(v==="off"){toast("هذا المؤثر معطّل (off)");return}
+if(k==="music"||k==="casemusic"){
+ if(v){try{if(window.__AUT)window.__AUT.pause()}catch(e){}var t=new Audio(v);t.volume=0.55;window.__AUT=t;t.play().then(function(){toast("معاينة 6 ثوانٍ…")}).catch(function(){toast("تعذر تشغيل الرابط — تأكد أنه ملف صوتي مباشر",true)});setTimeout(function(){try{t.pause()}catch(e){}},6000)}
+ else if(actx()){if(AC.state==="suspended")AC.resume();chordStep();toast("هذه عيّنة من موسيقى النوار المدمجة")}
+ return}
+if(v){var t2=new Audio(v);t2.volume=Math.min(1,(+$("#au-svol").value||60)/100);t2.play().catch(function(){toast("تعذر تشغيل الرابط — تأكد أنه ملف صوتي مباشر",true)})}
+else if(actx()){if(AC.state==="suspended")AC.resume();(SFX_FN[k]||sfxClick)()}};
+ACT["au-save"]=function(){var a=audioCfg();function v(id){var el=$("#au-"+id);return el?el.value.trim():""}
+a.musicUrl=v("music");a.caseMusicUrl=v("casemusic");
+a.musicVol=Math.max(0,Math.min(100,+$("#au-mvol").value||0));a.sfxVol=Math.max(0,Math.min(100,+$("#au-svol").value||0));
+a.sfx={click:v("click"),paper:v("paper"),stamp:v("stamp"),solve:v("solve"),wrong:v("wrong"),suspense:v("suspense")};
+saveData(false);applyVols();restartMusic();closeModal();toast("✓ تم حفظ إعدادات الصوت كاملة");playSfx("stamp")};
+ACT["au-reset"]=function(){confirmM("ستعود كل إعدادات الصوت والموسيقى للوضع المدمج الافتراضي. متأكد؟",function(){DATA.settings.audio={musicUrl:"",caseMusicUrl:"",musicVol:22,sfxVol:60,sfx:{click:"",paper:"",stamp:"",solve:"",wrong:"",suspense:""}};saveData(false);applyVols();restartMusic();openAudioModal();toast("عادت الأصوات للوضع الافتراضي")})};
 ACT["edit-game"]=function(){var st=DATA.settings;formModal("هوية اللعبة",[
 {k:"gameTitle",l:"اسم اللعبة (لاتيني للشعار الجانبي)"},{k:"gameSub",l:"العنوان الفرعي"},{k:"tagline",l:"الشعار / السطر التعريفي"},{k:"about",l:"نص (حول اللعبة)",type:"area"},{k:"logo",l:"رابط صورة الشعار (اختياري)",ph:"https://…"},{k:"bg",l:"رابط صورة الخلفية (اختياري)",ph:"https://…"}
 ],st,function(o){st.gameTitle=o.gameTitle||st.gameTitle;st.gameSub=o.gameSub;st.tagline=o.tagline;st.about=o.about;st.logo=o.logo;st.bg=o.bg;saveData();toast("تم حفظ هوية اللعبة")})};
@@ -1531,6 +1608,9 @@ if(ACT[a]){e.preventDefault();var snd=SND_MAP.hasOwnProperty(a)?SND_MAP[a]:"clic
 document.addEventListener("keydown",function(e){
 if(e.key==="Escape"){closeModal();return}
 if(e.key==="Enter"){var t=e.target.closest?e.target.closest("[data-enter]"):null;if(t&&ACT[t.dataset.enter]){e.preventDefault();ACT[t.dataset.enter](t.dataset,t,e)}}});
+document.addEventListener("input",function(e){
+if(e.target&&e.target.id==="au-mvol"){var b=$("#au-mvol-v");if(b)b.textContent=e.target.value}
+if(e.target&&e.target.id==="au-svol"){var b2=$("#au-svol-v");if(b2)b2.textContent=e.target.value}});
 document.addEventListener("change",function(e){
 if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var ta=$("#imp-ta");if(ta)ta.value=rd.result};rd.readAsText(f)}
 if(e.target&&e.target.id==="aud-m"){PROG.audio.music=e.target.checked;saveProg();if(e.target.checked)startMusic();else stopMusic()}
