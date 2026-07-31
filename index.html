@@ -1881,6 +1881,7 @@ function sset(k,v){MEM[k]=v;if(canStore){try{localStorage.setItem(k,JSON.stringi
 function sdel(k){delete MEM[k];if(canStore){try{localStorage.removeItem(k)}catch(e){}}}
 var K={data:"ct_data_v1",prog:"ct_prog_v1",role:"ct_role_v1"};
 var DATA=sget(K.data);if(!DATA||!DATA.cases){DATA=clone(DEFAULT_DATA)}
+else{DATA.deletedIds=DATA.deletedIds||[];DEFAULT_DATA.cases.forEach(function(dc){if(DATA.deletedIds.indexOf(dc.id)>=0)return;var found=false;for(var qi=0;qi<DATA.cases.length;qi++)if(DATA.cases[qi].id===dc.id)found=true;if(!found)DATA.cases.push(clone(dc))})}
 var PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:true,sfx:true};
 if(!DATA.settings.audio)DATA.settings.audio={musicUrl:"",musicVol:22,sfxVol:60,sfx:{}};
 var ROLE=sget(K.role)||"user";
@@ -2266,7 +2267,7 @@ summary:{text:"اكتب ملخص القضية هنا…",photo:"",photoCap:"",vi
 scene:{address:"العنوان غير محدد",intro:"وصف مسرح الجريمة…",photos:[],notes:[]},evidence:[],suspects:[],witnesses:[],folders:[],reports:[],notes:[],map:{nodes:[],links:[]},custom:[]};
 DATA.cases.push(c);saveData(false);S.view="case";S.caseId=c.id;S.sec="summary";render();caseForm(c,true)};
 ACT["toggle-pub"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;c.published=(c.published===false);saveData();toast(c.published?"✓ القضية الآن منشورة ومرئية للاعبين":"🔒 القضية الآن غير منشورة — يراها المشرفون فقط")};
-ACT["del-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;confirmM("سيتم حذف القضية «"+c.title+"» بكل محتوياتها نهائياً.",function(){delById(DATA.cases,d.id);if(S.caseId===d.id){S.view="home";S.caseId=null}saveData();toast("تم حذف القضية")})};
+ACT["del-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;confirmM("سيتم حذف القضية «"+c.title+"» بكل محتوياتها نهائياً.",function(){delById(DATA.cases,d.id);DATA.deletedIds=DATA.deletedIds||[];if(DATA.deletedIds.indexOf(d.id)<0)DATA.deletedIds.push(d.id);if(S.caseId===d.id){S.view="home";S.caseId=null}saveData();toast("تم حذف القضية")})};
 /* ----- summary CRUD ----- */
 ACT["edit-summary"]=function(){var c=curCase();formModal("تعديل ملخص القضية",[{k:"text",l:"نص الملخص",type:"area"},{k:"photo",l:"رابط صورة الملخص",ph:"https://…"},{k:"photoCap",l:"وصف الصورة"}],c.summary,function(o){c.summary.text=o.text;c.summary.photo=o.photo;c.summary.photoCap=o.photoCap;saveData();toast("تم الحفظ")})};
 ACT["edit-victim"]=function(){var c=curCase();formModal("بيانات الضحية",[{k:"name",l:"الاسم"},{k:"age",l:"العمر",ph:"28 سنة"},{k:"job",l:"الوظيفة"},{k:"marital",l:"الحالة الاجتماعية"},{k:"photo",l:"رابط صورة (اتركه فارغاً لصورة الظل)",ph:"https://…"},{k:"note",l:"سطر أحمر تحت الجدول (اختياري)",ph:"مثال: الضحية الثالثة في السلسلة"}],c.summary.victim,function(o){c.summary.victim=o;saveData();toast("تم الحفظ")})};
