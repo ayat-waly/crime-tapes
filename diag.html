@@ -1,0 +1,15 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>diag</title></head><body style="font-family:monospace;font-size:22px;padding:20px;background:#111;color:#0f0">
+<div id="out">starting…</div>
+<script>
+var out=document.getElementById("out");
+function log(m){out.innerHTML+="<br>"+m}
+var TK=new URLSearchParams(location.search).get("tk")||"";
+var url="https://api.github.com/repos/ayat-waly/crime-tapes/contents/diag-write-test.txt";
+var H={"Authorization":"Bearer "+TK,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+log("token len: "+TK.length);
+fetch(url+"?ref=main",{headers:H}).then(function(r){log("GET status: "+r.status);return r.status===404?null:r.json();}).then(function(cur){
+var body={message:"diag write test",content:btoa("hello "+Date.now()),branch:"main"};
+if(cur&&cur.sha)body.sha=cur.sha;
+return fetch(url,{method:"PUT",headers:H,body:JSON.stringify(body)});
+}).then(function(r){log("PUT status: "+r.status);return r.text();}).then(function(t){log("PUT resp: "+t.slice(0,200));log("<b>DONE</b>");}).catch(function(e){log("<b style=color:red>FETCH ERROR: "+e.message+"</b>");});
+</script></body></html>
