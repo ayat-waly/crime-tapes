@@ -1880,15 +1880,20 @@ function sget(k){if(canStore){try{var v=localStorage.getItem(k);return v?JSON.pa
 function sset(k,v){MEM[k]=v;if(canStore){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}}
 function sdel(k){delete MEM[k];if(canStore){try{localStorage.removeItem(k)}catch(e){}}}
 var K={data:"ct_data_v1",prog:"ct_prog_v1",role:"ct_role_v1"};
-var DATA=sget(K.data);if(!DATA||!DATA.cases){DATA=clone(DEFAULT_DATA)}
-else{DATA.deletedIds=DATA.deletedIds||[];DEFAULT_DATA.cases.forEach(function(dc){if(DATA.deletedIds.indexOf(dc.id)>=0)return;var found=false;for(var qi=0;qi<DATA.cases.length;qi++)if(DATA.cases[qi].id===dc.id)found=true;if(!found)DATA.cases.push(clone(dc))})}
-var PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:true,sfx:true};
+var DATA=null,PROG=null,ROLE="user";
+function initData(){
+var stored=sget(K.data);var rts=DEFAULT_DATA._ts||0;
+if(!stored||!stored.cases){DATA=clone(DEFAULT_DATA)}
+else if(rts&&rts>=(stored._ts||0)){DATA=clone(DEFAULT_DATA)}
+else{DATA=stored;DATA.deletedIds=DATA.deletedIds||[];DEFAULT_DATA.cases.forEach(function(dc){if(DATA.deletedIds.indexOf(dc.id)>=0)return;var found=false;for(var qi=0;qi<DATA.cases.length;qi++)if(DATA.cases[qi].id===dc.id)found=true;if(!found)DATA.cases.push(clone(dc))})}
+PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:true,sfx:true};
 if(!DATA.settings.audio)DATA.settings.audio={musicUrl:"",musicVol:22,sfxVol:60,sfx:{}};
-var ROLE=sget(K.role)||"user";
+ROLE=sget(K.role)||"user";
+}
 var S={view:"home",caseId:null,sec:"summary",tab:"ev",folderId:null,edit:false,pick:null,connect:false,connectFrom:null,drawer:false};
 var CUR_FORM=null,ITEMS_CTX=null;
 var LAST_SEC="";function secAnim(){var cls=S.sec!==LAST_SEC?"sec-anim":"";LAST_SEC=S.sec;return cls}
-function saveData(re){DATA.version=DATA.version||1;sset(K.data,DATA);if(re!==false)render()}
+function saveData(re){DATA.version=DATA.version||1;DATA._ts=Date.now();sset(K.data,DATA);if(re!==false)render()}
 function saveProg(){sset(K.prog,PROG)}
 function isAdmin(){return ROLE==="admin"||ROLE==="super"}
 function canEdit(){return isAdmin()&&S.edit}
@@ -2162,7 +2167,15 @@ h+="</div>";
 h+='<div class="m-sec"><h4>'+ic("audio",15)+' الصوت والموسيقى</h4><label class="chk"><input type="checkbox" id="aud-m"'+(musicOn()?" checked":"")+'> تشغيل الموسيقى الخلفية</label><label class="chk"><input type="checkbox" id="aud-s"'+(sfxOn()?" checked":"")+'> تشغيل المؤثرات الصوتية</label>'+(isAdmin()?'<div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-audio">'+ic("gear",13)+" تخصيص الموسيقى والمؤثرات (أدمن)</button></div>":"")+"</div>";
 h+='<div class="m-sec"><h4>'+ic("clock",15)+' تقدمي في اللعب</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn dark sm" data-act="reset-prog">مسح تقدمي المحلي (الحلول والملاحظات الخاصة)</button></div></div>';
 if(isAdmin()){h+='<div class="m-sec"><h4>'+ic("gear",15)+' إعدادات اللعبة (أدمن)</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-game">تعديل هوية اللعبة والنصوص</button><button class="btn '+(st.unlockAll?"":"dark ")+'sm" data-act="toggle-unlock">'+(st.unlockAll?"إقفال القضايا بالتسلسل":"فتح جميع القضايا للجميع")+"</button></div></div>"}
-if(ROLE==="super"){h+='<div class="m-sec"><h4>'+ic("key",15)+' السوبر أدمن</h4><div class="form-row"><label>كلمة مرور السوبر أدمن</label><input id="pw-super" value="'+esc(st.passwords.super)+'"></div><div class="form-row"><label>كلمة مرور الأدمن</label><input id="pw-admin" value="'+esc(st.passwords.admin)+'"></div><div class="m-actions" style="justify-content:flex-start"><button class="btn sm" data-act="save-pws">حفظ كلمات المرور</button></div>'+
+if(ROLE==="super"){var gh=sget("ct_gh_v1")||{owner:"",repo:"",branch:"main",token:""};
+h+='<div class="m-sec"><h4>'+ic("upload",15)+' النشر للجميع بضغطة واحدة (GitHub)</h4>'
++'<p class="help" style="line-height:2">اربطي اللعبة بمستودعك مرة واحدة، وبعدها أي تعديل أو نشر قضية = زر واحد يرفع البيانات تلقائياً وتظهر لكل المستخدمين خلال دقيقة (بما فيهم داخل iframe).</p>'
++'<div class="form-row"><label>اسم مستخدم GitHub (owner)</label><input id="gh-owner" value="'+esc(gh.owner)+'" placeholder="ayat-waly" style="direction:ltr"></div>'
++'<div class="form-row"><label>اسم المستودع (repo)</label><input id="gh-repo" value="'+esc(gh.repo)+'" placeholder="crime-tapes" style="direction:ltr"></div>'
++'<div class="form-row"><label>الفرع (branch)</label><input id="gh-branch" value="'+esc(gh.branch||"main")+'" placeholder="main" style="direction:ltr"></div>'
++'<div class="form-row"><label>التوكن (Fine-grained token بصلاحية Contents: Read and write)</label><input id="gh-token" type="password" value="'+esc(gh.token)+'" placeholder="github_pat_…" style="direction:ltr"><div class="help">يُحفظ على جهازك فقط — لا يدخل في ملف اللعبة ولا في التصدير أبداً.</div></div>'
++'<div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="gh-publish">🌍 نشر للجميع الآن</button><button class="btn dark sm" data-act="gh-save">حفظ الإعدادات فقط</button></div></div>';
+h+='<div class="m-sec"><h4>'+ic("key",15)+' السوبر أدمن</h4><div class="form-row"><label>كلمة مرور السوبر أدمن</label><input id="pw-super" value="'+esc(st.passwords.super)+'"></div><div class="form-row"><label>كلمة مرور الأدمن</label><input id="pw-admin" value="'+esc(st.passwords.admin)+'"></div><div class="m-actions" style="justify-content:flex-start"><button class="btn sm" data-act="save-pws">حفظ كلمات المرور</button></div>'+
 '<div class="m-actions" style="justify-content:flex-start;margin-top:12px"><button class="btn gold sm" data-act="export-data">'+ic("download",14)+' تصدير بيانات اللعبة</button><button class="btn gold sm" data-act="import-data">'+ic("upload",14)+' استيراد بيانات</button><button class="btn dark sm" data-act="reset-data">إعادة الضبط للنسخة الأصلية</button></div></div>'}
 h+='<div class="help" style="text-align:center;margin-top:14px">تعديلات المشرفين تُحفظ في متصفح هذا الجهاز — استخدم التصدير/الاستيراد لنقلها لجهاز آخر أو لطلب تضمينها في نسخة منشورة محدثة.</div>';
 openModal(h)}
@@ -2212,9 +2225,27 @@ ACT["form-save"]=function(){if(!CUR_FORM)return;var out={};CUR_FORM.fields.forEa
 ACT["reset-prog"]=function(){confirmM("سيُمسح تقدمك المحلي: القضايا المحلولة والمحاولات وملاحظاتك الخاصة ومواضع الخريطة. البيانات والمحتوى لن تتأثر.",function(){PROG={solved:{},attempts:{},visited:{},unotes:{},mapPos:{}};saveProg();render();toast("تم مسح التقدم")})};
 ACT["toggle-unlock"]=function(){DATA.settings.unlockAll=!DATA.settings.unlockAll;saveData(false);openSettings();toast(DATA.settings.unlockAll?"كل القضايا مفتوحة الآن للجميع":"عاد القفل التسلسلي للقضايا")};
 ACT["save-pws"]=function(){var s=$("#pw-super"),a=$("#pw-admin");if(!s||!a)return;if(!s.value.trim()||!a.value.trim()){toast("لا يمكن ترك كلمة مرور فارغة",true);return}DATA.settings.passwords.super=s.value.trim();DATA.settings.passwords.admin=a.value.trim();saveData(false);toast("تم حفظ كلمات المرور")};
-ACT["export-data"]=function(){var json=JSON.stringify(DATA,null,1);openModal('<div class="m-title">تصدير بيانات اللعبة</div><p class="help" style="text-align:center">انسخ هذا الملف واحفظه — أو أرسله لي في المحادثة لأضمّنه نسخة منشورة دائمة للجميع.</p><textarea id="exp-ta" style="min-height:220px;direction:ltr;font-family:monospace;font-size:11px">'+esc(json)+'</textarea><div class="m-actions"><button class="btn sm" id="copy-exp">نسخ إلى الحافظة</button><button class="btn gold sm" id="dl-exp">تنزيل كملف</button><button class="btn dark sm" data-act="close-modal">إغلاق</button></div>');
+function b64utf8(s){var b=new TextEncoder().encode(s),bin="";for(var i=0;i<b.length;i++)bin+=String.fromCharCode(b[i]);return btoa(bin)}
+function ghReadForm(){var f=function(id){var el=$("#gh-"+id);return el?el.value.trim():null};var cur=sget("ct_gh_v1")||{};var o={owner:f("owner"),repo:f("repo"),branch:f("branch"),token:f("token")};
+if(o.owner===null)return cur;o.branch=o.branch||"main";sset("ct_gh_v1",o);return o}
+ACT["gh-save"]=function(){var g=ghReadForm();if(!g.owner||!g.repo||!g.token){toast("أكملي البيانات الثلاثة: المستخدم والمستودع والتوكن",true);return}toast("✓ حُفظت إعدادات الربط على هذا الجهاز")};
+function ghResult(title,msg,ok){openModal('<div class="m-title">'+(ok?"✅ ":"⚠️ ")+esc(title)+'</div><p style="text-align:center;font-size:17px;line-height:2">'+msg+'</p><div class="m-actions"><button class="btn" data-act="close-modal">حسناً</button></div>',"narrow")}
+ACT["gh-publish"]=function(){var g=ghReadForm();
+if(!g.owner||!g.repo||!g.token){ghResult("بيانات ناقصة","أكملي بيانات الربط أولاً: اسم المستخدم، اسم المستودع، والتوكن.",false);return}
+openModal('<div class="m-title">⏳ جارٍ النشر…</div><p style="text-align:center;font-size:17px;line-height:2">يتم الآن رفع بياناتك إلى GitHub. لحظة من فضلك…</p>');
+var url="https://api.github.com/repos/"+encodeURIComponent(g.owner)+"/"+encodeURIComponent(g.repo)+"/contents/game-data.json";
+var hd={"Authorization":"Bearer "+g.token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+DATA._ts=Date.now();sset(K.data,DATA);
+var content;try{content=b64utf8(JSON.stringify(DATA,null,1))}catch(e){ghResult("خطأ في التجهيز","تعذر تجهيز البيانات: "+e.message,false);return}
+fetch(url+"?ref="+encodeURIComponent(g.branch),{headers:hd}).then(function(r){if(r.status===404)return null;if(!r.ok)throw {code:r.status};return r.json()}).then(function(cur){
+var body={message:"تحديث بيانات اللعبة من لوحة المشرف",content:content,branch:g.branch};
+if(cur&&cur.sha)body.sha=cur.sha;
+return fetch(url,{method:"PUT",headers:hd,body:JSON.stringify(body)})}).then(function(r){
+if(r.ok){playSfx("solve");ghResult("تم النشر بنجاح!","حُفظت تعديلاتك على GitHub، وستظهر لكل المستخدمين (وداخل الآيفريم) خلال دقيقة تقريباً.<br>اطلبي منهم تحديث الصفحة لرؤية الجديد.",true)}
+else{return r.text().then(function(t){var m=r.status===401||r.status===403?"التوكن غير صحيح أو لا يملك صلاحية Contents: Read and write.":r.status===404?"لم أجد المستودع — تأكدي من اسم المستخدم واسم المستودع بالضبط.":"رمز الخطأ: "+r.status;ghResult("تعذر النشر",m,false)})}}).catch(function(e){var c=e&&e.code;ghResult("تعذر النشر",c?("رمز الخطأ: "+c+(c===401||c===403?" — تحققي من التوكن وصلاحيته.":"")):"تعذر الاتصال بـ GitHub — تحققي من الإنترنت والتوكن.",false)})};
+ACT["export-data"]=function(){DATA._ts=Date.now();sset(K.data,DATA);var json=JSON.stringify(DATA,null,1);openModal('<div class="m-title">تصدير بيانات اللعبة</div><p class="help" style="text-align:center;line-height:2">💡 لنشر تعديلاتك لكل المستخدمين: نزّل الملف (باسم game-data.json) وارفعه في نفس مجلد اللعبة على موقعك (GitHub) — خلال دقيقة يراه الجميع.</p><textarea id="exp-ta" style="min-height:220px;direction:ltr;font-family:monospace;font-size:11px">'+esc(json)+'</textarea><div class="m-actions"><button class="btn sm" id="copy-exp">نسخ إلى الحافظة</button><button class="btn gold sm" id="dl-exp">تنزيل كملف</button><button class="btn dark sm" data-act="close-modal">إغلاق</button></div>');
 $("#copy-exp").onclick=function(){var ta=$("#exp-ta");ta.select();try{document.execCommand("copy");toast("تم النسخ")}catch(e){if(navigator.clipboard){navigator.clipboard.writeText(ta.value).then(function(){toast("تم النسخ")})}}};
-$("#dl-exp").onclick=function(){try{var b=new Blob([json],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="crime-tapes-data.json";document.body.appendChild(a);a.click();a.remove();toast("بدأ التنزيل")}catch(e){toast("التنزيل غير متاح هنا — استخدم النسخ",true)}}};
+$("#dl-exp").onclick=function(){try{var b=new Blob([json],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="game-data.json";document.body.appendChild(a);a.click();a.remove();toast("بدأ التنزيل")}catch(e){toast("التنزيل غير متاح هنا — استخدم النسخ",true)}}};
 ACT["import-data"]=function(){openModal('<div class="m-title">استيراد بيانات اللعبة</div><div class="form-row"><label>الصق ملف JSON هنا</label><textarea id="imp-ta" style="min-height:200px;direction:ltr;font-family:monospace;font-size:11px" placeholder=\'{"version":1,"settings":…}\'></textarea></div><div class="form-row"><label>أو اختر ملفاً من جهازك</label><input type="file" id="impFile" accept=".json,application/json"></div><div class="m-actions"><button class="btn" id="do-imp">استيراد وتطبيق</button><button class="btn dark" data-act="close-modal">إلغاء</button></div>');
 $("#do-imp").onclick=function(){try{var obj=JSON.parse($("#imp-ta").value);if(!obj||!obj.cases||!obj.settings)throw new Error("bad");DATA=obj;saveData();closeModal();toast("تم استيراد البيانات بنجاح")}catch(e){toast("ملف غير صالح — تأكد من لصق JSON الصحيح",true)}}};
 ACT["reset-data"]=function(){confirmM("ستعود اللعبة بالكامل للنسخة الأصلية وتُحذف كل تعديلات المشرفين على هذا الجهاز. هل أنت متأكد؟",function(){sdel(K.data);DATA=clone(DEFAULT_DATA);render();toast("تمت إعادة الضبط للنسخة الأصلية")})};
@@ -2363,9 +2394,12 @@ if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var r
 if(e.target&&e.target.id==="aud-m"){PROG.audio.music=e.target.checked;saveProg();if(e.target.checked)startMusic();else stopMusic()}
 if(e.target&&e.target.id==="aud-s"){PROG.audio.sfx=e.target.checked;saveProg();if(e.target.checked)playSfx("click")}});
 window.addEventListener("resize",function(){if(S.view==="case"&&S.sec==="map")drawLines()});
-render();
 document.addEventListener("pointerdown",audioKick,{once:true});
-if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900);
+/* الإقلاع: محاولة تحميل game-data.json من نفس المجلد (للنشر المركزي عبر GitHub) ثم التشغيل */
+function boot(){initData();render();if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900)}
+(function(){var done=false;function go(){if(done)return;done=true;boot()}
+var tm=setTimeout(go,2500);
+try{fetch("game-data.json?ts="+Date.now(),{cache:"no-store"}).then(function(r){return r&&r.ok?r.json():null}).catch(function(){return null}).then(function(rm){clearTimeout(tm);if(rm&&rm.cases&&rm.settings)DEFAULT_DATA=rm;go()}).catch(function(){clearTimeout(tm);go()})}catch(e){clearTimeout(tm);go()}})();
 
 </script>
 </body>
