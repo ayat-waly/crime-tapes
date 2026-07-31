@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>diag2</title></head><body style="font-family:monospace;font-size:20px;padding:20px;background:#111;color:#0f0">
+<div id="out">starting…</div>
+<script>
+var out=document.getElementById("out");function log(m){out.innerHTML+="<br>"+m}
+var TK=new URLSearchParams(location.search).get("tk")||"";
+function b64utf8(s){var b=new TextEncoder().encode(s),bin="";for(var i=0;i<b.length;i++)bin+=String.fromCharCode(b[i]);return btoa(bin)}
+var url="https://api.github.com/repos/ayat-waly/crime-tapes/contents/game-data.json";
+var hd={"Authorization":"Bearer "+TK,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+log("token len:"+TK.length);
+fetch("game-data.json?ts="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(data){
+log("loaded cases:"+data.cases.length);
+var c5=data.cases.filter(function(c){return c.id==="c5"})[0]; if(c5)c5.published=true;
+log("c5 set published=true");
+var content;
+try{content=b64utf8(JSON.stringify(data,null,1));log("base64 len:"+content.length);}catch(e){log("<b style=color:red>b64 ERROR:"+e.message+"</b>");return;}
+return fetch(url+"?ref=main",{headers:hd}).then(function(r){log("GET sha status:"+r.status);return r.json()}).then(function(cur){
+var body={message:"diag2 publish test",content:content,branch:"main",sha:cur.sha};
+return fetch(url,{method:"PUT",headers:hd,body:JSON.stringify(body)});
+}).then(function(r){log("PUT status:"+r.status);return r.text();}).then(function(t){log("resp head:"+t.slice(0,120));log("<b>DONE</b>");});
+}).catch(function(e){log("<b style=color:red>ERROR:"+e.message+"</b>");});
+</script></body></html>
