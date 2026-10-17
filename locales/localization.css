@@ -6,6 +6,7 @@
 .rolebar{gap:6px}
 .rolebar button:focus-visible{outline:2px solid #f3deb6;outline-offset:2px}
 .topbar-row #language-controls{order:1}
+.topbar-row .topbar{min-width:0}
 .topbar-row #language-controls button{height:44px}
 /* Examination views must show every clue, including text at image edges. */
 .pol img.lb-img{width:100%;height:auto;max-height:56vh;object-fit:contain}
@@ -21,3 +22,4 @@ html[lang="en"] .case-card,html[lang="en"] .side-btn .lbl,html[lang="en"] .rev-l
 html[lang="en"] .node .nl{line-height:1.25;font-size:12px}
 [data-no-translate].sticky{unicode-bidi:plaintext}
 @media(max-width:600px){html[lang="en"] .tb-title h1{font-size:19px}html[lang="en"] .side-btn{white-space:nowrap}.topbar-row{flex-wrap:wrap}.topbar-row .topbar{flex-basis:100%}.topbar-row #language-controls{order:0}}
+@media(max-width:600px){html[lang="en"] .tb-title h1{white-space:normal}}

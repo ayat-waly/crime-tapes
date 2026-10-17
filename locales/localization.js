@@ -96,7 +96,7 @@
     const languageButton = controls.querySelector('button');
     languageButton.dataset.language = language === 'en' ? 'ar' : 'en';
     languageButton.querySelector('span').textContent = language === 'en' ? 'ع' : 'EN';
-    languageButton.title = language === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية — نسخة تجريبية';
+    languageButton.title = language === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية';
     languageButton.setAttribute('aria-label',languageButton.title);
     document.querySelectorAll('.rolebar [data-act="login-open"], [data-act="toggle-music"]').forEach(button => {
       const login = button.dataset.act === 'login-open';
