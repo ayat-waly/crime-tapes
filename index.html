@@ -538,6 +538,9 @@ textarea{min-height:110px;resize:vertical;line-height:1.85}
 .node img{height:68px}
 }
 </style>
+<link rel="stylesheet" href="locales/localization.css">
+<script src="locales/catalog.en.js"></script>
+<script src="locales/localization.js"></script>
 </head>
 <body>
 <div id="bgimg"></div>
@@ -2525,7 +2528,7 @@ function repHTML(c){var rows=c.reports.map(function(r){return '<div class="rep-c
 (canEdit()?'<span><button class="mini" data-act="edit-report" data-id="'+r.id+'">'+ic("pencil",12)+'</button> <button class="mini danger" data-act="del-report" data-id="'+r.id+'">'+ic("trash",12)+"</button></span>":"")+"</div>"}).join("");
 return '<h2 class="sec-h">التقارير</h2><p class="sec-sub">التقارير الرسمية لفريق التحقيق</p>'+ebar('<button class="btn gold sm" data-act="add-report">'+ic("plus",13)+" إضافة تقرير</button>")+rows}
 function notesHTML(c){var off=c.notes.map(function(n){return '<div class="sticky '+(n.color||"sy")+'">'+esc(n.text)+(canEdit()?'<span class="sdel"><button class="mini" data-act="edit-note" data-id="'+n.id+'">'+ic("pencil",11)+'</button> <button class="mini danger" data-act="del-note" data-id="'+n.id+'">'+ic("trash",11)+"</button></span>":"")+"</div>"}).join("");
-var mine=(PROG.unotes[c.id]||[]).map(function(t,i){return '<div class="sticky so">'+esc(t)+'<span class="sdel"><button class="mini danger" data-act="del-unote" data-i="'+i+'">'+ic("trash",11)+"</button></span></div>"}).join("");
+var mine=(PROG.unotes[c.id]||[]).map(function(t,i){return '<div class="sticky so" data-no-translate>'+esc(t)+'<span class="sdel"><button class="mini danger" data-act="del-unote" data-i="'+i+'">'+ic("trash",11)+"</button></span></div>"}).join("");
 return '<h2 class="sec-h">الملاحظات</h2><p class="sec-sub">ملاحظات فريق التحقيق الرسمية</p>'+ebar('<button class="btn gold sm" data-act="add-note">'+ic("plus",13)+' إضافة ملاحظة رسمية</button>')+'<div class="notes-board">'+off+'</div><div class="notes-divider">ملاحظاتي الخاصة (تُحفظ على جهازك فقط)</div><div class="notes-board">'+mine+'</div><div style="text-align:center;margin-top:18px"><button class="btn dark sm" data-act="add-unote">'+ic("plus",13)+' أضف ملاحظتك الخاصة</button></div>'}
 function csHTML(c,cs){var items=(cs.items&&cs.items.length)?'<div class="items-row" style="justify-content:center">'+cs.items.map(function(it,i){return itemHTML(it,"c|"+cs.id+"|"+i)}).join("")+"</div>":'<p class="sec-sub">لا عناصر في هذا القسم بعد</p>';
 return '<h2 class="sec-h">'+esc(cs.name)+"</h2>"+ebar('<button class="btn gold sm" data-act="cs-items" data-id="'+cs.id+'">'+ic("link",13)+' إدارة العناصر</button><button class="btn gold sm" data-act="edit-custom" data-id="'+cs.id+'">'+ic("pencil",13)+' إعادة تسمية</button><button class="btn gold sm" data-act="del-custom" data-id="'+cs.id+'">'+ic("trash",13)+" حذف القسم</button>")+items}
@@ -2886,7 +2889,7 @@ if(e.target&&e.target.id==="aud-s"){PROG.audio.sfx=e.target.checked;saveProg();i
 window.addEventListener("resize",function(){if(S.view==="case"&&S.sec==="map")drawLines()});
 document.addEventListener("pointerdown",audioKick,{once:true});
 /* الإقلاع: محاولة تحميل game-data.json من نفس المجلد (للنشر المركزي عبر GitHub) ثم التشغيل */
-function boot(){initData();render();if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900)}
+function boot(){initData();if(window.CTLocale)CTLocale.init(DATA,S);render();if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900)}
 (function(){var done=false;function go(){if(done)return;done=true;boot()}
 var tm=setTimeout(go,2500);
 try{fetch("game-data.json?ts="+Date.now(),{cache:"no-store"}).then(function(r){return r&&r.ok?r.json():null}).catch(function(){return null}).then(function(rm){clearTimeout(tm);if(rm&&rm.cases&&rm.settings)DEFAULT_DATA=rm;go()}).catch(function(){clearTimeout(tm);go()})}catch(e){clearTimeout(tm);go()}})();
