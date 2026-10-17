@@ -80,6 +80,8 @@
     if (!data) return;
     observer.disconnect();
     rebuild();
+    const host = document.querySelector('.rolebar') || document.querySelector('.topbar-row');
+    if (host && controls.parentElement !== host) host.append(controls);
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'en' ? 'ltr' : 'rtl';
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -91,7 +93,19 @@
       if (el.tagName === 'IMG') updateAttribute(el,'src',true);
       updateAttribute(el,'data-src',true);
     });
-    controls.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.language === language)));
+    const languageButton = controls.querySelector('button');
+    languageButton.dataset.language = language === 'en' ? 'ar' : 'en';
+    languageButton.querySelector('span').textContent = language === 'en' ? 'ع' : 'EN';
+    languageButton.title = language === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية — نسخة تجريبية';
+    languageButton.setAttribute('aria-label',languageButton.title);
+    document.querySelectorAll('.rolebar [data-act="login-open"], [data-act="toggle-music"]').forEach(button => {
+      const login = button.dataset.act === 'login-open';
+      const on = !login && typeof root.musicOn === 'function' && root.musicOn();
+      const label = login ? (language === 'en' ? 'Staff sign in' : 'دخول المشرفين') : (language === 'en' ? (on ? 'Mute music' : 'Play music') : (on ? 'كتم الموسيقى' : 'تشغيل الموسيقى'));
+      button.setAttribute('aria-label',label);
+      button.title = label;
+      if (!login) button.setAttribute('aria-pressed',String(on));
+    });
     document.title = language === 'en' ? 'Crime Tapes — Investigation Files' : 'CRIME TAPES — ملف التحقيق';
     observer.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:[...attrs,'src','data-src']});
   }
@@ -116,9 +130,7 @@
     controls.id = 'language-controls';
     controls.setAttribute('aria-label','Language / اللغة');
     controls.setAttribute('data-no-translate','');
-    controls.innerHTML = '<button type="button" lang="ar" dir="rtl" data-language="ar">العربية</button><button type="button" lang="en" dir="ltr" data-language="en" title="English preview — case 1 translated; remaining cases in progress">English <small>Preview</small></button>';
-    const translatedCases = Object.keys(catalog.coverage).filter(id => !catalog.coverage[id].missing.length).length;
-    controls.querySelector('[data-language="en"]').title = 'English preview — ' + translatedCases + ' cases translated; remaining cases in progress';
+    controls.innerHTML = '<button type="button" data-language="en"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18Z"/></svg><span>EN</span></button>';
     controls.addEventListener('click',event => { const button=event.target.closest('[data-language]'); if(button) setLanguage(button.dataset.language); });
     document.body.prepend(controls);
     observer = new MutationObserver(schedule);

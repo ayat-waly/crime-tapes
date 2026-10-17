@@ -1,11 +1,12 @@
-#language-controls{position:sticky;top:0;z-index:10001;display:flex;justify-content:center;align-items:center;gap:6px;min-height:46px;background:#201b16ed;border-bottom:1px solid #af966d66;direction:ltr;backdrop-filter:blur(8px)}
-#language-controls button{border:1px solid transparent;border-radius:4px;padding:6px 15px;background:transparent;color:#d2c4aa;font:600 14px/1.5 Arial,sans-serif;cursor:pointer;min-height:34px}
-#language-controls button[aria-pressed="true"]{background:#dfc99d;color:#292119;border-color:#f3deb6}
+#language-controls{display:flex;align-items:center;direction:ltr;flex-shrink:0}
+#language-controls button{display:flex;align-items:center;justify-content:center;gap:5px;height:44px;min-width:64px;padding:0 9px;border:1px solid var(--line2);border-radius:12px;background:rgba(30,21,11,.92);color:#e3cf9d;font:700 12px/1 Arial,sans-serif;cursor:pointer}
 #language-controls button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-#language-controls small{font-size:10px;margin-inline-start:4px;opacity:.8}
-body:has(#language-controls) .rolebar,body:has(#language-controls) .cornergear{top:59px}
-body:has(#language-controls) .overlay{padding-top:62px}
-body:has(#language-controls) .modal{max-height:calc(100dvh - 88px)}
+.rolebar [data-act="login-open"],.rolebar [data-act="toggle-music"]{width:44px;height:44px;min-width:44px;padding:0;gap:0;font-size:0!important;justify-content:center;border-radius:12px}
+.rolebar [data-act="login-open"] svg,.rolebar [data-act="toggle-music"] svg{width:18px;height:18px;flex-shrink:0}
+.rolebar{gap:6px}
+.rolebar button:focus-visible{outline:2px solid #f3deb6;outline-offset:2px}
+.topbar-row #language-controls{order:1}
+.topbar-row #language-controls button{height:44px}
 /* Examination views must show every clue, including text at image edges. */
 .pol img.lb-img{width:100%;height:auto;max-height:56vh;object-fit:contain}
 .modal .m-title{padding-inline:34px;overflow-wrap:anywhere}
@@ -19,4 +20,4 @@ html[lang="en"] .case-grid>*,html[lang="en"] .side-btn .lbl,html[lang="en"] .rdo
 html[lang="en"] .case-card,html[lang="en"] .side-btn .lbl,html[lang="en"] .rev-label,html[lang="en"] .rdoc-meta .d{text-align:left}
 html[lang="en"] .node .nl{line-height:1.25;font-size:12px}
 [data-no-translate].sticky{unicode-bidi:plaintext}
-@media(max-width:600px){#language-controls{min-height:42px}html[lang="en"] .tb-title h1{font-size:19px}html[lang="en"] .side-btn{white-space:nowrap}}
+@media(max-width:600px){html[lang="en"] .tb-title h1{font-size:19px}html[lang="en"] .side-btn{white-space:nowrap}.topbar-row{flex-wrap:wrap}.topbar-row .topbar{flex-basis:100%}.topbar-row #language-controls{order:0}}
