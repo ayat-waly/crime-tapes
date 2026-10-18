@@ -150,5 +150,11 @@
   "تم الحفظ": "Saved",
   "تمت إضافة الملاحظة": "Note added",
   "اضغط للإخفاء": "Click to dismiss",
-  "٪": "%"
+  "٪": "%",
+  "أكمل استنتاجك": "Complete your reasoning",
+  "اختر إجابة": "Choose an answer",
+  "أجب عن أسئلة الاستنتاج قبل التأكيد": "Answer the reasoning questions before confirming",
+  "الاستنتاج غير مكتمل": "The conclusion does not fit",
+  "اختيار المتهم أو تفسير الأدلة غير متسق. راجع الملف ثم حاول مجددًا.": "The suspect selection or interpretation of the evidence is inconsistent. Review the file and try again.",
+  "اختر المتهم وأكمل أسئلة الاستنتاج؛ تُسجل المحاولة غير المتسقة.": "Choose the suspect and answer the reasoning questions; an inconsistent submission counts as an attempt."
 }
