@@ -2405,6 +2405,13 @@ function canEdit(){return isAdmin()&&S.edit}
 function curCase(){for(var i=0;i<DATA.cases.length;i++)if(DATA.cases[i].id===S.caseId)return DATA.cases[i];return null}
 function roleName(){return ROLE==="super"?"سوبر أدمن":ROLE==="admin"?"أدمن":"مستخدم"}
 function isPub(c){return c.published!==false}
+/* Latest-publication badge: never changes a case's publication state on load. */
+function publicationTime(c){var value=c.publishedAt;var t=typeof value==="number"?value:(typeof value==="string"?Date.parse(value):0);return Number.isFinite(t)&&t>0?t:0}
+function latestPublishedCaseId(){var latest=null;DATA.cases.forEach(function(c){if(!isPub(c))return;if(!latest||publicationTime(c)>=publicationTime(latest))latest=c});return latest?latest.id:null}
+function setCasePublication(c,published){var wasPublished=isPub(c);if(published&&!wasPublished){var newest=DATA.cases.reduce(function(t,item){return Math.max(t,publicationTime(item))},0);c.publishedAt=Math.max(Date.now(),newest+1)}c.published=published}
+function caseRibbon(c,latestId,unlocked,solved){if(!isPub(c))return "";if(c.id===latestId)return "جديدة";var badge=String(c.badge||"");return unlocked&&!solved&&!/^(جديد|جديدة|new)$/i.test(badge.trim())?badge:""}
+if(window.CT_EN&&window.CT_EN.ui)window.CT_EN.ui["جديدة"]="New";
+
 function caseUnlocked(i){if(isAdmin())return true;var c=DATA.cases[i];if(!isPub(c))return false;if(DATA.settings.unlockAll)return true;var prev=null;for(var j=i-1;j>=0;j--){if(isPub(DATA.cases[j])){prev=DATA.cases[j];break}}if(!prev)return true;return !!PROG.solved[prev.id]}
 function visitedCount(cid){return (PROG.visited[cid]||[]).length}
 function secretOpen(c){return !!PROG.solved[c.id]||isAdmin()||DATA.settings.unlockAll||visitedCount(c.id)>=7}
@@ -2433,10 +2440,10 @@ if(S.view==="case"&&S.sec==="map")setTimeout(initBoard,30);
 var ab=$(".side-btn.active");if(ab&&ab.scrollIntoView){try{ab.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}}
 try{syncMusic()}catch(e){}}
 /* ---------- HOME ---------- */
-function homeHTML(){var st=DATA.settings;
+function homeHTML(){var st=DATA.settings;var latestId=latestPublishedCaseId();
 var list=[];DATA.cases.forEach(function(cc,ii){if(isAdmin()||isPub(cc))list.push({c:cc,i:ii})});
 var firstOpen=-1;list.forEach(function(x){if(firstOpen<0&&isPub(x.c)&&caseUnlocked(x.i)&&!PROG.solved[x.c.id])firstOpen=x.i});
-var cards=list.map(function(x,k){var c=x.c,i=x.i,un=caseUnlocked(i),solved=!!PROG.solved[c.id];
+var cards=list.map(function(x,k){var c=x.c,i=x.i,un=caseUnlocked(i),solved=!!PROG.solved[c.id],ribbon=caseRibbon(c,latestId,un,solved);
 var meta='<div class="cc-meta"><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="cc-mcol"><span class="cc-mlab">الوقت المتوقع</span><span class="cc-time">'+ic("clock",15)+" "+esc(c.duration)+"</span></div></div>";
 var adminBtns=canEdit()?'<div class="editbar"><button class="mini" data-act="edit-case-h" data-id="'+c.id+'" title="تعديل">'+ic("pencil",13)+'</button><button class="mini" data-act="toggle-pub" data-id="'+c.id+'" title="'+(isPub(c)?"إخفاء عن اللاعبين":"نشر للاعبين")+'">'+ic(isPub(c)?"eye":"lock",13)+'</button><button class="mini danger" data-act="del-case" data-id="'+c.id+'" title="حذف">'+ic("trash",13)+"</button></div>":"";
 var body;
@@ -2444,7 +2451,7 @@ if(un){body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)
  (solved?'<div class="stamp">تم حل القضية</div>':(visitedCount(c.id)>0?'<span class="cc-prog">تقدم التحقيق: '+Math.min(100,Math.round(visitedCount(c.id)/9*100))+"٪</span>":""))+
  '<button class="btn cc-open" data-act="open-case" data-id="'+c.id+'">'+ic("folder",17)+" فتح ملف القضية</button>"+adminBtns+"</div>"}
 else{body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+'</h3><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="lockbox">'+ic("lock",42)+'<span class="locktxt">مقفلة</span><span class="locksub">أكمل القضية السابقة لفتحها</span></div>'+adminBtns+"</div>"}
-return '<div class="case-card paper pstack'+(un?"":" locked")+(i===firstOpen?" featured":"")+(isAdmin()&&!isPub(c)?" unpub":"")+'" style="animation-delay:'+(Math.min(k,6)*0.14)+'s"><span class="cc-tab"></span><span class="cc-tab t2"></span>'+(solved?'<span class="solved-stamp stamp sm">أُغلقت</span>':(isAdmin()&&!isPub(c)?'<span class="solved-stamp stamp sm gray">غير منشورة</span>':""))+body+'<div class="cc-photo">'+clipMini()+(c.badge&&un&&!solved?'<span class="ribbon">'+esc(c.badge)+"</span>":"")+imgTag(c.cover,"","غلاف القضية")+"</div></div>"}).join("");
+return '<div class="case-card paper pstack'+(un?"":" locked")+(i===firstOpen?" featured":"")+(isAdmin()&&!isPub(c)?" unpub":"")+'" style="animation-delay:'+(Math.min(k,6)*0.14)+'s"><span class="cc-tab"></span><span class="cc-tab t2"></span>'+(solved?'<span class="solved-stamp stamp sm">أُغلقت</span>':(isAdmin()&&!isPub(c)?'<span class="solved-stamp stamp sm gray">غير منشورة</span>':""))+body+'<div class="cc-photo">'+clipMini()+(ribbon?'<span class="ribbon">'+esc(ribbon)+"</span>":"")+imgTag(c.cover,"","غلاف القضية")+"</div></div>"}).join("");
 var addC=canEdit()?'<button class="add-dashed addcase" data-act="add-case">'+ic("plus",17)+" إضافة قضية جديدة</button>":"";
 return '<div class="rolebar">'+(ROLE==="user"?'<button class="rolechip" data-act="login-open">'+ic("key",14)+" دخول المشرفين</button>":'<span class="rolechip"><span class="rdot"></span>'+roleName()+'</span><button class="rolechip" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",13)+" "+(S.edit?"التحرير: مفعّل":"التحرير: متوقف")+'</button><button class="rolechip" data-act="logout">'+ic("x",12)+" خروج</button>")+sndChipHTML()+"</div>"+
 '<div class="cornergear"><button class="iconbtn" data-act="settings-open" title="الإعدادات">'+ic("gear",19)+"</button></div>"+
@@ -2795,18 +2802,18 @@ ACT["edit-game"]=function(){var st=DATA.settings;formModal("هوية اللعب�
 {k:"gameTitle",l:"اسم اللعبة (لاتيني للشعار الجانبي)"},{k:"gameSub",l:"العنوان الفرعي"},{k:"tagline",l:"الشعار / السطر التعريفي"},{k:"about",l:"نص (حول اللعبة)",type:"area"},{k:"logo",l:"رابط صورة الشعار (اختياري)",ph:"https://…"},{k:"bg",l:"رابط صورة الخلفية (اختياري)",ph:"https://…"}
 ],st,function(o){st.gameTitle=o.gameTitle||st.gameTitle;st.gameSub=o.gameSub;st.tagline=o.tagline;st.about=o.about;st.logo=o.logo;st.bg=o.bg;saveData();toast("تم حفظ هوية اللعبة")})};
 /* ----- case CRUD ----- */
-function caseForm(c,isNew){var susOpts=[{v:"",l:"— لم يُحدد بعد —"}].concat(c.suspects.map(function(s){return{v:s.id,l:s.name}}));
+function caseForm(c,isNew){var formData=Object.assign({},c);formData.published=isPub(c);var susOpts=[{v:"",l:"— لم يُحدد بعد —"}].concat(c.suspects.map(function(s){return{v:s.id,l:s.name}}));
 formModal(isNew?"إضافة قضية جديدة":"تعديل بيانات القضية",[
 {k:"published",l:"منشورة للاعبين — عند إلغاء التحديد تصبح مسودة يراها المشرفون فقط",type:"check",def:true},
 {k:"num",l:"رقم القضية (للعرض)",ph:"01"},{k:"code",l:"الكود المرجعي",ph:"CT-24-0000"},{k:"title",l:"عنوان القضية"},{k:"cover",l:"رابط صورة الغلاف",ph:"https://…"},{k:"difficulty",l:"مستوى الصعوبة",type:"stars"},{k:"duration",l:"الوقت المتوقع",ph:"45 - 60 دقيقة"},{k:"badge",l:"شارة مميزة (اختياري)",ph:"جديدة"},{k:"culprit",l:"الجاني الحقيقي (لآلية الاتهام)",type:"select",opts:susOpts},{k:"hint",l:"تلميح يظهر بعد 3 محاولات خاطئة",type:"area"},{k:"solvedText",l:"نص كشف الحقيقة عند الحل",type:"area"}
-],c,function(o){c.published=!!o.published;c.num=o.num;c.code=o.code;c.title=o.title||c.title;c.cover=o.cover;c.difficulty=o.difficulty||1;c.duration=o.duration;c.badge=o.badge;c.culprit=o.culprit;c.hint=o.hint;c.solvedText=o.solvedText;saveData();toast(c.published?"تم حفظ القضية — منشورة للاعبين":"تم حفظ القضية كمسودة غير منشورة")})}
+],formData,function(o){setCasePublication(c,!!o.published);c.num=o.num;c.code=o.code;c.title=o.title||c.title;c.cover=o.cover;c.difficulty=o.difficulty||1;c.duration=o.duration;c.badge=o.badge;c.culprit=o.culprit;c.hint=o.hint;c.solvedText=o.solvedText;saveData();toast(c.published?"تم حفظ القضية — منشورة للاعبين":"تم حفظ القضية كمسودة غير منشورة")})}
 ACT["edit-case"]=function(){caseForm(curCase(),false)};
 ACT["edit-case-h"]=function(d){var c=byId(DATA.cases,d.id);if(c)caseForm(c,false)};
 ACT["add-case"]=function(){var n=DATA.cases.length+1;var c={id:uid("case"),num:(n<10?"0":"")+n,code:"CT-25-0"+(100+n),title:"قضية جديدة بلا عنوان",cover:"",badge:"",difficulty:3,duration:"30 - 45 دقيقة",culprit:"",hint:"",solvedText:"",published:false,hiddenSections:[],
 summary:{text:"اكتب ملخص القضية هنا…",photo:"",photoCap:"",victim:{name:"غير محدد",age:"—",job:"—",marital:"—",photo:"",note:""},timeline:[]},
 scene:{address:"العنوان غير محدد",intro:"وصف مسرح الجريمة…",photos:[],notes:[]},evidence:[],suspects:[],witnesses:[],folders:[],reports:[],notes:[],map:{nodes:[],links:[]},custom:[]};
 DATA.cases.push(c);saveData(false);S.view="case";S.caseId=c.id;S.sec="summary";render();caseForm(c,true)};
-ACT["toggle-pub"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;c.published=(c.published===false);saveData();toast(c.published?"✓ القضية الآن منشورة ومرئية للاعبين":"🔒 القضية الآن غير منشورة — يراها المشرفون فقط")};
+ACT["toggle-pub"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;setCasePublication(c,!isPub(c));saveData();toast(c.published?"✓ القضية الآن منشورة ومرئية للاعبين":"🔒 القضية الآن غير منشورة — يراها المشرفون فقط")};
 ACT["del-case"]=function(d){var c=byId(DATA.cases,d.id);if(!c)return;confirmM("سيتم حذف القضية «"+c.title+"» بكل محتوياتها نهائياً.",function(){delById(DATA.cases,d.id);DATA.deletedIds=DATA.deletedIds||[];if(DATA.deletedIds.indexOf(d.id)<0)DATA.deletedIds.push(d.id);if(S.caseId===d.id){S.view="home";S.caseId=null}saveData();toast("تم حذف القضية")})};
 /* ----- summary CRUD ----- */
 ACT["edit-summary"]=function(){var c=curCase();formModal("تعديل ملخص القضية",[{k:"text",l:"نص الملخص",type:"area"},{k:"photo",l:"رابط صورة الملخص",ph:"https://…"},{k:"photoCap",l:"وصف الصورة"}],c.summary,function(o){c.summary.text=o.text;c.summary.photo=o.photo;c.summary.photoCap=o.photoCap;saveData();toast("تم الحفظ")})};
