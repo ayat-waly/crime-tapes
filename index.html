@@ -2406,8 +2406,10 @@ function curCase(){for(var i=0;i<DATA.cases.length;i++)if(DATA.cases[i].id===S.c
 function roleName(){return ROLE==="super"?"سوبر أدمن":ROLE==="admin"?"أدمن":"مستخدم"}
 function isPub(c){return c.published!==false}
 /* Latest-publication badge: never changes a case's publication state on load. */
-function publicationTime(c){var value=c.publishedAt;var t=typeof value==="number"?value:(typeof value==="string"?Date.parse(value):0);return Number.isFinite(t)&&t>0?t:0}
-function latestPublishedCaseId(){var latest=null;DATA.cases.forEach(function(c){if(!isPub(c))return;if(!latest||publicationTime(c)>=publicationTime(latest))latest=c});return latest?latest.id:null}
+/* Recorded publication events from repository history; case numbers and list positions are not publication dates. */
+var CASE_PUBLICATION_HISTORY={"c1":1785490135000,"c2":1785490135000,"c3":1785490135000,"c4":1785490135000,"c5":1785518840000,"c6":1785518840000,"c7":1785839005000,"c8":1788417174000,"c9":1791219079000,"c10":1791219079000,"c11":1792005876000,"c12":1792005876000,"c30":1792337447000,"c31":1792337447000,"c32":1792337447000,"c33":1792337447000,"c34":1792337447000,"c13":1792339982000,"c14":1792666621000};
+function publicationTime(c){var value=c.publishedAt;var t=typeof value==="number"?value:(typeof value==="string"?Date.parse(value):0);return Number.isFinite(t)&&t>0?t:(CASE_PUBLICATION_HISTORY[c.id]||0)}
+function latestPublishedCaseId(){var latest=null,newest=0;DATA.cases.forEach(function(c){if(!isPub(c))return;var time=publicationTime(c);if(time>newest){latest=c;newest=time}});return latest?latest.id:null}
 function setCasePublication(c,published){var wasPublished=isPub(c);if(published&&!wasPublished){var newest=DATA.cases.reduce(function(t,item){return Math.max(t,publicationTime(item))},0);c.publishedAt=Math.max(Date.now(),newest+1)}c.published=published}
 function caseRibbon(c,latestId,unlocked,solved){if(!isPub(c))return "";if(c.id===latestId)return "جديدة";var badge=String(c.badge||"");return unlocked&&!solved&&!/^(جديد|جديدة|new)$/i.test(badge.trim())?badge:""}
 if(window.CT_EN&&window.CT_EN.ui)window.CT_EN.ui["جديدة"]="New";
