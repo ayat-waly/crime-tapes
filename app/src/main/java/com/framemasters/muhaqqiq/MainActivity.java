@@ -1,4 +1,4 @@
-package com.company.muhaqqiq;
+package com.framemasters.muhaqqiq;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

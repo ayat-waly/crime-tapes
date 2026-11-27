@@ -7,7 +7,7 @@ rootProject.file('app.properties').withInputStream { cfg.load(it) }
 }
 
 android {
-    namespace 'com.company.muhaqqiq'
+    namespace 'com.framemasters.muhaqqiq'
     compileSdk 36
 
     defaultConfig {
@@ -36,7 +36,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            if (System.getenv('KEYSTORE_FILE')) {
+                signingConfig signingConfigs.release
+                if (cfg.admobAppId.startsWith('ca-app-pub-3940256099942544') || cfg.admobInterstitialId.startsWith('ca-app-pub-3940256099942544'))
+                    throw new GradleException('Store build still uses Google TEST ad IDs: put the real AdMob IDs in app.properties')
+            }
         }
     }
     buildFeatures { buildConfig true }
