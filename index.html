@@ -551,7 +551,7 @@ button.acc-item{font:inherit;color:inherit;background:transparent;width:100%;min
 .release-board .node{width:clamp(56px,22%,102px)}.release-board .link-lbl{max-width:30%;white-space:normal;text-align:center;line-height:1.35;padding:3px 5px}
 @media(max-width:560px){.release-board{height:620px;border-width:8px}.release-board .node img{height:clamp(44px,15vw,68px)}.release-board .node .nl{font-size:10px}.release-board .link-lbl{font-size:9px}}
 @media(max-width:480px){.case-reasoning{padding:12px}.reasoning-question select{font-size:13px}.m-actions{flex-wrap:wrap}}
-</style><style>.solution-cast{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}.solution-cast figure{margin:0;text-align:center}.solution-cast figcaption{font-family:Cairo,sans-serif}.extended-board{min-height:720px}.extended-board .node{width:clamp(56px,20%,94px)}@media(max-width:560px){.extended-board{height:760px}.extended-board .node img{height:60px}.extended-board .node .nl{font-size:10px}}</style></head>
+</style><style>.solution-cast{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}.solution-cast figure{margin:0;text-align:center}.solution-cast figcaption{font-family:Cairo,sans-serif}.extended-board{min-height:720px}.extended-board .node{width:clamp(56px,20%,94px)}@media(max-width:560px){.extended-board{height:760px}.extended-board .node img{height:60px}.extended-board .node .nl{font-size:10px}}.ct-sublink{display:block;margin:10px auto 0;background:none;border:0;padding:4px;font:inherit;font-size:12.5px;color:#7a2a1a;text-decoration:underline;text-underline-offset:3px;cursor:pointer}</style></head>
 <body>
 <div id="bgimg"></div>
 <div id="bgvig"></div>
@@ -685,7 +685,15 @@ function setCasePublication(c,published){var wasPublished=isPub(c);if(published&
 function caseRibbon(c,latestId,unlocked,solved){if(!isPub(c))return "";if(c.id===latestId)return "جديدة";var badge=String(c.badge||"");return unlocked&&!solved&&!/^(جديد|جديدة|new)$/i.test(badge.trim())?badge:""}
 if(window.CT_EN&&window.CT_EN.ui)window.CT_EN.ui["جديدة"]="New";
 
-function caseUnlocked(i){if(isAdmin())return true;var c=DATA.cases[i];if(!isPub(c))return false;if(DATA.settings.unlockAll)return true;var prev=null;for(var j=i-1;j>=0;j--){if(isPub(DATA.cases[j])){prev=DATA.cases[j];break}}if(!prev)return true;return !!PROG.solved[prev.id]}
+function caseUnlocked(i){if(isAdmin())return true;var c=DATA.cases[i];if(!isPub(c))return false;if(DATA.settings.unlockAll||ctPremium())return true;var prev=null;for(var j=i-1;j>=0;j--){if(isPub(DATA.cases[j])){prev=DATA.cases[j];break}}if(!prev)return true;return !!PROG.solved[prev.id]}
+/* ---------- monthly subscription (Android app only) ---------- */
+function ctCanSub(){try{return !!(window.CTAndroid&&window.CTAndroid.subscribe)}catch(e){return false}}
+function ctPremium(){try{return !!(window.CTAndroid&&window.CTAndroid.isPremium&&window.CTAndroid.isPremium())}catch(e){return false}}
+function ctSubPrice(){try{return window.CTAndroid.subscriptionPrice()||""}catch(e){return ""}}
+window.ctPremiumChanged=function(){try{render()}catch(e){}};
+function ctSubLink(){return ctCanSub()&&!ctPremium()?'<button class="ct-sublink" data-act="ct-subscribe">🔓 افتح كل القضايا بالاشتراك الشهري</button>':""}
+function ctSubSection(){if(!ctCanSub())return "";var pr=ctSubPrice();
+return '<div class="m-sec"><h4>⭐ الاشتراك الشهري</h4>'+(ctPremium()?'<p>✅ أنت مشترك: كل القضايا مفتوحة وبدون إعلانات.</p><div class="m-actions" style="justify-content:flex-start"><button class="btn dark sm" data-act="ct-manage-sub">إدارة الاشتراك</button></div>':'<p>كل القضايا مفتوحة فورًا، وبدون إعلانات'+(pr?' — <bdi>'+esc(pr)+'</bdi> شهريًا':'')+'.</p><div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="ct-subscribe">اشترك الآن</button></div>')+"</div>"}
 function visitedCount(cid){return (PROG.visited[cid]||[]).length}
 function secretOpen(c){return !!PROG.solved[c.id]||isAdmin()||DATA.settings.unlockAll||visitedCount(c.id)>=7}
 function docCount(c){var n=0;(c.folders||[]).forEach(function(f){n+=f.docs.length});return n}
@@ -724,7 +732,7 @@ var body;
 if(un){body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+"</h3>"+meta+
  (solved?'<div class="stamp">تم حل القضية</div>':(visitedCount(c.id)>0?'<span class="cc-prog">تقدم التحقيق: '+Math.min(100,Math.round(visitedCount(c.id)/9*100))+"٪</span>":""))+
  '<button class="btn cc-open" data-act="open-case" data-id="'+c.id+'">'+ic("folder",17)+" فتح ملف القضية</button>"+adminBtns+"</div>"}
-else{body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+'</h3><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="lockbox">'+ic("lock",42)+'<span class="locktxt">مقفلة</span><span class="locksub">أكمل القضية السابقة لفتحها</span></div>'+adminBtns+"</div>"}
+else{body='<div class="cc-body"><span class="cc-num">القضية '+esc(c.num)+'</span><h3 class="cc-title">'+esc(c.title)+'</h3><div class="cc-mcol"><span class="cc-mlab">مستوى الصعوبة</span>'+stars(c.difficulty,c.difficulty>=5)+'</div><div class="lockbox">'+ic("lock",42)+'<span class="locktxt">مقفلة</span><span class="locksub">أكمل القضية السابقة لفتحها</span>'+ctSubLink()+'</div>'+adminBtns+"</div>"}
 return '<div class="case-card paper pstack'+(un?"":" locked")+(i===firstOpen?" featured":"")+(isAdmin()&&!isPub(c)?" unpub":"")+'" style="animation-delay:'+(Math.min(k,6)*0.14)+'s"><span class="cc-tab"></span><span class="cc-tab t2"></span>'+(solved?'<span class="solved-stamp stamp sm">أُغلقت</span>':(isAdmin()&&!isPub(c)?'<span class="solved-stamp stamp sm gray">غير منشورة</span>':""))+body+'<div class="cc-photo">'+clipMini()+(ribbon?'<span class="ribbon">'+esc(ribbon)+"</span>":"")+imgTag(c.cover,"","غلاف القضية",true)+"</div></div>"}).join("");
 var addC=canEdit()?'<button class="add-dashed addcase" data-act="add-case">'+ic("plus",17)+" إضافة قضية جديدة</button>":"";
 return '<div class="rolebar">'+(ROLE==="user"?'':'<span class="rolechip"><span class="rdot"></span>'+roleName()+'</span><button class="rolechip" data-act="edit-toggle" title="وضع التحرير">'+ic("pencil",13)+" "+(S.edit?"التحرير: مفعّل":"التحرير: متوقف")+'</button><button class="rolechip" data-act="logout">'+ic("x",12)+" خروج</button>")+sndChipHTML()+"</div>"+
@@ -952,10 +960,7 @@ function byId(arr,id){for(var i=0;i<arr.length;i++)if(arr[i].id===id)return arr[
 function delById(arr,id){for(var i=0;i<arr.length;i++)if(arr[i].id===id){arr.splice(i,1);return true}return false}
 /* ---------- settings / about / login ---------- */
 function openSettings(){var st=DATA.settings;var h='<div class="m-title">الإعدادات</div>';
-h+='<div class="m-sec"><h4>'+ic("user",15)+" الدور الحالي: "+roleName()+"</h4>";
-if(ROLE==="user"){h+='<div class="form-row"><label>كلمة مرور المشرف (أدمن أو سوبر أدمن)</label><input type="password" id="pw-in" data-enter="login-submit" placeholder="أدخل كلمة المرور…"></div><div class="m-actions" style="margin-top:6px"><button class="btn sm" data-act="login-submit">'+ic("key",14)+" دخول</button></div>"}
-else{h+='<div class="m-actions" style="justify-content:flex-start"><button class="btn sm '+(S.edit?"":"dark")+'" data-act="edit-toggle">'+ic("pencil",13)+" وضع التحرير: "+(S.edit?"مفعّل":"متوقف")+'</button><button class="btn dark sm" data-act="logout">تسجيل الخروج</button></div>'}
-h+="</div>";
+h+=ctSubSection();
 h+='<div class="m-sec"><h4>'+ic("audio",15)+' الصوت والموسيقى</h4><label class="chk"><input type="checkbox" id="aud-m"'+(musicOn()?" checked":"")+'> تشغيل الموسيقى الخلفية</label><label class="chk"><input type="checkbox" id="aud-s"'+(sfxOn()?" checked":"")+'> تشغيل المؤثرات الصوتية</label>'+(isAdmin()?'<div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-audio">'+ic("gear",13)+" تخصيص الموسيقى والمؤثرات (أدمن)</button></div>":"")+"</div>";
 h+='<div class="m-sec"><h4>'+ic("clock",15)+' تقدمي في اللعب</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn dark sm" data-act="reset-prog">مسح تقدمي المحلي (الحلول والملاحظات الخاصة)</button></div></div>';
 if(isAdmin()){h+='<div class="m-sec"><h4>'+ic("gear",15)+' إعدادات اللعبة (أدمن)</h4><div class="m-actions" style="justify-content:flex-start"><button class="btn gold sm" data-act="edit-game">تعديل هوية اللعبة والنصوص</button><button class="btn '+(st.unlockAll?"":"dark ")+'sm" data-act="toggle-unlock">'+(st.unlockAll?"إقفال القضايا بالتسلسل":"فتح جميع القضايا للجميع")+"</button></div></div>"}
@@ -1008,6 +1013,8 @@ var CT_AD_DUE=false;
 (function(){
 var orig=closeModal;closeModal=function(){var r=orig.apply(this,arguments);
 if(CT_AD_DUE){CT_AD_DUE=false;setTimeout(function(){try{if(window.CTAndroid&&window.CTAndroid.showInterstitial)window.CTAndroid.showInterstitial();else if(window.parent!==window)window.parent.postMessage({type:"ct-ad-interstitial",caseId:S.caseId},"*")}catch(e){}},400)}return r}})();
+ACT["ct-subscribe"]=function(){try{window.CTAndroid.subscribe()}catch(e){}};
+ACT["ct-manage-sub"]=function(){try{window.CTAndroid.manageSubscription()}catch(e){}};
 ACT["accuse-open"]=function(){S.pick=null;S.picks={};S.reasonAnswers={};openModal(accuseHTML(curCase()))};
 ACT["accuse-pick"]=function(d){var c=curCase();if(c.multiAccuse){S.picks=S.picks||{};S.picks[d.id]=!S.picks[d.id]}else S.pick=d.id;openModal(accuseHTML(c));var chosen=document.querySelector('[data-act="accuse-pick"][data-id="'+d.id+'"]');if(chosen)chosen.focus()};
 ACT["accuse-confirm"]=function(){doAccuse()};
