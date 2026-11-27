@@ -5,6 +5,9 @@ on:
   push:
     branches: [android-app]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,3 +50,11 @@ jobs:
           name: crime-tapes-aab
           path: app/build/outputs/bundle/release/*.aab
           retention-days: 7
+
+      - name: Save the bundle to the android-output branch
+        run: |
+          f=$(ls app/build/outputs/bundle/release/*.aab)
+          mkdir -p /tmp/out && cp "$f" /tmp/out/app-release-unsigned.aab
+          cd /tmp/out && git init -q && git checkout -q -b android-output
+          git add . && git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -q -m "AAB from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" android-output
