@@ -885,7 +885,7 @@ function doAccuse(){var c=curCase();if(c.multiAccuse?!Object.keys(S.picks||{}).s
 var checks=c.verification||[];var answers=S.reasonAnswers||{};
 if(checks.some(function(q){return !q.options.some(function(o){return o.id===answers[q.id]})})){toast('أجب عن أسئلة الاستنتاج قبل التأكيد',true);return}
 var s=c.suspects.find(function(x){return x.id===S.pick});
-if(correctAccused(c)&&checks.every(function(q){return answers[q.id]===q.correct})){PROG.solved[c.id]=true;saveProg();S.pick=null;S.picks={};S.reasonAnswers={};closeModal();playSfx('solve');showSolution(true);render()}
+if(correctAccused(c)&&checks.every(function(q){return answers[q.id]===q.correct})){PROG.solved[c.id]=true;saveProg();S.pick=null;S.picks={};S.reasonAnswers={};closeModal();playSfx('solve');showSolution(true);render();CT_AD_DUE=true}
 else{PROG.attempts[c.id]=(PROG.attempts[c.id]||0)+1;saveProg();S.pick=null;S.picks={};S.reasonAnswers={};playSfx('wrong');
 openModal('<div class="sol-stamp"><span class="stamp big dark-on slam" style="mix-blend-mode:normal">'+(checks.length?'الاستنتاج غير مكتمل':'اتهام خاطئ')+'</span></div><p style="text-align:center;font-size:18px;line-height:2">'+(checks.length?'اختيار المتهم أو تفسير الأدلة غير متسق. راجع الملف ثم حاول مجددًا.':esc(s?s.name:'')+' ليس الجاني…')+'<br>المحاولات الخاطئة حتى الآن: <b>'+PROG.attempts[c.id]+'</b>'+(PROG.attempts[c.id]>=3&&c.hint?'<br><br>💡 '+esc(c.hint):'<br>راجع الأدلة والمستندات ثم حاول مجدداً')+'</p><div class="m-actions"><button class="btn" data-act="accuse-open">محاولة أخرى</button><button class="btn dark" data-act="close-modal">عودة للتحقيق</button></div>')}}
 document.addEventListener('change',function(event){var el=event.target;if(el.matches&&el.matches('[data-reason-id]')){S.reasonAnswers=S.reasonAnswers||{};S.reasonAnswers[el.getAttribute('data-reason-id')]=el.value;}});
@@ -1003,6 +1003,11 @@ ACT["open-sus"]=function(d){var c=curCase();var s=byId(c.suspects,d.id);if(s)ope
 ACT["lb-img"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;openLBimg(d.src,d.cap)};
 ACT["lb-ev"]=function(d,el,e){if(e&&e.target.closest(".mini"))return;var c=curCase();var ev=byId(c.evidence,d.id);if(ev)openLBev(c,ev)};
 ACT["open-itdoc"]=function(d){var c=curCase();var p=d.ctx.split("|");var host=p[0]==="w"?byId(c.witnesses,p[1]):p[0]==="s"?byId(c.suspects,p[1]):byId(c.custom,p[1]);if(host&&host.items&&host.items[+p[2]])openItemDoc(host.items[+p[2]])};
+/* ---------- full-screen ad after solving a case (shown by the Construct 3 app) ---------- */
+var CT_AD_DUE=false;
+(function(){
+var orig=closeModal;closeModal=function(){var r=orig.apply(this,arguments);
+if(CT_AD_DUE){CT_AD_DUE=false;setTimeout(function(){try{if(window.CTAndroid&&window.CTAndroid.showInterstitial)window.CTAndroid.showInterstitial();else if(window.parent!==window)window.parent.postMessage({type:"ct-ad-interstitial",caseId:S.caseId},"*")}catch(e){}},400)}return r}})();
 ACT["accuse-open"]=function(){S.pick=null;S.picks={};S.reasonAnswers={};openModal(accuseHTML(curCase()))};
 ACT["accuse-pick"]=function(d){var c=curCase();if(c.multiAccuse){S.picks=S.picks||{};S.picks[d.id]=!S.picks[d.id]}else S.pick=d.id;openModal(accuseHTML(c));var chosen=document.querySelector('[data-act="accuse-pick"][data-id="'+d.id+'"]');if(chosen)chosen.focus()};
 ACT["accuse-confirm"]=function(){doAccuse()};
