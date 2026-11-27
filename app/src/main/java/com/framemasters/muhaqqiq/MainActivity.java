@@ -34,6 +34,19 @@ import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.PendingPurchasesParams;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -53,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd interstitial;
     private final AtomicBoolean adsStarted = new AtomicBoolean(false);
     private final Handler main = new Handler(Looper.getMainLooper());
+
+    // ---- monthly subscription (Google Play Billing) ----
+    private BillingClient billing;
+    private ProductDetails subDetails;
+    private volatile boolean premium;
+    private volatile String subPrice = "";
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -108,7 +127,90 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) web.restoreState(savedInstanceState);
         else web.loadUrl(BuildConfig.GAME_URL);
 
+        premium = getPreferences(MODE_PRIVATE).getBoolean("premium", false);
+        startBilling();
         requestConsentThenStartAds();
+    }
+
+    private void startBilling() {
+        billing = BillingClient.newBuilder(this)
+                .setListener((result, purchases) -> {
+                    if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) handlePurchases(purchases);
+                })
+                .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+                .enableAutoServiceReconnection()
+                .build();
+        billing.startConnection(new BillingClientStateListener() {
+            @Override public void onBillingSetupFinished(@NonNull BillingResult r) {
+                if (r.getResponseCode() != BillingClient.BillingResponseCode.OK) return;
+                refreshPurchases();
+                loadSubscriptionDetails();
+            }
+            @Override public void onBillingServiceDisconnected() { }
+        });
+    }
+
+    private void loadSubscriptionDetails() {
+        QueryProductDetailsParams q = QueryProductDetailsParams.newBuilder().setProductList(Collections.singletonList(
+                QueryProductDetailsParams.Product.newBuilder().setProductId(BuildConfig.SUBSCRIPTION_ID)
+                        .setProductType(BillingClient.ProductType.SUBS).build())).build();
+        billing.queryProductDetailsAsync(q, (r, res) -> {
+            List<ProductDetails> list = res.getProductDetailsList();
+            if (list == null || list.isEmpty()) return;
+            subDetails = list.get(0);
+            try {
+                List<ProductDetails.SubscriptionOfferDetails> offers = subDetails.getSubscriptionOfferDetails();
+                List<ProductDetails.PricingPhase> phases = offers.get(offers.size() - 1).getPricingPhases().getPricingPhaseList();
+                subPrice = phases.get(phases.size() - 1).getFormattedPrice();
+            } catch (Exception ignored) { }
+            notifyGame();
+        });
+    }
+
+    private void refreshPurchases() {
+        billing.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build(),
+                (r, purchases) -> { if (r.getResponseCode() == BillingClient.BillingResponseCode.OK) handlePurchases(purchases); });
+    }
+
+    private void handlePurchases(List<Purchase> purchases) {
+        boolean active = false;
+        for (Purchase p : purchases) {
+            if (!p.getProducts().contains(BuildConfig.SUBSCRIPTION_ID)) continue;
+            if (p.getPurchaseState() != Purchase.PurchaseState.PURCHASED) continue;
+            active = true;
+            if (!p.isAcknowledged()) {
+                billing.acknowledgePurchase(AcknowledgePurchaseParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build(), r -> { });
+            }
+        }
+        setPremium(active);
+    }
+
+    private void setPremium(boolean value) {
+        premium = value;
+        getPreferences(MODE_PRIVATE).edit().putBoolean("premium", value).apply();
+        notifyGame();
+    }
+
+    private void notifyGame() {
+        main.post(() -> { if (web != null) web.evaluateJavascript("window.ctPremiumChanged&&window.ctPremiumChanged()", null); });
+    }
+
+    private void launchSubscribe() {
+        if (premium) return;
+        if (subDetails == null || subDetails.getSubscriptionOfferDetails() == null || subDetails.getSubscriptionOfferDetails().isEmpty()) {
+            loadSubscriptionDetails();
+            web.evaluateJavascript("window.toast&&toast('الاشتراك غير متاح الآن — حاول بعد قليل',true)", null);
+            return;
+        }
+        String token = subDetails.getSubscriptionOfferDetails().get(0).getOfferToken();
+        BillingFlowParams params = BillingFlowParams.newBuilder().setProductDetailsParamsList(Collections.singletonList(
+                BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(subDetails).setOfferToken(token).build())).build();
+        billing.launchBillingFlow(this, params);
+    }
+
+    private void openManageSubscription() {
+        Uri u = Uri.parse("https://play.google.com/store/account/subscriptions?sku=" + BuildConfig.SUBSCRIPTION_ID + "&package=" + getPackageName());
+        try { startActivity(new Intent(Intent.ACTION_VIEW, u)); } catch (Exception ignored) { }
     }
 
     /** GDPR / privacy consent (required by AdMob in some regions), then start the ad SDK. */
@@ -142,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInterstitial() {
+        if (premium) return;                            // subscribers never see ads
         InterstitialAd ad = interstitial;
         if (ad == null) { loadInterstitial(); return; }   // no ad ready: the player just continues
         interstitial = null;
@@ -158,6 +261,18 @@ public class MainActivity extends AppCompatActivity {
         public void showInterstitial() { main.post(MainActivity.this::showInterstitial); }
 
         @JavascriptInterface
+        public boolean isPremium() { return premium; }
+
+        @JavascriptInterface
+        public String subscriptionPrice() { return subPrice; }
+
+        @JavascriptInterface
+        public void subscribe() { main.post(MainActivity.this::launchSubscribe); }
+
+        @JavascriptInterface
+        public void manageSubscription() { main.post(MainActivity.this::openManageSubscription); }
+
+        @JavascriptInterface
         public void retry() { main.post(() -> web.loadUrl(BuildConfig.GAME_URL)); }
     }
 
@@ -168,5 +283,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override protected void onPause() { web.onPause(); super.onPause(); }
-    @Override protected void onResume() { super.onResume(); web.onResume(); }
+    @Override protected void onResume() {
+        super.onResume(); web.onResume();
+        if (billing != null && billing.isReady()) refreshPurchases();   // picks up renewals and cancellations
+    }
 }
