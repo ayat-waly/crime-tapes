@@ -1,0 +1,54 @@
+plugins { id 'com.android.application' }
+
+def cfg = new Properties()
+rootProject.file('app.properties').withInputStream { cfg.load(it) }
+['versionCode', 'admobAppId', 'admobInterstitialId'].each {
+    if (!cfg[it] || cfg[it].toString().contains('CHANGE_ME')) throw new GradleException("Set ${it} in app.properties")
+}
+
+android {
+    namespace 'com.company.muhaqqiq'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId cfg.applicationId
+        minSdk 23
+        targetSdk 36
+        versionCode cfg.versionCode.toInteger()
+        versionName cfg.versionName
+        manifestPlaceholders = [admobAppId: cfg.admobAppId]
+        buildConfigField 'String', 'GAME_URL', "\"${cfg.gameUrl}\""
+        buildConfigField 'String', 'INTERSTITIAL_ID', "\"${cfg.admobInterstitialId}\""
+    }
+
+    signingConfigs {
+        release {
+            def ks = System.getenv('KEYSTORE_FILE')
+            if (ks) {
+                storeFile file(ks)
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias System.getenv('KEY_ALIAS')
+                keyPassword System.getenv('KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+    buildFeatures { buildConfig true }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.webkit:webkit:1.14.0'
+    implementation 'com.google.android.gms:play-services-ads:24.5.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.2.0'
+}
