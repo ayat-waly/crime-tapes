@@ -662,7 +662,7 @@ var stored=sget(K.data);var rts=DEFAULT_DATA._ts||0;
 if(!stored||!stored.cases){DATA=clone(DEFAULT_DATA)}
 else if(rts&&rts>=(stored._ts||0)){DATA=clone(DEFAULT_DATA)}
 else{DATA=stored;DATA.deletedIds=DATA.deletedIds||[];DEFAULT_DATA.cases.forEach(function(dc){if(DATA.deletedIds.indexOf(dc.id)>=0)return;var found=false;for(var qi=0;qi<DATA.cases.length;qi++)if(DATA.cases[qi].id===dc.id)found=true;if(!found)DATA.cases.push(clone(dc))})}
-PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:true,sfx:true};
+PROG=sget(K.prog)||{};PROG.solved=PROG.solved||{};PROG.attempts=PROG.attempts||{};PROG.visited=PROG.visited||{};PROG.unotes=PROG.unotes||{};PROG.mapPos=PROG.mapPos||{};PROG.audio=PROG.audio||{music:false,sfx:true};if(!PROG.audioV2){PROG.audioV2=1;PROG.audio.music=false}
 if(!DATA.settings.audio)DATA.settings.audio={musicUrl:"",musicVol:22,sfxVol:60,sfx:{}};
 ROLE="user";
 }
@@ -932,7 +932,7 @@ notes.forEach(function(f,i){[0,1].forEach(function(d){var o=AC.createOscillator(
 function startCrackle(){if(MUSIC.crk)return;var s=AC.createBufferSource();s.buffer=noiseBuf();s.loop=true;var f=AC.createBiquadFilter();f.type="highpass";f.frequency.value=4200;var g=AC.createGain();g.gain.value=0.011;s.connect(f);f.connect(g);g.connect(MUSIC.gain);s.start();MUSIC.crk={s:s,g:g};
 MUSIC.pop=setInterval(function(){try{if(Math.random()<0.55&&AC&&MUSIC.playing)_noise(AC.currentTime,0.03,"bandpass",3000+Math.random()*3000,0.045,MUSIC.gain)}catch(e){}},900)}
 function stopCrackle(){if(MUSIC.crk){try{MUSIC.crk.s.stop()}catch(e){}MUSIC.crk=null}if(MUSIC.pop){clearInterval(MUSIC.pop);MUSIC.pop=null}}
-function musicOn(){return !PROG.audio||PROG.audio.music!==false}
+function musicOn(){return !!(PROG.audio&&PROG.audio.music===true)}
 function desiredMusicSrc(){var a=audioCfg();var u=(S.view==="case"&&a.caseMusicUrl)?a.caseMusicUrl:a.musicUrl;return u||"synth"}
 function startMusic(){try{if(MUSIC.playing||!musicOn())return;var src=desiredMusicSrc();if(src==="off")return;
 if(src!=="synth"){if(!MUSIC.el||MUSIC.el.__src!==src){try{if(MUSIC.el)MUSIC.el.pause()}catch(e2){}MUSIC.el=new Audio(src);MUSIC.el.loop=true;MUSIC.el.__src=src}applyVols();MUSIC.el.play().catch(function(){});MUSIC.src=src;MUSIC.playing=true;return}
@@ -1026,7 +1026,7 @@ ACT["login-submit"]=function(){tryLogin()};
 ACT["logout"]=function(){ROLE="user";S.edit=false;sset(K.role,ROLE);closeModal();render();toast("تم تسجيل الخروج")};
 ACT["edit-toggle"]=function(){if(!isAdmin())return;S.edit=!S.edit;closeModal();render();toast(S.edit?"وضع التحرير مفعّل — كل العناصر قابلة للتعديل الآن":"تم إيقاف وضع التحرير")};
 ACT["form-save"]=function(){if(!CUR_FORM)return;var out={};CUR_FORM.fields.forEach(function(f){var el=$("#F_"+f.k);if(!el)return;if(f.type==="check")out[f.k]=el.checked;else if(f.type==="stars")out[f.k]=+(el.dataset.val||0);else out[f.k]=el.value.trim()});var cb=CUR_FORM.onSave;closeModal();cb(out)};
-ACT["reset-prog"]=function(){confirmM("سيُمسح تقدمك المحلي: القضايا المحلولة والمحاولات وملاحظاتك الخاصة ومواضع الخريطة. البيانات والمحتوى لن تتأثر.",function(){PROG={solved:{},attempts:{},visited:{},unotes:{},mapPos:{}};saveProg();render();toast("تم مسح التقدم")})};
+ACT["reset-prog"]=function(){confirmM("سيُمسح تقدمك المحلي: القضايا المحلولة والمحاولات وملاحظاتك الخاصة ومواضع الخريطة. البيانات والمحتوى لن تتأثر.",function(){PROG={solved:{},attempts:{},visited:{},unotes:{},mapPos:{},audio:PROG.audio||{music:false,sfx:true},audioV2:1};saveProg();render();toast("تم مسح التقدم")})};
 ACT["toggle-unlock"]=function(){DATA.settings.unlockAll=!DATA.settings.unlockAll;saveData(false);openSettings();toast(DATA.settings.unlockAll?"كل القضايا مفتوحة الآن للجميع":"عاد القفل التسلسلي للقضايا")};
 ACT["save-pws"]=function(){var s=$("#pw-super"),a=$("#pw-admin");if(!s||!a)return;if(!s.value.trim()||!a.value.trim()){toast("لا يمكن ترك كلمة مرور فارغة",true);return}DATA.settings.passwords.super=s.value.trim();DATA.settings.passwords.admin=a.value.trim();saveData(false);toast("تم حفظ كلمات المرور")};
 function b64utf8(s){var b=new TextEncoder().encode(s),bin="";for(var i=0;i<b.length;i++)bin+=String.fromCharCode(b[i]);return btoa(bin)}
@@ -1234,7 +1234,8 @@ if(e.target&&e.target.id==="impFile"){var f=e.target.files[0];if(!f)return;var r
 if(e.target&&e.target.id==="aud-m"){PROG.audio.music=e.target.checked;saveProg();if(e.target.checked)startMusic();else stopMusic()}
 if(e.target&&e.target.id==="aud-s"){PROG.audio.sfx=e.target.checked;saveProg();if(e.target.checked)playSfx("click")}});
 window.addEventListener("resize",function(){if(S.view==="case"&&S.sec==="map")drawLines()});
-document.addEventListener("pointerdown",audioKick,{once:true});
+function ctAudioUnlock(){try{if(actx()&&AC.state==="suspended")AC.resume();if(musicOn()){if(MUSIC.playing&&MUSIC.el&&MUSIC.el.paused)MUSIC.el.play().catch(function(){});else startMusic()}}catch(e){}}
+["pointerdown","pointerup","touchend","click","keydown"].forEach(function(t){document.addEventListener(t,ctAudioUnlock,true)});
 /* الإقلاع: محاولة تحميل game-data.json من نفس المجلد (للنشر المركزي عبر GitHub) ثم التشغيل */
 function boot(){initData();if(window.CTLocale)CTLocale.init(DATA,S);render();if(!canStore)setTimeout(function(){toast("⚠ التخزين المحلي غير متاح هنا — التعديلات مؤقتة، استخدم التصدير",true)},900)}
 (function(){var done=false;function go(){if(done)return;done=true;boot()}
